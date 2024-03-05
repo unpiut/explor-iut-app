@@ -71,7 +71,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
   };
 }
 
-function IUTFranceMap({ className, style }) {
+function IUTFranceMap({ className }) {
   const { franceMap, iutManager } = useContext(RootStore);
   const [echartState, setEchartState] = useState(null);
   const refContainer = useRef();
@@ -130,7 +130,7 @@ function IUTFranceMap({ className, style }) {
   }, [refContainer.current]);
 
   return (
-    <div style={style} className={classNames(className, 'w-full', 'h-96')} ref={refContainer} />
+    <div className={classNames(className, 'w-full', 'h-96')} ref={refContainer} />
   );
 }
 

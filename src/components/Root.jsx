@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import AppNavbar from './AppNavbar';
 
@@ -8,9 +7,7 @@ function Root() {
     <>
       <AppNavbar />
       <main>
-        <Container fluid>
-          <Outlet />
-        </Container>
+        <Outlet />
       </main>
     </>
   );

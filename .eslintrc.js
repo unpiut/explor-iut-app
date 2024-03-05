@@ -26,10 +26,17 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
   plugins: [
     '@babel',
   ],
   rules: {
+    'no-console': ['error', {
+      allow: ['warn', 'error'],
+    }],
+    'no-underscore-dangle': 'off',
   },
 };

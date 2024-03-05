@@ -32,7 +32,7 @@ function FormationView() {
     <>
       <input className="input-barre" placeholder="Rechercher métier" type="text" id="cherche" />
       <button type="button" onClick={filtrer}>Valider</button>
-      <div>
+      <div className="grid grid-cols-3">
         {buts.map((but) => (
           <CaseFormation
             but={but}

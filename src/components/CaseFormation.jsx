@@ -11,6 +11,14 @@ function CaseFormation({ but }) {
     filiere, code,
   } = but;
   function changement() {
+    const div = document.getElementById(code);
+    if (etat) {
+      div.classList.add('col-span-1');
+      div.classList.remove('col-span-3');
+    } else {
+      div.classList.add('col-span-3');
+      div.classList.remove('col-span-1');
+    }
     setEtat(!etat);
   }
 
@@ -27,7 +35,7 @@ function CaseFormation({ but }) {
   }
 
   return (
-    <div role="button" onClick={changement} onKeyDown={changement} tabIndex={0}>
+    <div id={code} role="button" onClick={changement} onKeyDown={changement} tabIndex={0}>
       {etat
         ? (
           <>

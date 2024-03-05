@@ -7,7 +7,7 @@ function MapView() {
   return (
     <>
       <div>
-        <IUTFranceMap className="foo" height="200" style={{ width: '520px', height: '400px' }} />
+        <IUTFranceMap />
 
         <button type="button" onClick={() => { window.location.href = './result'; }}>
           <p>Prendre contact avec les IUT</p>

@@ -89,6 +89,9 @@ module.exports = {
       test: /\.(woff|woff2|eot|ttf|otf)$/i,
       type: 'asset/resource', // le module asset émet un fichier séparé du bundle et exporte son url
     }, {
+      test: /\.(json|geojson)$/,
+      loader: 'json-loader',
+    }, {
       // Gestion du code-source js et jsx en utilisant babel pour
       // la transpilation
       // Exclut les fichiers js de node_modules du passage par babel
