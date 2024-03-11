@@ -11,6 +11,7 @@ import MapView from './components/MapView';
 import MailView from './components/MailView';
 import ResultView from './components/ResultView';
 import ModifyMailView from './components/ModifyMailView';
+import MailSendView from './components/MailSendView';
 import RootStore from './RootStore';
 import STORE from './store';
 
@@ -40,11 +41,15 @@ const router = createBrowserRouter([
       },
       {
         path: 'mail',
-        element: <WithPagedTitle pageTitle="Mail"><MailView /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="Courriel"><MailView /></WithPagedTitle>,
       },
       {
         path: 'modifyMail',
-        element: <WithPagedTitle pageTitle="ModifyMail"><ModifyMailView /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="ModifierCourriel"><ModifyMailView /></WithPagedTitle>,
+      },
+      {
+        path: 'mailSend',
+        element: <WithPagedTitle pageTitle="CourrielEnvoye"><MailSendView /></WithPagedTitle>,
       },
     ],
   },

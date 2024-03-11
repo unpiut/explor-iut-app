@@ -6,7 +6,9 @@ import React, {
 import classNames from 'classnames';
 import * as echarts from 'echarts';
 import { observer } from 'mobx-react';
+import PropTypes from 'prop-types';
 import RootStore from '../RootStore';
+import Modale from './Modale';
 // import { findGeloloc } from '../../model/geolocService';
 
 function iut2series(iuts, franceMap) {
@@ -17,9 +19,9 @@ function iut2series(iuts, franceMap) {
     }
     return true;
   }).map((iut) => ({
-    name: iut.completeNom,
+    name: iut.site,
     value: franceMap.mapRegionPoint(iut.region, iut.location),
-    iutId: iut.id,
+    iut,
   }));
 }
 
@@ -72,8 +74,9 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
 }
 
 function IUTFranceMap({ className }) {
-  const { franceMap, iutManager } = useContext(RootStore);
+  const { franceMap, iutManager, butManager } = useContext(RootStore);
   const [echartState, setEchartState] = useState(null);
+  const [modale, setModale] = useState(null);
   const refContainer = useRef();
 
   console.log('IUTFranceMap: redraw');
@@ -86,7 +89,7 @@ function IUTFranceMap({ className }) {
       const theChart = echarts.init(refContainer.current);
 
       theChart.on('click', { seriesId: 'iut' }, (event) => {
-        iutManager.setViewedIUTById(event.data.iutId);
+        setModale(<Modale iut={event.data.iut} />);
       });
 
       theChart.on('click', 'geo', (event) => {
@@ -130,8 +133,14 @@ function IUTFranceMap({ className }) {
   }, [refContainer.current]);
 
   return (
-    <div className={classNames(className, 'w-full', 'h-96')} ref={refContainer} />
+    <div>
+      {modale}
+      <div className={classNames(className, 'w-full', 'h-96')} ref={refContainer} />
+    </div>
   );
 }
+IUTFranceMap.propTypes = ({
+  className: PropTypes.string.isRequired,
+});
 
 export default observer(IUTFranceMap);

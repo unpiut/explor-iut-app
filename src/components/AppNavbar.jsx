@@ -1,21 +1,29 @@
 import React from 'react';
-
 import logoPict from '../assets/logo-les-iut.svg';
+import fleche from '../assets/icone-les-iut.svg';
 
 function AppNavbar() {
+  function etendre() {
+    const nav = document.getElementById('mobile-menu');
+    if (nav.classList.contains('hidden')) {
+      nav.classList.remove('hidden');
+    } else {
+      nav.classList.add('hidden');
+    }
+  }
   return (
     <nav className="bg-slate-50">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <button type="button" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <button type="button" onClick={etendre} className="group relative inline-flex items-center justify-center rounded-md p-2 hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
               <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                <path className="group-hover:text-white" strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
               </svg>
               <svg className="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                <path className="group-hover:text-white" strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
@@ -25,22 +33,51 @@ function AppNavbar() {
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                <a href="/" className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Choix des formations</a>
-                <a href="/map" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Carte interactive</a>
-                <a href="/result" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Récapitulatif des choix</a>
-                <a href="/mail" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Courriel</a>
+                <a href="https://www.iut.fr/" className=" hover:bg-blue-900 hover:text-white rounded-md px-3 py-2 text-sm font-medium">SITE LES IUT</a>
+                <a href="https://www.unpiut.fr/" className=" hover:bg-blue-900 hover:text-white block rounded-md px-3 py-2 text-sm font-medium">SITE UNPIUT</a>
+                <div className="border border-blue-900" />
+                <a href="/" className="group flex gap-2 hover:bg-blue-900 rounded-md px-3 py-2 text-sm font-medium">
+                  <p className="group-hover:text-white">1. Choix des formations</p>
+                  <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
+                </a>
+                <a href="/map" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
+                  <p className="group-hover:text-white">2. Carte interactive</p>
+                  <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
+                </a>
+                <a href="/result" className="group hover:bg-blue-900  flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
+                  <p className="group-hover:text-white">3. Récapitulatif des choix</p>
+                  <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
+                </a>
+                <a href="/mail" className=" hover:bg-blue-900 hover:text-white flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
+                  4. Courriel
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="sm:hidden" id="mobile-menu">
+      <div className="absolute bg-white w-full hidden sm:hidden  z-50" id="mobile-menu">
         <div className="space-y-1 px-2 pb-3 pt-2">
-          <a href="/" className="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Choix des formations</a>
-          <a href="/map" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Carte interactive</a>
-          <a href="/result" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Récapitulatif des choix</a>
-          <a href="/mail" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Courriel</a>
+          <a href="https://www.iut.fr/" className=" hover:bg-blue-900 hover:text-white rounded-md px-3 py-2 text-lg font-medium">SITE LES IUT</a>
+          <a href="https://www.unpiut.fr/" className=" hover:bg-blue-900 hover:text-white block rounded-md px-3 py-2 text-lg font-medium">SITE UNPIUT</a>
+          <div className="border border-blue-900" />
+          <a href="/" className=" group flex gap-2  hover:bg-blue-900 rounded-md px-3 py-2 text-lg font-medium">
+            <p className="group-hover:text-white">1. Choix des formations</p>
+            <img width={25} src={fleche} alt="fleche" />
+          </a>
+          <a href="/map" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
+            <img width={25} src={fleche} alt="fleche" />
+            <p className="group-hover:text-white">2. Carte interactive</p>
+          </a>
+          <a href="/result" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
+            <p className="group-hover:text-white">3. Récapitulatif des choix</p>
+            <img width={25} src={fleche} alt="fleche" />
+          </a>
+          <a href="/mail" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
+            <img width={25} src={fleche} alt="fleche" />
+            <p className="group-hover:text-white">4. Courriel</p>
+          </a>
         </div>
       </div>
     </nav>

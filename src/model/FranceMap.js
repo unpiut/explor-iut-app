@@ -198,7 +198,8 @@ export default class FranceMap {
       echarts.registerMap(this._mapName, this._franceMap, REMAPING_TOM);
       return this._franceMap;
     } catch (err) {
-      this._errorManager.handleError(err);
+      // this._errorManager.handleError(err);
+      console.warn(err);
       return null;
     } finally {
       runInAction(() => {

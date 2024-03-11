@@ -2,70 +2,80 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import But from './But';
 
 class ButManager {
-  #buts = [];
+  _buts;
 
-  #fetchAction;
+  _butSelectionnes;
 
-  #allButRetrieved = false;
+  _fetchAction;
+
+  _allButRetrieved;
 
   constructor() {
     makeAutoObservable(this);
+    this._buts = [];
+    this._butSelectionnes = new Set();
+    this._allButRetrieved = false;
   }
 
   get buts() {
-    return this.#buts;
+    return this._buts;
+  }
+
+  get butSelectionnes() {
+    return this._butSelectionnes;
+  }
+
+  set butSelectionnes(but) {
+    if (this._butSelectionnes.has(but)) {
+      this._butSelectionnes.delete(but);
+    } else {
+      this._butSelectionnes.add(but);
+    }
+  }
+
+  get butSelectionnesTab() {
+    return Array.from(this._butSelectionnes);
   }
 
   get nbbuts() {
-    return this.#buts.length;
+    return this._buts.length;
   }
 
-  addBut(codeBut) {
-    if (this.#buts.some((b) => b.codeBut === codeBut)) {
-      throw new Error('Le but a déjà été enregistré');
-    }
-    const but = new But(codeBut);
-    this.#buts.push(but);
-    return but;
+  get nbButSelectionnes() {
+    return this._butSelectionnes.size;
   }
 
-  removeBut(codeBut) {
-    const butIdx = this.#buts.findIndex((b) => b.codeBut === codeBut);
-    if (butIdx >= 0) {
-      return this.#buts.splice(butIdx, 1)[0];
+  async _getAllBut() {
+    if (this._allButRetrieved) {
+      return this._buts;
     }
-    throw new Error("Le but n'existe pas");
-  }
-
-  async #getAllBut() {
-    if (this.#allButRetrieved) {
-      return this.#buts;
-    }
-    const buts = await fetch('https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/referentiel/but');
-    return runInAction(async () => {
-      this.#buts = await buts.json();
-      this.#allButRetrieved = true;
-      return this.#buts;
+    let buts = await fetch('https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/referentiel/but');
+    buts = await buts.json();
+    return runInAction(() => {
+      this._allButRetrieved = true;
+      buts.forEach((but) => {
+        const unBut = new But(but);
+        this._buts.push(unBut);
+      });
+      return this._buts;
     });
   }
 
   async getAllBut() {
-    if (!this.#fetchAction) {
-      this.#fetchAction = this.#getAllBut();
+    if (!this._fetchAction) {
+      this._fetchAction = this._getAllBut();
     }
-    return this.#fetchAction;
+    return this._fetchAction;
   }
 
-  async getButById(codeBut) {
-    let but = this.#buts.find(this.#buts.codeBut === codeBut && this.#buts.description);
-    if (!but) {
-      but = await fetch(`https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/referentiel/but/by-code/${codeBut}`);
-      runInAction(async () => {
-        but = but.json();
-        return new But(but);
-      });
+  async getButByCode(code) {
+    const butIdx = this._buts.findIndex((b) => b.code === code);
+    if (butIdx >= 0) {
+      return this._buts[butIdx];
     }
-    return but;
+    let but = await fetch(`https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/referentiel/but/${code}`);
+    but = await but.json();
+    return runInAction(() => new But(but));
   }
 }
 
