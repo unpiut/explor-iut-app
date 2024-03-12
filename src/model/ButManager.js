@@ -93,7 +93,6 @@ class ButManager {
   }
 
   rechercheBut(mots) {
-    console.log(this._buts);
     this._butRecherches = this._buts.map((but) => (mots === but.code ? but : null));
   }
 }

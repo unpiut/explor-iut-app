@@ -104,11 +104,10 @@ class IutManager {
 
   getIutByButs(buts) {
     const iterateur = buts.values();
-    console.log(buts.size);
-    const iutsBon = [];
+    let iutsBon = [];
+    const filtre = (iut) => iut.departements.find((dp) => dp.code === iterateur.next().value.code);
     for (let i = 0; i < buts.size; i += 1) {
-      console.log(iterateur);
-      iutsBon += this._iuts.filter((iut) => iut.departements.find((dep) => dep.code === iterateur.next().value.code));
+      iutsBon += this._iuts.filter(filtre);
     }
     return iutsBon;
   }

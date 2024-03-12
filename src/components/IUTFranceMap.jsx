@@ -59,9 +59,9 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         name: 'IUT',
         type: 'effectScatter',
         coordinateSystem: 'geo',
-        symbol: 'pin',
+        symbol: 'circle',
         color: 'red',
-        symbolSize: 15,
+        symbolSize: 5,
         showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
         rippleEffect: { // Configuration de l'effet
           brushType: 'stroke',
@@ -74,7 +74,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
 }
 
 function IUTFranceMap({ className }) {
-  const { franceMap, iutManager, butManager } = useContext(RootStore);
+  const { franceMap, iutManager } = useContext(RootStore);
   const [echartState, setEchartState] = useState(null);
   const [modale, setModale] = useState(null);
   const refContainer = useRef();
