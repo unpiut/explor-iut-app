@@ -6,14 +6,10 @@ import fleche from '../assets/icone-les-iut.svg';
 
 function FormationView() {
   const { butManager } = useContext(RootStore);
-  const { buts } = butManager;
+  const { butRecherches } = butManager;
   function filtrer() {
     const metier = document.getElementById('cherche').value;
-    buts.map((but) => {
-      if (but.code !== metier) {
-        buts.splice(but);
-      }
-    });
+    butManager.rechercheBut(metier);
   }
 
   function couleur(index) {
@@ -30,28 +26,52 @@ function FormationView() {
           <input className="input-barre w-full" placeholder="Rechercher métier" type="text" id="cherche" />
           <button type="button" className="p-2" onClick={filtrer}>Valider</button>
         </div>
-        <p className="text-end mr-2">
-          {buts.length}
-          {' '}
-          formations liées à la recherche
-        </p>
+        { butManager.nbButRecherches > 1
+          ? (
+            <p className="text-end mr-2">
+              {butManager.nbButRecherches}
+              {' '}
+              formations liées à la recherche
+            </p>
+          )
+          : (
+            <p className="text-end mr-2">
+              {butManager.nbButRecherches}
+              {' '}
+              formation liée à la recherche
+            </p>
+          )}
       </div>
       <div className="grid gap-2 grid-cols-2 md:grid-cols-3 px-3 pb-20">
-        {buts.map((but, index) => (
-          <CaseFormation
-            className={couleur(index)}
-            but={but}
-            key={but.code}
-            butManager={butManager}
-          />
-        ))}
+        {butRecherches.map((but, index) => (but !== null
+          ? (
+            <CaseFormation
+              className={couleur(index)}
+              but={but}
+              key={but.code}
+              tabIndex={index}
+              butManager={butManager}
+            />
+          )
+          : null))}
       </div>
       <div className="items-center fixed flex  justify-between bottom-0 right-0 left-0 bg-slate-50">
-        <p className="pl-2">
-          {butManager.nbButSelectionnes}
-          {' '}
-          Formations sélectionnées
-        </p>
+
+        { butManager.nbButSelectionnes > 1
+          ? (
+            <p className="pl-2">
+              {butManager.nbButSelectionnes}
+              {' '}
+              Formations sélectionnées
+            </p>
+          )
+          : (
+            <p className="pl-2">
+              {butManager.nbButSelectionnes}
+              {' '}
+              Formation sélectionnée
+            </p>
+          )}
         <div className="ring rounded ring-blue-900 m-4 items-center flex justify-self-end h-3/5">
           <a className="font-bold" href="/map">Carte interactive</a>
           <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />

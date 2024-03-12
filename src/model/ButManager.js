@@ -6,6 +6,8 @@ class ButManager {
 
   _butSelectionnes;
 
+  _butRecherches;
+
   _fetchAction;
 
   _allButRetrieved;
@@ -13,6 +15,7 @@ class ButManager {
   constructor() {
     makeAutoObservable(this);
     this._buts = [];
+    this._butRecherches = [];
     this._butSelectionnes = new Set();
     this._allButRetrieved = false;
   }
@@ -37,12 +40,22 @@ class ButManager {
     return Array.from(this._butSelectionnes);
   }
 
+  get butRecherches() {
+    return this._butRecherches;
+  }
+
   get nbbuts() {
     return this._buts.length;
   }
 
   get nbButSelectionnes() {
     return this._butSelectionnes.size;
+  }
+
+  get nbButRecherches() {
+    let compte = 0;
+    this._butRecherches.forEach((but) => { if (but !== null)compte += 1; });
+    return compte;
   }
 
   async _getAllBut() {
@@ -56,6 +69,7 @@ class ButManager {
       buts.forEach((but) => {
         const unBut = new But(but);
         this._buts.push(unBut);
+        this._butRecherches.push(unBut);
       });
       return this._buts;
     });
@@ -76,6 +90,11 @@ class ButManager {
     let but = await fetch(`https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/referentiel/but/${code}`);
     but = await but.json();
     return runInAction(() => new But(but));
+  }
+
+  rechercheBut(mots) {
+    console.log(this._buts);
+    this._butRecherches = this._buts.map((but) => (mots === but.code ? but : null));
   }
 }
 
