@@ -29,7 +29,7 @@ class IutManager {
     return this._iutSelectionnes;
   }
 
-  set iutSelectionnes(iut) {
+  set iutSelectionnes(iut) { // Pas bon
     if (this._iutSelectionnes.has(iut)) {
       this._iutSelectionnes.delete(iut);
     } else {
@@ -66,9 +66,9 @@ class IutManager {
     let iuts = await fetch('https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/iut');
     iuts = await iuts.json();
     return runInAction(() => {
-      iuts.forEach((iut) => {
+      iuts.forEach((iut) => { // Tu n'as toujours pas compris le principe de "faire simple" dans un runInAction
         const unIut = new Iut(iut);
-        unIut.getInfo();
+        unIut.getInfo(); // Attention, getInfo provoque une requête GET -> tu fais une requête par iut ici...
         this._iuts.push(unIut);
       });
       this._allIutRetrieved = true;

@@ -9,6 +9,7 @@ function FormationView() {
   const { buts } = butManager;
   function filtrer() {
     const metier = document.getElementById('cherche').value;
+    // très mauvais, mais je ne corrige pas, je pense que c'est du code en cours
     buts.map((but) => {
       if (but.code !== metier) {
         buts.splice(but);
@@ -39,9 +40,9 @@ function FormationView() {
       <div className="grid gap-2 grid-cols-2 md:grid-cols-3 px-3 pb-20">
         {buts.map((but, index) => (
           <CaseFormation
+            key={but.code}
             className={couleur(index)}
             but={but}
-            key={but.code}
             butManager={butManager}
           />
         ))}

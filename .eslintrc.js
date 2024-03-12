@@ -20,7 +20,7 @@ module.exports = {
   globals: {
     APP_ENV_APP_PUBLIC_PATH: 'readonly',
     APP_ENV_APP_TITLE: 'readonly',
-    APP_ENV_BASE_API_URL: 'readonly',
+    APP_ENV_API_PATH: 'readonly',
   },
   parser: '@babel/eslint-parser',
   parserOptions: {

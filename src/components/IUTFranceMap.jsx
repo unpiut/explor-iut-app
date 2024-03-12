@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import * as echarts from 'echarts';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
+import { autorun } from 'mobx';
 import RootStore from '../RootStore';
 import Modale from './Modale';
 // import { findGeloloc } from '../../model/geolocService';
@@ -73,8 +74,19 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
   };
 }
 
+function createDataOnlyOption(iuts, franceMap) {
+  return {
+    series: [
+      {
+        id: 'iut',
+        data: iut2series(iuts, franceMap),
+      },
+    ],
+  };
+}
+
 function IUTFranceMap({ className }) {
-  const { franceMap, iutManager, butManager } = useContext(RootStore);
+  const { franceMap, iutManager } = useContext(RootStore);
   const [echartState, setEchartState] = useState(null);
   const [modale, setModale] = useState(null);
   const refContainer = useRef();
@@ -82,12 +94,18 @@ function IUTFranceMap({ className }) {
   console.log('IUTFranceMap: redraw');
 
   // Initial Map créator
+  // On ne créé ici que la carte en elle-même avec les données de france.
+  // On ne s'occupe pas des données d'I+UT
   useEffect(() => {
-    if (refContainer.current && echartState === null) {
+    // On ne déclenche ce traitement que lorsque l'on a une réf du dom associé
+    // existante et que si la carte n'a pas déjà été initialisée
+    if (refContainer.current && !echartState) {
       console.log('CREATE IUTFranceMap chart');
-      console.log(refContainer.current);
-      const theChart = echarts.init(refContainer.current);
+      const theChart = echarts.init(refContainer.current); // récupère le dom associé
 
+      theChart.showLoading();
+
+      // Mise en place des évènement sur la carte
       theChart.on('click', { seriesId: 'iut' }, (event) => {
         setModale(<Modale iut={event.data.iut} />);
       });
@@ -114,23 +132,37 @@ function IUTFranceMap({ className }) {
         }
       });
 
-      theChart.showLoading();
-      // findGeloloc()
-      Promise.all([franceMap.load(), iutManager.load()])
-        .then(([, iuts]) => {
+      // Récupération des données de la france uniquement
+      franceMap.load()
+        .then(() => {
+        // Création des options initiale avec la carte de france et un tableau d'IUTs vide
           theChart.hideLoading();
-          if (iuts) {
-            theChart.setOption(createInitalEchartOption(
-              franceMap.mapName,
-              iuts,
-              franceMap,
-            ));
-          }
+          theChart.setOption(createInitalEchartOption(franceMap.mapName, [], franceMap));
+          // mise en place du state
+          // A pour effet de déclencher un useEffect suivant
+          setEchartState(theChart);
         });
-
-      setEchartState(theChart);
     }
-  }, [refContainer.current]);
+  }, [refContainer.current]); // Le useEffect sera rappelé si la réf dom de la carte change
+
+  // Ici on met à jour la carte avec les iuts (soit selectionnées soit tous les iut)
+  // La fonction du use Effect invoque un autorun et retourne son résultat :
+  // Le traitement autorun sera donc invoqué automatiquement par mobX dès que
+  // des données observables utilisées changeront. Le retour est une fonction
+  // de desinscription de l'autorun invoqué par useEffect à
+  // chaque rappel ou au démontage du composant
+  useEffect(() => autorun(() => {
+    // Mise à jour de la carte uniquement si la carte a bien été crée et si l'on a des iuts
+    if (!!echartState && iutManager.iuts.length) {
+      console.log('re-set data');
+      // choix des iuts : ceux selectionnés si l'on a une selection sinon tous les iuts
+      const iuts = iutManager.iutSelectionnesTab.length
+        ? iutManager.iutSelectionnesTab
+        : iutManager.iuts;
+      echartState.setOption(createDataOnlyOption(iuts, franceMap));
+    }
+  }), [echartState, iutManager]); // On n'appelle / rappelle l'effect que
+  // si le state de la carte ou le manager d'iut lui-même change
 
   return (
     <div>
