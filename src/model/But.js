@@ -27,6 +27,10 @@ class But {
     return this._filiere;
   }
 
+  get prettyPrintFiliere() {
+    return this._filiere.replaceAll('Métiers ', '').replaceAll(/de |d'|du |l'|la |en |l’/g, '');
+  }
+
   get nom() {
     return this._nom;
   }
@@ -45,6 +49,11 @@ class But {
 
   get parcours() {
     return this._parcours;
+  }
+
+  get urlIUT() {
+    const url = this._nom.replaceAll(' ', '-').replaceAll("'", '').replaceAll(/[éèêë]/g, 'e');
+    return `https://www.iut.fr/bachelor-universitaire-de-technologie/${url}/`;
   }
 
   async getInfo() {
