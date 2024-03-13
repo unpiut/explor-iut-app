@@ -45,7 +45,7 @@ function MailView() {
         </div>
         <div className="grid justify-center">
           <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/modifyMail">Modifier le mail</Link>
-          <button className="border-2 p-2  flex m-2 justify-center gap-4" onClick={() => { window.location.href = './mailSend'; }} type="button">Envoi du mail</button>
+          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/mailSend">Envoi du mail</Link>
         </div>
       </form>
       <Footer gauche={{ texte: 'Récapitulatif sélection', lien: 'result' }} />

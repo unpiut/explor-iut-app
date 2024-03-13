@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import fleche from '../assets/icone-les-iut.svg';
 import RootStore from '../RootStore';
 
@@ -20,14 +21,14 @@ function ModifyMailView() {
       <form method="GET">
 
         <div className="grid justify-center">
-          <button className="border-2 p-2  flex m-2 justify-center gap-4" type="button" onClick={() => { window.location.href = './result'; }}>
+          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/result">
             <img width={25} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
             <p>Revenir à la liste des IUT</p>
-          </button>
-          <button className="border-2 p-2  flex m-2 justify-center gap-4" type="button" onClick={() => { window.location.href = './map'; }}>
+          </Link>
+          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/map">
             <img width={25} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
             <p>Revenir à la carte interactive</p>
-          </button>
+          </Link>
         </div>
       </form>
     </div>
