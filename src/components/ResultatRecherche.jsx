@@ -1,5 +1,5 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { observer, PropTypes as MPropTypes } from 'mobx-react';
 import PropTypes from 'prop-types';
 // import RootStore from '../RootStore';
 
@@ -40,20 +40,7 @@ function ResultatRecherche({ iut, butSelect }) {
   );
 }
 ResultatRecherche.propTypes = ({
-  iut: PropTypes.shape({
-    site: PropTypes.string.isRequired,
-    nom: PropTypes.string.isRequired,
-    idIut: PropTypes.string.isRequired,
-    serviceAlt: PropTypes.shape({
-      tel: PropTypes.string.isRequired,
-      mel: PropTypes.string.isRequired,
-    }),
-    departements: PropTypes.arrayOf(PropTypes.shape({
-      code: PropTypes.string.isRequired,
-      tel: PropTypes.string,
-      mel: PropTypes.string,
-    })),
-  }),
+  iut: MPropTypes.objectOrObservableObject,
   butSelect: PropTypes.arrayOf(
     PropTypes.shape({
       code: PropTypes.string.isRequired,
