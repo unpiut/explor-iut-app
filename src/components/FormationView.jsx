@@ -44,7 +44,7 @@ function FormationView() {
             </p>
           )}
       </div>
-      <div className="grid gap-2 grid-cols-2 md:grid-cols-3 px-3 pb-20">
+      <div className="md:mx-32 grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 px-3 pb-20">
         {butRecherches.map((but, index) => (but !== null
           ? (
             <CaseFormation
