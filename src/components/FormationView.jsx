@@ -1,14 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import CaseFormation from './CaseFormation';
 import RootStore from '../RootStore';
 import fleche from '../assets/icone-les-iut.svg';
 
 function FormationView() {
+  const chercheInput = useRef();
   const { butManager } = useContext(RootStore);
   const { butRecherches } = butManager;
   function filtrer() {
-    const metier = document.getElementById('cherche').value;
+    const metier = chercheInput.current?.value;
     butManager.rechercheBut(metier);
   }
 
@@ -23,7 +25,7 @@ function FormationView() {
     <>
       <div className="mb-4">
         <div className="border border-blue-900 flex">
-          <input className="input-barre w-full" placeholder="Rechercher métier" type="text" id="cherche" />
+          <input className="input-barre w-full" placeholder="Rechercher métier" type="text" ref={chercheInput} />
           <button type="button" className="p-2" onClick={filtrer}>Valider</button>
         </div>
         { butManager.nbButRecherches > 1
@@ -46,11 +48,10 @@ function FormationView() {
         {butRecherches.map((but, index) => (but !== null
           ? (
             <CaseFormation
+              key={but.code}
               className={couleur(index)}
               but={but}
-              key={but.code}
               tabIndex={index}
-              butManager={butManager}
             />
           )
           : null))}
@@ -73,7 +74,7 @@ function FormationView() {
             </p>
           )}
         <div className="ring rounded ring-blue-900 m-4 items-center flex justify-self-end h-3/5">
-          <a className="font-bold" href="/map">Carte interactive</a>
+          <Link className="font-bold" to="/map">Carte interactive</Link>
           <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
         </div>
       </div>

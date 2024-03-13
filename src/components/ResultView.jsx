@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import ResultatRecherche from './ResultatRecherche';
 import RootStore from '../RootStore';
 import fleche from '../assets/icone-les-iut.svg';
@@ -49,10 +50,10 @@ function ResultView() {
               : <p>Les IUT sélectionnés sur la carte apparaîtrons ici</p>
         }
       </div>
-      <button className="border-2 p-2  flex m-2 justify-center gap-4" type="button" onClick={iutManager.nbIutSelectionnes && iutManager.nbIutSelectionnes <= 0 ? () => { window.location.href = './mail'; } : null}>
-        <p className={iutManager.nbIutSelectionnes && iutManager.nbIutSelectionnes <= 0 ? '' : 'text-gray-400'}>Les contacter tous par mail</p>
+      <Link className="border-2 p-2 mb-14 flex m-2 justify-center gap-4" to={iutManager.nbIutSelectionnes > 0 ? '/mail' : '/result'}>
+        <p className={iutManager.nbIutSelectionnes > 0 ? '' : 'text-gray-400'}>Les contacter tous par mail</p>
         <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
-      </button>
+      </Link>
       <Footer gauche={{ texte: 'Carte interactive', lien: 'map' }} />
     </div>
   );

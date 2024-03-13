@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import RootStore from '../RootStore';
 
@@ -29,7 +30,7 @@ function ModifyMailView() {
           </label>
         </div>
         <div className="grid justify-center">
-          <button className="border-2 p-2  flex m-2 justify-center gap-4" type="button" onClick={() => { window.location.href = './mail'; }}>Retour aux informations du mail</button>
+          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/mail">Retour aux informations du mail</Link>
           <button className="border-2 p-2  flex m-2 justify-center gap-4" onClick={() => { window.location.href = './mailSend'; }} type="button">Envoi du mail</button>
         </div>
       </form>
