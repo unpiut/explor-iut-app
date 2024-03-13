@@ -22,7 +22,7 @@ function iut2series(iuts, franceMap) {
   }).map((iut) => ({
     name: iut.site,
     value: franceMap.mapRegionPoint(iut.region, iut.location),
-    iut,
+    iutId: iut.idIut,
   }));
 }
 
@@ -62,7 +62,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         coordinateSystem: 'geo',
         symbol: 'circle',
         color: 'red',
-        symbolSize: 5,
+        symbolSize: 10,
         showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
         rippleEffect: { // Configuration de l'effet
           brushType: 'stroke',
@@ -103,7 +103,7 @@ function IUTFranceMap({ className }) {
       theChart.showLoading();
 
       theChart.on('click', { seriesId: 'iut' }, (event) => {
-        setModale(<Modale iut={event.data.iut} />);
+        setModale(<Modale iutId={event.data.iutId} />);
       });
 
       theChart.on('click', 'geo', (event) => {
