@@ -141,21 +141,18 @@ function IUTFranceMap({ className }) {
     }
   }, [refContainer.current]); // Le useEffect sera rappelé si la réf dom de la carte change
 
-  useEffect(() => {
-    console.log('use effect');
-    return autorun(() => {
+  useEffect(() => autorun(() => {
     // Mise à jour de la carte uniquement si la carte a bien été crée et si l'on a des iuts
-      console.log('entre dans le useEffect');
-      if (echartState && iutManager.nbIuts) {
-        console.log('re-set data');
-        // choix des iuts : ceux selectionnés si l'on a une selection sinon tous les iuts
-        const iuts = iutManager.iutSelectionnesTab.length
-          ? iutManager.iutSelectionnesTab
-          : iutManager.iuts;
-        echartState.setOption(createDataOnlyOption(iuts, franceMap));
-      }
-    });
-  }, [echartState, iutManager]);
+    if (echartState && iutManager.nbIuts) {
+      console.log('re-set data');
+      console.log(iutManager.iutRecherchesTab);
+      // choix des iuts : ceux selectionnés si l'on a une selection sinon tous les iuts
+      const iuts = iutManager.iutRecherchesTab.length
+        ? iutManager.iutRecherchesTab
+        : iutManager.iuts;
+      echartState.setOption(createDataOnlyOption(iuts, franceMap));
+    }
+  }), [echartState, iutManager]);
 
   return (
     <div>
