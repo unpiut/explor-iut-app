@@ -9,7 +9,7 @@ function CaseFormation({
   but, className, tabIndex,
 }) {
   const [etat, setEtat] = useState(false);
-  const { butManager } = useContext(RootStore);
+  const { butManager, iutManager } = useContext(RootStore);
   function changement() {
     but.getInfo();
     setEtat(!etat);
@@ -17,6 +17,7 @@ function CaseFormation({
 
   function selectionner() {
     butManager.switchButSelectionne(but);
+    iutManager.switchIutRecherches(butManager.butSelectionnes);
   }
 
   return (
