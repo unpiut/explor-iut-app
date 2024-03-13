@@ -12,9 +12,11 @@ function ModifyMailView() {
       <p className="text-center">
         Votre courriel sera envoyé aux
         {' '}
-        {iutManager.nbIutSelectionnes}
+        {iutManager.nbIutSelectionnesId}
         {' '}
-        IUT sélectionnés.
+        IUT sélectionné
+        {iutManager.nbIutSelectionnes > 1 ? 's' : ''}
+        .
       </p>
       <form method="GET">
         <div className="m-2">
