@@ -28,20 +28,12 @@ class ButManager {
     return this._butSelectionnes;
   }
 
-  set butSelectionnes(but) {
-    if (this._butSelectionnes.has(but)) {
-      this._butSelectionnes.delete(but);
-    } else {
-      this._butSelectionnes.add(but);
-    }
-  }
-
   get butSelectionnesTab() {
     return Array.from(this._butSelectionnes);
   }
 
   get butRecherches() {
-    return this._butRecherches;
+    return this._butRecherches.length ? this._butRecherches : this._buts;
   }
 
   get nbbuts() {
@@ -58,21 +50,26 @@ class ButManager {
     return compte;
   }
 
+  switchButSelectionne(but) {
+    if (this._butSelectionnes.has(but)) {
+      this._butSelectionnes.delete(but);
+    } else {
+      this._butSelectionnes.add(but);
+    }
+  }
+
   async _getAllBut() {
     if (this._allButRetrieved) {
       return this._buts;
     }
-    let buts = await fetch('https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/referentiel/but');
+    let buts = await fetch(`${APP_ENV_API_PATH}/referentiel/but`);
     buts = await buts.json();
-    return runInAction(() => {
+    buts = buts.map((b) => new But(b));
+    runInAction(() => {
       this._allButRetrieved = true;
-      buts.forEach((but) => {
-        const unBut = new But(but);
-        this._buts.push(unBut);
-        this._butRecherches.push(unBut);
-      });
-      return this._buts;
+      this._buts = buts;
     });
+    return this._buts;
   }
 
   async getAllBut() {
@@ -82,18 +79,21 @@ class ButManager {
     return this._fetchAction;
   }
 
-  async getButByCode(code) {
+  getButByCode(code) {
     const butIdx = this._buts.findIndex((b) => b.code === code);
     if (butIdx >= 0) {
       return this._buts[butIdx];
     }
-    let but = await fetch(`https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/referentiel/but/${code}`);
-    but = await but.json();
-    return runInAction(() => new But(but));
+    throw new Error("Ce but n'existe pas.");
   }
 
   rechercheBut(mots) {
-    this._butRecherches = this._buts.map((but) => (mots === but.code ? but : null));
+    if (mots === '') {
+      this._butRecherches.length = 0;
+    } else {
+      const motCle = mots.toUpperCase();
+      this._butRecherches = this._buts.map((but) => (motCle === but.code ? but : null));
+    }
   }
 }
 

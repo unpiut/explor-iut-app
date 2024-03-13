@@ -48,14 +48,14 @@ class IutManager {
   addIutSelectionnes(iut) {
     const iutIdx = this._iuts.findIndex((b) => b === iut);
     if (iutIdx < 0) {
-      throw new Error("Le iut n'existe pas.");
+      throw new Error("L'iut n'existe pas.");
     }
     this._iutSelectionnes.add(iut);
   }
 
   removeIutSelectionnes(iut) {
     if (!this._iutSelectionnes.delete(iut)) {
-      throw new Error("Le iut n'a pas été ajouté.");
+      throw new Error("L'iut n'a pas été ajouté.");
     }
   }
 
@@ -65,21 +65,15 @@ class IutManager {
     }
     let iuts = await fetch('https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/iut');
     iuts = await iuts.json();
+    iuts.map((i) => new Iut(i));
     return runInAction(() => {
-      iuts.forEach((iut) => {
-        const unIut = new Iut(iut);
-        unIut.getInfo();
-        this._iuts.push(unIut);
-      });
+      this._iuts = iuts;
       this._allIutRetrieved = true;
       return this._iuts;
     });
   }
 
   async getAllIut() {
-    if (!this._fetchAction) {
-      this._fetchAction = this._getAllIut();
-    }
     return this._fetchAction;
   }
 

@@ -1,6 +1,8 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 
 class But {
+  static IUT_URL_BASE = 'https://www.iut.fr/bachelor-universitaire-de-technologie';
+
   _code;
 
   _nom;
@@ -15,12 +17,18 @@ class But {
 
   _iutsAssocié;
 
-  constructor(but) {
-    makeAutoObservable(this);
-    this._code = but.code;
-    this._nom = but.nom;
-    this._filiere = but.filiere;
-    this._parcours = but.parcours.map((parcours) => [parcours.code, parcours.nom]);
+  constructor({
+    code, nom, filiere, parcours, description, metiers,
+  }) {
+    makeAutoObservable(this, {
+      IUT_URL_BASE: false,
+    });
+    this._code = code;
+    this._nom = nom;
+    this._filiere = filiere;
+    this._parcours = parcours?.map((p) => [p.code, p.nom]);
+    this._description = description;
+    this._metiers = metiers;
   }
 
   get filiere() {
@@ -52,13 +60,13 @@ class But {
   }
 
   get urlIUT() {
-    const url = this._nom.replaceAll(' ', '-').replaceAll("'", '').replaceAll(/[éèêë]/g, 'e');
-    return `https://www.iut.fr/bachelor-universitaire-de-technologie/${url}/`;
+    const urlPath = this._nom.replaceAll(' ', '-').replaceAll("'", '').replaceAll(/[éèêë]/g, 'e');
+    return `${But.IUT_URL_BASE}/${urlPath}/`;
   }
 
   async getInfo() {
     if (!this._description) {
-      let but = await fetch(`https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/referentiel/but/by-code/${this._code}`);
+      let but = await fetch(`${APP_ENV_API_PATH}/referentiel/but/by-code/${this._code}`);
       but = await but.json();
       return runInAction(() => {
         this._description = but.description;
