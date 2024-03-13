@@ -8,7 +8,7 @@ import Footer from './Footer';
 
 function ResultView() {
   const { iutManager, butManager } = useContext(RootStore);
-  const butSelect = butManager.butSelectionnesTab;
+  const butSelect = butManager.nbButSelectionnes ? butManager.butSelectionnesTab : butManager.buts;
   // function telecharger() {
   //   const total = [];
   //   iutConserve.iuts.forEach((iut) => {
@@ -38,7 +38,7 @@ function ResultView() {
             iutManager.nbIutSelectionnes > 0 ? (
               <div>
                 {iutManager.iutSelectionnesTab.map((iut) => (
-                  <ResultatRecherche butSelect={butSelect} iut={iut} key={iut.idIut} />
+                  <ResultatRecherche butSelect={butSelect} iut={iut} key={iut.site} />
                 ))}
 
                 <button className="border-2 p-2  flex m-2 justify-center gap-4" type="button">
