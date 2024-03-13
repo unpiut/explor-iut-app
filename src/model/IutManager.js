@@ -4,7 +4,8 @@ import Iut from './Iut';
 class IutManager {
   _iuts;
 
-  _iutSelectionnes;
+  _iutSelectionnesId;
+  // On enregistre les id à la place car lors de la comparaison, on compare l'iut et son wrapper
 
   _iutRecherches;
 
@@ -15,7 +16,7 @@ class IutManager {
   constructor() {
     makeAutoObservable(this);
     this._iuts = [];
-    this._iutSelectionnes = new Set();
+    this._iutSelectionnesId = new Set();
     this._iutRecherches = new Set();
     this._allIutRetrieved = false;
   }
@@ -28,12 +29,12 @@ class IutManager {
     return this._iuts.length;
   }
 
-  get iutSelectionnes() {
-    return this._iutSelectionnes;
+  get iutSelectionnesId() {
+    return this._iutSelectionnesId;
   }
 
-  get iutSelectionnesTab() {
-    return Array.from(this._iutSelectionnes);
+  get iutSelectionnesIdTab() {
+    return Array.from(this._iutSelectionnesId);
   }
 
   get iutRecherches() {
@@ -44,29 +45,26 @@ class IutManager {
     return Array.from(this._iutRecherches);
   }
 
-  get nbIutSelectionnes() {
-    return this._iutSelectionnes.size;
+  get nbIutSelectionnesId() {
+    return this._iutSelectionnesId.size;
   }
 
   switchIutRecherches(buts) {
+    this._iutRecherches.clear();
     buts.forEach((but) => {
       this._iuts.forEach((i) => {
         if (i.departements.find((d) => d.codesButDispenses[0] === but.code)) {
-          if (this._iutRecherches.has(i)) {
-            this._iutRecherches.delete(i);
-          } else {
-            this._iutRecherches.add(i);
-          }
+          this._iutRecherches.add(i);
         }
       });
     });
   }
 
-  switchIutSelectionnes(iut) {
-    if (this._iutSelectionnes.has(iut)) {
-      this._iutSelectionnes.delete(iut);
+  switchIutSelectionnesId(iut) {
+    if (this._iutSelectionnesId.has(iut.idIut)) {
+      this._iutSelectionnesId.delete(iut.idIut);
     } else {
-      this._iutSelectionnes.add(iut);
+      this._iutSelectionnesId.add(iut.idIut);
     }
   }
 
@@ -76,7 +74,7 @@ class IutManager {
     }
     let iuts = await fetch('https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/iut');
     iuts = await iuts.json();
-    iuts.map((i) => new Iut(i));
+    iuts = iuts.map((i) => new Iut(i));
     return runInAction(() => {
       this._iuts = iuts;
       this._allIutRetrieved = true;
