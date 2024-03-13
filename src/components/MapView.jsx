@@ -8,10 +8,11 @@ import RootStore from '../RootStore';
 
 function MapView() {
   const selectInput = useRef();
-  const { butManager } = useContext(RootStore);
+  const { butManager, iutManager } = useContext(RootStore);
   function ajouter() {
     const select = selectInput.current?.value;
     butManager.switchButSelectionne(butManager.getButByCode(select));
+    iutManager.switchIutRecherches(butManager.butSelectionnes);
   }
   return (
     <>

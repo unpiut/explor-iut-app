@@ -6,6 +6,8 @@ class IutManager {
 
   _iutSelectionnes;
 
+  _iutRecherches;
+
   _fetchAction;
 
   _allIutRetrieved;
@@ -14,6 +16,7 @@ class IutManager {
     makeAutoObservable(this);
     this._iuts = [];
     this._iutSelectionnes = new Set();
+    this._iutRecherches = new Set();
     this._allIutRetrieved = false;
   }
 
@@ -29,33 +32,41 @@ class IutManager {
     return this._iutSelectionnes;
   }
 
-  set iutSelectionnes(iut) {
-    if (this._iutSelectionnes.has(iut)) {
-      this._iutSelectionnes.delete(iut);
-    } else {
-      this._iutSelectionnes.add(iut);
-    }
-  }
-
   get iutSelectionnesTab() {
     return Array.from(this._iutSelectionnes);
+  }
+
+  get iutRecherches() {
+    return this._iutRecherches;
+  }
+
+  get iutRecherchesTab() {
+    return Array.from(this._iutRecherches);
   }
 
   get nbIutSelectionnes() {
     return this._iutSelectionnes.size;
   }
 
-  addIutSelectionnes(iut) {
-    const iutIdx = this._iuts.findIndex((b) => b === iut);
-    if (iutIdx < 0) {
-      throw new Error("L'iut n'existe pas.");
-    }
-    this._iutSelectionnes.add(iut);
+  switchIutRecherches(buts) {
+    buts.forEach((but) => {
+      this._iuts.forEach((i) => {
+        if (i.departements.find((d) => d.codesButDispenses[0] === but.code)) {
+          if (this._iutRecherches.has(i)) {
+            this._iutRecherches.delete(i);
+          } else {
+            this._iutRecherches.add(i);
+          }
+        }
+      });
+    });
   }
 
-  removeIutSelectionnes(iut) {
-    if (!this._iutSelectionnes.delete(iut)) {
-      throw new Error("L'iut n'a pas été ajouté.");
+  switchIutSelectionnes(iut) {
+    if (this._iutSelectionnes.has(iut)) {
+      this._iutSelectionnes.delete(iut);
+    } else {
+      this._iutSelectionnes.add(iut);
     }
   }
 
@@ -74,6 +85,9 @@ class IutManager {
   }
 
   async getAllIut() {
+    if (!this._fetchAction) {
+      this._fetchAction = await this._getAllIut();
+    }
     return this._fetchAction;
   }
 
