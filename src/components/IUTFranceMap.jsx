@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import * as echarts from 'echarts';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
+import { autorun } from 'mobx';
 import RootStore from '../RootStore';
 import Modale from './Modale';
 // import { findGeloloc } from '../../model/geolocService';
@@ -73,6 +74,17 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
   };
 }
 
+function createDataOnlyOption(iuts, franceMap) {
+  return {
+    series: [
+      {
+        id: 'iut',
+        data: iut2series(iuts, franceMap),
+      },
+    ],
+  };
+}
+
 function IUTFranceMap({ className }) {
   const { franceMap, iutManager } = useContext(RootStore);
   const [echartState, setEchartState] = useState(null);
@@ -83,10 +95,12 @@ function IUTFranceMap({ className }) {
 
   // Initial Map créator
   useEffect(() => {
-    if (refContainer.current && echartState === null) {
+    if (refContainer.current && !echartState) {
       console.log('CREATE IUTFranceMap chart');
       console.log(refContainer.current);
       const theChart = echarts.init(refContainer.current);
+
+      theChart.showLoading();
 
       theChart.on('click', { seriesId: 'iut' }, (event) => {
         setModale(<Modale iut={event.data.iut} />);
@@ -114,23 +128,34 @@ function IUTFranceMap({ className }) {
         }
       });
 
-      theChart.showLoading();
-      // findGeloloc()
-      Promise.all([franceMap.load(), iutManager.load()])
-        .then(([, iuts]) => {
+      // Récupération des données de la france uniquement
+      franceMap.load()
+        .then(() => {
+        // Création des options initiale avec la carte de france et un tableau d'IUTs vide
           theChart.hideLoading();
-          if (iuts) {
-            theChart.setOption(createInitalEchartOption(
-              franceMap.mapName,
-              iuts,
-              franceMap,
-            ));
-          }
+          theChart.setOption(createInitalEchartOption(franceMap.mapName, [], franceMap));
+          // mise en place du state
+          // A pour effet de déclencher un useEffect suivant
+          setEchartState(theChart);
         });
-
-      setEchartState(theChart);
     }
-  }, [refContainer.current]);
+  }, [refContainer.current]); // Le useEffect sera rappelé si la réf dom de la carte change
+
+  useEffect(() => {
+    console.log('use effect');
+    return autorun(() => {
+    // Mise à jour de la carte uniquement si la carte a bien été crée et si l'on a des iuts
+      console.log('entre dans le useEffect');
+      if (echartState && iutManager.nbIuts) {
+        console.log('re-set data');
+        // choix des iuts : ceux selectionnés si l'on a une selection sinon tous les iuts
+        const iuts = iutManager.iutSelectionnesTab.length
+          ? iutManager.iutSelectionnesTab
+          : iutManager.iuts;
+        echartState.setOption(createDataOnlyOption(iuts, franceMap));
+      }
+    });
+  }, [echartState, iutManager]);
 
   return (
     <div>
