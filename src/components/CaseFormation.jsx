@@ -16,7 +16,7 @@ function CaseFormation({
   }
 
   function selectionner() {
-    butManager.butSelectionnes = but;
+    butManager.switchButSelectionne(but);
   }
 
   return (
