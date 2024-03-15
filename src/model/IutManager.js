@@ -117,6 +117,12 @@ class IutManager {
     }
     return iutsBon;
   }
+
+  async miseAJour() {
+    this.iuts.filter((i) => this.iutSelectionnesId.has(i.idIut)).forEach(async (i) => {
+      await i.getInfo();
+    });
+  }
 }
 
 export default IutManager;
