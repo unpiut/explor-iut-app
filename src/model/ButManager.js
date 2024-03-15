@@ -87,6 +87,15 @@ class ButManager {
     throw new Error("Ce but n'existe pas.");
   }
 
+  async getButByCodeWithInfo(code) {
+    const butIdx = this._buts.findIndex((b) => b.code === code);
+    if (butIdx >= 0) {
+      await this._buts[butIdx].getInfo();
+      return runInAction(() => this._buts[butIdx]);
+    }
+    throw new Error("Ce but n'existe pas.");
+  }
+
   rechercheBut(mots) {
     if (mots === '') {
       this._butRecherches.length = 0;
