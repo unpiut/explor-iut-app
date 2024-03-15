@@ -7,11 +7,12 @@ import fleche from '../assets/icone-les-iut.svg';
 
 function FormationView() {
   const chercheInput = useRef();
+  const timerFiltre = useRef();
   const { butManager } = useContext(RootStore);
   const { butRecherches } = butManager;
   function filtrer() {
     const metier = chercheInput.current?.value;
-    butManager.rechercheBut(metier);
+    timerFiltre.current = setTimeout(() => butManager.rechercheBut(metier), 1000);
   }
 
   function couleur(index) {
@@ -25,8 +26,7 @@ function FormationView() {
     <>
       <div className="mb-4">
         <div className="border border-blue-900 flex">
-          <input className="input-barre w-full" placeholder="Rechercher métier" type="text" ref={chercheInput} />
-          <button type="button" className="p-2" onClick={filtrer}>Valider</button>
+          <input className="input-barre w-full" placeholder="Rechercher métier" type="text" ref={chercheInput} onChange={filtrer} />
         </div>
         { butManager.nbButRecherches > 1
           ? (
@@ -44,7 +44,7 @@ function FormationView() {
             </p>
           )}
       </div>
-      <div className="md:mx-32 grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 px-3 pb-20">
+      <div className="md:mx-32 grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-10 px-3 pb-20">
         {butRecherches.map((but, index) => (but !== null
           ? (
             <CaseFormation
