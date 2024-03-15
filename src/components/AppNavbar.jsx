@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react';
 import logoPict from '../assets/logo-les-iut.svg';
 import fleche from '../assets/icone-les-iut.svg';
+import RootStore from '../RootStore';
 
 function AppNavbar() {
+  const { iutManager } = useContext(RootStore);
   function etendre() {
     const nav = document.getElementById('mobile-menu');
     if (nav.classList.contains('hidden')) {
@@ -49,7 +52,7 @@ function AppNavbar() {
                   <p className="group-hover:text-white">3. Récapitulatif des choix</p>
                   <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                 </Link>
-                <Link to="/mail" className=" hover:bg-blue-900 hover:text-white flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
+                <Link to={iutManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className={`${iutManager.nbIutSelectionnesId < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
                   4. Courriel
                 </Link>
               </div>
@@ -75,7 +78,7 @@ function AppNavbar() {
             <p className="group-hover:text-white">3. Récapitulatif des choix</p>
             <img width={25} src={fleche} alt="fleche" />
           </Link>
-          <Link to="/mail" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
+          <Link to={iutManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
             <img width={25} src={fleche} alt="fleche" />
             <p className="group-hover:text-white">4. Courriel</p>
           </Link>
@@ -85,4 +88,4 @@ function AppNavbar() {
   );
 }
 
-export default AppNavbar;
+export default observer(AppNavbar);
