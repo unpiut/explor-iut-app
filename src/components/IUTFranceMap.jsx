@@ -20,7 +20,7 @@ function iut2series(iuts, franceMap) {
     }
     return true;
   }).map((iut) => ({
-    name: iut.site,
+    name: `${iut.nom} - ${iut.site}`,
     value: franceMap.mapRegionPoint(iut.region, iut.location),
     iutId: iut.idIut,
   }));
@@ -42,16 +42,26 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
   return {
     geo: { // Options d'un système de coordonnées géographique: https://echarts.apache.org/en/option.html#geo
       map: mapName, // Nom de la map enregistrée
-      roam: true, // Autorise le déplacement et le zoom dans la carte avec de la souris
+      roam: true, // Autorise le déplacement et le zoom dans la carte avec de la souris*
+      legend: false,
       itemStyle: { //
         areaColor: '#e7e8ea', // Couleur de base des zones (gris)
       },
       nameProperty: 'nom', // Nom de la propriété utilisé dans les données de carte pour le nom des zones
       zoom: userZoomInfo.zoom,
       center: userZoomInfo.center,
+      emphasis: {
+        label: {
+          show: false,
+        },
+        itemStyle: {
+          areaColor: '#e7e8ea',
+          borderWidth: 1,
+        },
+      },
     },
-    tooltip: { // propriété des tooltip
-      formatter: ({ data }) => data.name,
+    tooltip: {
+      show: false,
     },
     // legend: {}, par de lédende pour cette visualisation
     series: [
@@ -64,6 +74,10 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         color: 'red',
         symbolSize: 10,
         showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
+        tooltip: { // propriété des tooltip
+          formatter: ({ data }) => data.name,
+          show: true,
+        },
         rippleEffect: { // Configuration de l'effet
           brushType: 'stroke',
           scale: 2.5,
@@ -88,6 +102,7 @@ function createDataOnlyOption(iuts, franceMap) {
 function IUTFranceMap({ className }) {
   const { franceMap, iutManager } = useContext(RootStore);
   const [echartState, setEchartState] = useState(null);
+  const [afficheModale, setAfficheModale] = useState(false);
   const [modale, setModale] = useState(null);
   const refContainer = useRef();
 
@@ -103,7 +118,8 @@ function IUTFranceMap({ className }) {
       theChart.showLoading();
 
       theChart.on('click', { seriesId: 'iut' }, (event) => {
-        setModale(<Modale iutId={event.data.iutId} />);
+        setAfficheModale(true);
+        setModale(<Modale iutId={event.data.iutId} onClose={() => setAfficheModale(false)} />);
       });
 
       theChart.on('click', 'geo', (event) => {
@@ -156,7 +172,11 @@ function IUTFranceMap({ className }) {
 
   return (
     <div>
-      {modale}
+      <div className="grid justify-center">
+        <div className="grid justify-center max-w-lg">
+          {afficheModale ? modale : null}
+        </div>
+      </div>
       <div className={classNames(className, 'w-full', 'h-96')} ref={refContainer} />
     </div>
   );

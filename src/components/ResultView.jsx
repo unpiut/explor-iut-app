@@ -8,7 +8,7 @@ import Footer from './Footer';
 
 function ResultView() {
   const { iutManager, butManager } = useContext(RootStore);
-
+  iutManager.miseAJour();
   const butSelect = butManager.nbButSelectionnes ? butManager.butSelectionnesTab : butManager.buts;
   const filtreIut = (i) => iutManager.iutSelectionnesId.has(i.idIut);
 

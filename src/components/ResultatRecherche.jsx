@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 function ResultatRecherche({ iut, butSelect }) {
   // const { iutConserve } = useContext(RootStore);
   return (
-    <div className="border border-blue-900">
+    <div className="border border-blue-900 pb-10">
       <h2>{`${iut.nom} - ${iut.site}`}</h2>
       {iut.serviceAlt ? (
         <div>

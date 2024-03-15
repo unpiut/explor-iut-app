@@ -14,31 +14,36 @@ function MapView() {
     butManager.switchButSelectionne(butManager.getButByCode(select));
     iutManager.switchIutRecherches(butManager.butSelectionnes);
   }
+
   return (
     <>
-      <div className="grid justify-center">
+      <div className="grid">
         <IUTFranceMap className="" />
-        <select ref={selectInput} className="border-2 p-2  flex m-2 justify-center gap-4 text-sm" type="button">
-          {butManager.buts.map((but) => (
-            <option
-              key={but.code}
-              value={but.code}
-            >
-              {but.prettyPrintFiliere}
-            </option>
-          ))}
-        </select>
-        <button className="border-2 p-2  flex m-2 justify-center gap-4" type="button" onClick={ajouter}>Ajouter/Retirer cette formation</button>
-        <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/result">
-          <p>Prendre contact avec les IUT</p>
-          <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
-        </Link>
+        <div className="grid justify-center">
+          <select ref={selectInput} className="border-2 p-2  flex m-2 justify-center gap-4 text-sm" type="button">
+            {butManager.buts.map((but) => (
+              <option
+                className="active:text-blue-100"
+                key={but.code}
+                value={but.code}
+              >
+                {but.prettyPrintFiliere}
+              </option>
+            ))}
+          </select>
+          <button className="border-2 p-2  flex m-2 justify-center gap-4" type="button" onClick={ajouter}>Ajouter/Retirer cette formation</button>
+          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/result">
+            <p>Prendre contact avec les IUT</p>
+            <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
+          </Link>
+          <p className="pl-2">
+            {iutManager.nbIutSelectionnesId}
+            {' '}
+            instituts sélectionnées
+          </p>
+
+        </div>
       </div>
-      <p className="pl-2">
-        {butManager.nbButSelectionnes}
-        {' '}
-        Formations sélectionnées
-      </p>
       <Footer gauche={{ texte: 'Retour aux formations', lien: '' }} />
     </>
   );
