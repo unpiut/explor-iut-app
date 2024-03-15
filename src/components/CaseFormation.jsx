@@ -19,24 +19,31 @@ function CaseFormation({
     butManager.switchButSelectionne(but);
     iutManager.switchIutRecherches(butManager.butSelectionnes);
   }
-
+  // const tabClassName = className.split(' ');
+  // tabClassName.map((c)=>({c+":"+!etat+','}))];
   return (
     <div
-      id={but.code}
-      role="button"
-      onClick={changement}
       className={classNames('grid', 'items-center', {
+        'aspect-square': !etat,
         'col-span-1': !etat,
         'col-span-2': etat,
         'md:col-span-3': etat,
+        'lg:col-span-4': etat,
       })}
-      onKeyDown={changement}
       tabIndex={tabIndex}
     >
       {etat
         ? (
-          <div className="grid gap-y-2 border-2 text-xs  border-blue-900">
-            <h2 className={`align-middle text-base text-center ${className}`}>{but.prettyPrintFiliere}</h2>
+          <div
+            className="grid gap-y-2 border-2 text-xs  border-blue-900"
+          >
+            <button
+              type="button"
+              onClick={changement}
+              className={`align-middle text-base text-center ${className}`}
+            >
+              {but.prettyPrintFiliere}
+            </button>
             <p>
               Description formation :
               {but.description ? ` ${but.description}` : ''}
@@ -67,7 +74,15 @@ function CaseFormation({
             <button className="text-base" onClick={selectionner} type="button">{!butManager.butSelectionnes.has(but) ? 'selectionner' : 'deselectionner'}</button>
           </div>
         )
-        : <h2 className={`text-xs align-middle h-full text-center p-2 leading-loose ${className}`}>{but.prettyPrintFiliere}</h2>}
+        : (
+          <button
+            type="button"
+            onClick={changement}
+            className={`h-full text-xs md:text-sm lg:text-base align-middle text-center p-2 leading-loose ${className}`}
+          >
+            {but.prettyPrintFiliere}
+          </button>
+        )}
     </div>
   );
 }
