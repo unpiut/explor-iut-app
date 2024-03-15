@@ -6,16 +6,15 @@ import RootStore from '../RootStore';
 
 function ModifyMailView() {
   const { iutManager } = useContext(RootStore);
+  if (!iutManager.nbIutSelectionnesId) {
+    window.location.replace('/');
+  }
   return (
     <div className="grid h-screen">
       <h1 className="text-center text-xl">Courriel envoyé</h1>
       <p className="text-center">
-        Votre courriel a bien été envoyé aux
-        {' '}
-        {iutManager.nbIutSelectionnesId}
-        {' '}
-        IUT sélectionné
-        {iutManager.nbIutSelectionnes > 1 ? 's' : ''}
+        Votre courriel a bien été envoyé
+        {iutManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${iutManager.nbIutSelectionnesId} IUT sélectionnés`}
         .
       </p>
       <form method="GET">
