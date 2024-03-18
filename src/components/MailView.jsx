@@ -6,16 +6,8 @@ import RootStore from '../RootStore';
 
 function MailView() {
   const { iutManager, mailManager } = useContext(RootStore);
-  const [mail, setMail] = useState('');
-  const [nom, setNom] = useState('');
-  const [nomEntre, setNomEntre] = useState('');
-  const [fonction, setFonction] = useState('');
   if (!iutManager.nbIutSelectionnesId) {
     window.location.replace('/');
-  }
-
-  function modif() {
-    mailManager.setAllMail(mail, nom, nomEntre, fonction);
   }
   return (
     <>
@@ -29,25 +21,25 @@ function MailView() {
         <div className="m-2">
           <label htmlFor="mail" className="block text-sm font-medium leading-6">
             Mail
-            <input type="text" name="mail" id="mail" autoComplete="mail" onChange={modif} value={mail} placeholder="mail@mail.com" className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <input type="text" name="mail" id="mail" autoComplete="mail" value={mailManager.adresseMail} onChange={() => { mailManager.adresseMail = event.target.value; }} placeholder="mail@mail.com" className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </label>
         </div>
         <div className="m-2">
           <label htmlFor="name" className="block text-sm font-medium leading-6">
             Nom
-            <input type="text" name="name" id="name" autoComplete="name" onChange={modif} value={nom} placeholder="Dupont" className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <input type="text" name="name" id="name" autoComplete="name" value={mailManager.nom} onChange={() => { mailManager.nom = event.target.value; }} placeholder="Dupont" className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </label>
         </div>
         <div className="m-2">
           <label htmlFor="entrepriseName" className="block text-sm font-medium leading-6">
             Nom d&lsquo;entreprise
-            <input type="text" name="entrepriseName" id="entrepriseName" onChange={modif} value={nomEntre} placeholder="EntrepriseCorporation" className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <input type="text" name="entrepriseName" id="entrepriseName" value={mailManager.nomEntreprise} onChange={() => { mailManager.nomEntreprise = event.target.value; }} placeholder="EntrepriseCorporation" className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </label>
         </div>
         <div className="m-2">
           <label htmlFor="function" className="block text-sm font-medium leading-6">
             Fonction dans l&lsquo;entreprise
-            <input type="text" name="function" id="function" onChange={modif} value={fonction} placeholder="PDG, RH..." className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <input type="text" name="function" id="function" value={mailManager.fonctionDansEntreprise} onChange={() => { mailManager.fonctionDansEntreprise = event.target.value; }} placeholder="PDG, RH..." className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </label>
         </div>
         <div className="grid justify-center">

@@ -21,13 +21,13 @@ function ModifyMailView() {
         <div className="m-2">
           <label htmlFor="object" className="block text-sm font-medium leading-6">
             Objet
-            <input type="text" placeholder="Recherche alternance - EntrepriseCorp" name="object" id="object" autoComplete="object" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <input type="text" value={mailManager.objet} onChange={() => { mailManager.objet = event.target.value; }} name="object" id="object" autoComplete="object" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </label>
         </div>
         <div className="m-2">
           <label htmlFor="contenu" className="block text-sm font-medium leading-6">
             Contenu
-            <textarea id="contenu" placeholder="Bonjour, je m'apelle mr Dupont, je suis PDG de EntrepriseCorp et je recherche une alternance dans votre IUT, veuillez me recontactez à cette adresse : mail@mail.com. Pour que nous puissions discuter de la mise en oeuvre de tout cela." name="contenu" rows="10" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <textarea id="contenu" value={mailManager.corpsMail} onChange={() => { mailManager.corpsMail = event.target.value; }} name="contenu" rows="10" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </label>
         </div>
         <div className="grid justify-center">
