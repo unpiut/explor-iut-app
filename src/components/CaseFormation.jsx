@@ -10,6 +10,7 @@ function CaseFormation({
 }) {
   const [etat, setEtat] = useState(false);
   const { butManager, iutManager } = useContext(RootStore);
+
   function changement() {
     but.getInfo();
     setEtat(!etat);
@@ -19,8 +20,7 @@ function CaseFormation({
     butManager.switchButSelectionne(but);
     iutManager.switchIutRecherches(butManager.butSelectionnes);
   }
-  // const tabClassName = className.split(' ');
-  // tabClassName.map((c)=>({c+":"+!etat+','}))];
+
   return (
     <div
       className={classNames('grid', 'items-center', {
@@ -78,9 +78,9 @@ function CaseFormation({
           <button
             type="button"
             onClick={changement}
-            className={`h-full text-xs md:text-sm lg:text-base align-middle text-center p-2 leading-loose ${className}`}
+            className={`h-full text-xs md:text-sm lg:text-base align-middle text-center leading-loose ${className} bg-${but.code} bg-contain`}
           >
-            {but.prettyPrintFiliere}
+            <h2 className="p-2 bg-white-transparent w-full">{but.prettyPrintFiliere}</h2>
           </button>
         )}
     </div>
