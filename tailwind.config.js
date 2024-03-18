@@ -11,6 +11,11 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
+      backgroundImage: {
+        MMI: "url('./src/assets/MMI.png')",
+        TC: "url('./src/assets/TC.png')",
+        GCCD: "url('./src/assets/GCCD.png')",
+      },
     },
   },
   plugins: [],
