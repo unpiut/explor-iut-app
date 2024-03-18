@@ -12,6 +12,28 @@ function ResultView() {
   const butSelect = butManager.nbButSelectionnes ? butManager.butSelectionnesTab : butManager.buts;
   const filtreIut = (i) => iutManager.iutSelectionnesId.has(i.idIut);
 
+  function telecharger() {
+    fetch('./assets/rendu-recapitulatif.ods')
+      .then((response) => response.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(
+          new Blob([blob]),
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute(
+          'download',
+          'recapitulatif des choix.ods',
+        );
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        link.parentNode.removeChild(link);
+      });
+  }
+
   // function telecharger() {
   //   const total = [];
   //   iutConserve.iuts.forEach((iut) => {
@@ -42,10 +64,10 @@ function ResultView() {
             iutManager.nbIutSelectionnesId > 0 ? (
               <div>
                 {iutManager.iuts.filter(filtreIut).map((iut) => (
-                  <ResultatRecherche butSelect={butSelect} iut={iut} key={iut.site} />
+                  <ResultatRecherche butSlct={butSelect} iut={iut} key={iut.site} />
                 ))}
 
-                <button className="border-2 p-2  flex m-2 justify-center gap-4" type="button">
+                <button type="button" className="border-2 p-2  flex m-2 justify-center gap-4" onClick={telecharger}>
                   <p>Télécharger le récapitulatif</p>
                   <img width={25} src={fleche} alt="fleche" />
                 </button>
