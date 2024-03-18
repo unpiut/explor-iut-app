@@ -1,6 +1,7 @@
 import React, { useContext, useRef } from 'react';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import Footer from './Footer';
 import IUTFranceMap from './IUTFranceMap';
 import fleche from '../assets/icone-les-iut.svg';
@@ -20,10 +21,12 @@ function MapView() {
       <div className="grid">
         <IUTFranceMap className="" />
         <div className="grid justify-center">
-          <select ref={selectInput} className="border-2 p-2  flex m-2 justify-center gap-4 text-sm" type="button">
+          <select ref={selectInput} multiple className="border-2 p-2  flex m-2 justify-center gap-4 text-sm" type="button" onClick={ajouter}>
             {butManager.buts.map((but) => (
               <option
-                className="active:text-blue-100"
+                className={classNames('w-full', {
+                  'text-red-500': butManager.butSelectionnes.has(but),
+                })}
                 key={but.code}
                 value={but.code}
               >
@@ -31,7 +34,6 @@ function MapView() {
               </option>
             ))}
           </select>
-          <button className="border-2 p-2  flex m-2 justify-center gap-4" type="button" onClick={ajouter}>Ajouter/Retirer cette formation</button>
           <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/result">
             <p>Prendre contact avec les IUT</p>
             <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />

@@ -1,10 +1,7 @@
 import React from 'react';
 import { observer, PropTypes as MPropTypes } from 'mobx-react';
-import PropTypes from 'prop-types';
-// import RootStore from '../RootStore';
 
-function ResultatRecherche({ iut, butSelect }) {
-  // const { iutConserve } = useContext(RootStore);
+function ResultatRecherche({ iut, butSlct }) {
   return (
     <div className="border border-blue-900 pb-10">
       <h2>{`${iut.nom} - ${iut.site}`}</h2>
@@ -21,10 +18,10 @@ function ResultatRecherche({ iut, butSelect }) {
           </p>
         </div>
       ) : iut.departements.map((but) => (
-        butSelect.findIndex((unBut) => unBut.code === but.codesButDispenses[0]) >= 0
+        butSlct.findIndex((b) => b.code === but.codesButDispenses[0]) >= 0
           ? (
             <div key={iut.idIut + but.code}>
-              <h2>{butSelect[butSelect.findIndex((unBut) => unBut.code === but.codesButDispenses[0])].nom}</h2>
+              <h2>{butSlct[butSlct.findIndex((b) => b.code === but.codesButDispenses[0])].nom}</h2>
               <p>
                 Numero de téléphone :
                 {but.tel}
@@ -41,11 +38,7 @@ function ResultatRecherche({ iut, butSelect }) {
 }
 ResultatRecherche.propTypes = ({
   iut: MPropTypes.objectOrObservableObject,
-  butSelect: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
+  butSlct: MPropTypes.arrayOrObservableArray.isRequired,
 });
 ResultatRecherche.defaultProps = ({
   iut: null,
