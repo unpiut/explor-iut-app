@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import CaseFormation from './CaseFormation';
 import RootStore from '../RootStore';
 import fleche from '../assets/icone-les-iut.svg';
+// import TC from '../assets/TC.png';
+// import MMI from '../assets/MMI.png';
+// import GCCD from '../assets/GCCD.png';
 
 function FormationView() {
   const chercheInput = useRef();

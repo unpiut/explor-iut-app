@@ -78,7 +78,7 @@ function CaseFormation({
           <button
             type="button"
             onClick={changement}
-            className={`h-full text-xs md:text-sm lg:text-base align-middle text-center leading-loose ${className} bg-${but.code} bg-contain`}
+            className={`h-full text-xs md:text-sm lg:text-base align-middle text-center leading-loose ${className} bg-contain`}
           >
             <h2 className="p-2 bg-white-transparent w-full">{but.prettyPrintFiliere}</h2>
           </button>
