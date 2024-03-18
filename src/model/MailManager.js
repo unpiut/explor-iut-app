@@ -21,6 +21,10 @@ class MailManager {
     makeAutoObservable(this);
     this._personnalizeObjet = false;
     this._personnalizeCorps = false;
+    this._adresseMail = '';
+    this._nom = '';
+    this._nomEntreprise = '';
+    this._fonctionDansEntreprise = '';
   }
 
   get adresseMail() {
