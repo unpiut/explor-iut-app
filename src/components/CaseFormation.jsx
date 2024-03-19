@@ -41,7 +41,7 @@ function CaseFormation({
             <button
               type="button"
               onClick={changement}
-              className="align-middle text-base text-center bg-slate-50 text-blue-900 border-b-2 border-blue-900"
+              className="align-middle text-base text-center bg-blue-900 text-slate-50 border-blue-900"
             >
               {but.prettyPrintFiliere}
             </button>
