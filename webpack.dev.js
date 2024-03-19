@@ -109,9 +109,13 @@ module.exports = {
     host: '127.0.0.1', // Accessible uniquement d'une ip localhost (4 ou 6)
     historyApiFallback: true, // Evite d'afficher une page 404 plutot que la page index.html
     // quand on utilie HTML5 History API
-    static: {
+    static: [{
       directory: path.resolve(__dirname, 'build'),
+
     },
+    {
+      directory: path.join(__dirname, 'data-sample'),
+    }],
     open: true, // tente d'ouvre une page navigateur une fois le serveur lancé
     hot: true, // active le remplacement à chaud des modules
     client: { // n'affiche sur le navigateur en overlay que les erreurs
