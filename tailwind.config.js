@@ -17,7 +17,7 @@ module.exports = {
         GCCD: "url('./assets/GCCD.png')",
       },
       colors: {
-        'white-transparent': 'rgba(241, 245, 249, 0.8)',
+        'blue-transparent': 'rgba(30, 58, 138, 0.9)',
       },
     },
   },

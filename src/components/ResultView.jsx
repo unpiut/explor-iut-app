@@ -12,51 +12,6 @@ function ResultView() {
   const butSelect = butManager.nbButSelectionnes ? butManager.butSelectionnesTab : butManager.buts;
   const filtreIut = (i) => iutManager.iutSelectionnesId.has(i.idIut);
 
-  function telecharger() {
-    fetch('./assets/rendu-recapitulatif.ods')
-      .then((response) => response.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(
-          new Blob([blob]),
-        );
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute(
-          'download',
-          'recapitulatif des choix.ods',
-        );
-
-        document.body.appendChild(link);
-
-        link.click();
-
-        link.parentNode.removeChild(link);
-      });
-  }
-
-  // function telecharger() {
-  //   const total = [];
-  //   iutConserve.iuts.forEach((iut) => {
-  //     if (iut.serviceAlternance) {
-  //       const array = {
-  //         nom: iut.nom,
-  //         site: iut.site,
-  //         serviceAlternance: iut.serviceAlternance,
-  //       };
-  //       total.push(array);
-  //     } else {
-  //       const array = {
-  //         nom: iut.nom,
-  //         site: iut.site,
-  //         parcours: iut.parcours,
-  //       };
-  //       total.push(array);
-  //     }
-  //     const jsonTotal = JSON.stringify(total);
-  //     return jsonTotal;
-  //   });
-  // }
-
   return (
     <div className="grid justify-center">
       <div>
@@ -67,16 +22,16 @@ function ResultView() {
                   <ResultatRecherche butSlct={butSelect} iut={iut} key={iut.site} />
                 ))}
 
-                <button type="button" className="border-2 p-2  flex m-2 justify-center gap-4" onClick={telecharger}>
+                <a type="button" className="border-2 p-2 w-full mt-2 flex justify-center gap-4" href="/rendu-recapitulatif.ods">
                   <p>Télécharger le récapitulatif</p>
                   <img width={25} src={fleche} alt="fleche" />
-                </button>
+                </a>
               </div>
             )
               : <p>Les IUT sélectionnés sur la carte apparaîtrons ici</p>
         }
       </div>
-      <Link className="border-2 p-2 mb-14 flex m-2 justify-center gap-4" to={iutManager.nbIutSelectionnesId > 0 ? '/mail' : '/result'}>
+      <Link className="border-2 w-full p-2 mb-14 flex mt-2 justify-center gap-4" to={iutManager.nbIutSelectionnesId > 0 ? '/mail' : '/result'}>
         <p className={iutManager.nbIutSelectionnesId > 0 ? '' : 'text-gray-400'}>Les contacter tous par mail</p>
         <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
       </Link>

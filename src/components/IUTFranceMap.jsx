@@ -20,7 +20,7 @@ function iut2series(iuts, franceMap) {
     }
     return true;
   }).map((iut) => ({
-    name: `${iut.nom} - ${iut.site}`,
+    name: iut.site ? `${iut.nom} - ${iut.site}` : iut.nom,
     value: franceMap.mapRegionPoint(iut.region, iut.location),
     iutId: iut.idIut,
   }));

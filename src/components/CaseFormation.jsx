@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import { observer, PropTypes as MPropTypes } from 'mobx-react';
 import classNames from 'classnames';
 import RootStore from '../RootStore';
+import style from './CaseFormationjsx.css';
 
 function CaseFormation({
   but, className, tabIndex,
 }) {
   const [etat, setEtat] = useState(false);
   const { butManager, iutManager } = useContext(RootStore);
-
+  const maClasse = style[`bg-${but.code}`] ?? style['bg-DEFAULT']; // On charge la classe 'version js' de nom bg-codeBUT ou bg-DEFAULT si la classe précédente n'existe pas
   function changement() {
     but.getInfo();
     setEtat(!etat);
@@ -40,7 +41,7 @@ function CaseFormation({
             <button
               type="button"
               onClick={changement}
-              className={`align-middle text-base text-center ${className}`}
+              className="align-middle text-base text-center bg-slate-50 text-blue-900 border-b-2 border-blue-900"
             >
               {but.prettyPrintFiliere}
             </button>
@@ -76,11 +77,11 @@ function CaseFormation({
         )
         : (
           <button
-            type="button"
+            type="image" // Pose problème, à changer mais le type="button" empêche les background-image
             onClick={changement}
-            className={`h-full text-xs md:text-sm lg:text-base align-middle text-center leading-loose ${className} bg-contain`}
+            className={classNames('h-full', 'text-xs', 'md:text-sm', 'lg:text-lg', 'align-middle', 'text-center', 'leading-loose', className, maClasse, 'bg-contain')}
           >
-            <h2 className="p-2 bg-white-transparent w-full">{but.prettyPrintFiliere}</h2>
+            <h2 className="text-white px-2 py-3 bg-blue-transparent w-full">{but.prettyPrintFiliere}</h2>
           </button>
         )}
     </div>
