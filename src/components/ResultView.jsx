@@ -35,7 +35,7 @@ function ResultView() {
       <Footer
         gauche={{ texte: 'Carte interactive', lien: 'map' }}
         droite={{
-          texte: 'Les contacter tous par mail', lien: 'mail', disable: iutManager.nbIutSelectionnesId <= 0, lienActu: 'result',
+          texte: 'Contacter ces instituts par courriel', lien: 'mail', disable: iutManager.nbIutSelectionnesId <= 0, lienActu: 'result',
         }}
       />
     </div>

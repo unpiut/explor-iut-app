@@ -58,8 +58,8 @@ function FormationView() {
               key={but.code}
               but={but}
               tabIndex={index}
-              beClosed={index === openIndex}
-              canOpen={(unIndex) => setOpenIndex(unIndex)}
+              isClose={index === openIndex}
+              canOpen={() => setOpenIndex(index)}
             />
           )
           : null))}

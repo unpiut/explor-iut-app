@@ -7,7 +7,7 @@ import RootStore from '../RootStore';
 import style from './CaseFormationjsx.css';
 
 function CaseFormation({
-  but, tabIndex, canOpen, beClosed,
+  but, tabIndex, canOpen, isClose,
 }) {
   const [close, setClose] = useState(true);
   const [overflowDesc, setoverflowDesc] = useState(false);
@@ -17,10 +17,10 @@ function CaseFormation({
   function changement() {
     but.getInfo();
     if (close) {
-      canOpen(tabIndex);
+      canOpen();
       setClose(false);
     } else {
-      canOpen(null);
+      canOpen();
       setClose(true);
     }
   }
@@ -33,15 +33,15 @@ function CaseFormation({
   return (
     <div
       className={classNames('grid', 'items-center', {
-        'aspect-square': !beClosed,
-        'col-span-1': !beClosed,
-        'col-span-2': beClosed,
-        'md:col-span-3': beClosed,
-        'lg:col-span-4': beClosed,
+        'aspect-square': !isClose,
+        'col-span-1': !isClose,
+        'col-span-2': isClose,
+        'md:col-span-3': isClose,
+        'lg:col-span-4': isClose,
       })}
       tabIndex={tabIndex}
     >
-      {beClosed
+      {isClose
         ? (
           <div
             className="grid gap-y-2 border-2 text-xs  border-blue-900"
@@ -121,6 +121,6 @@ CaseFormation.propTypes = ({
   but: MPropTypes.objectOrObservableObject.isRequired,
   tabIndex: PropTypes.number.isRequired,
   canOpen: PropTypes.func.isRequired,
-  beClosed: PropTypes.bool.isRequired,
+  isClose: PropTypes.bool.isRequired,
 });
 export default observer(CaseFormation);

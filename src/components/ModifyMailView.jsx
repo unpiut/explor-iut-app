@@ -44,7 +44,7 @@ function ModifyMailView() {
           </label>
         </div>
       </form>
-      <Footer gauche={{ texte: 'Retour aux informations du courriel', lien: 'mail' }} droite={{ texte: 'Envoi du courriel', lien: 'mailSend' }} />
+      <Footer gauche={{ texte: 'Retour aux informations du courriel', lien: 'mail' }} droite={{ texte: 'Envoyer mon courriel', lien: 'mailSend' }} />
     </>
   );
 }
