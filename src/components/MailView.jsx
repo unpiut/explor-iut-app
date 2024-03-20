@@ -13,7 +13,7 @@ function MailView() {
   return (
     <>
       <h1 className="text-center text-xl">Courriel</h1>
-      <p className="text-center w-1/2">
+      <p className="text-center text-xs sm:text-base lg:px-80">
         A partir d&apos;un courriel type (contenant planning d&apos;alternance, modalités
         de remise de l&apos;offre d&apos;alternance) que vous pourrez aussi compléter par
         d&apos;autres demandes. Nous vous proposons un envoi groupé
@@ -45,12 +45,8 @@ function MailView() {
             <input type="text" name="function" id="function" placeholder="PDG, RH..." className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
           </label>
         </div>
-        <div className="grid justify-center">
-          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/modifyMail">Consultation et/ou modification du mail type</Link>
-          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/mailSend">Envoi du mail</Link>
-        </div>
       </form>
-      <Footer gauche={{ texte: 'Récapitulatif sélection', lien: 'result' }} />
+      <Footer gauche={{ texte: 'Récapitulatif sélection', lien: 'result' }} droite={{ texte: 'Consultation et/ou modification du mail type', lien: 'modifyMail' }} />
     </>
   );
 }

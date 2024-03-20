@@ -10,6 +10,8 @@ function CaseFormation({
   but, tabIndex,
 }) {
   const [etat, setEtat] = useState(false);
+  const [overflowDesc, setoverflowDesc] = useState(false);
+  const [overflowJob, setoverflowJob] = useState(false);
   const { butManager, iutManager } = useContext(RootStore);
   const maClasse = style[`bg-${but.code}`] ?? style['bg-DEFAULT']; // On charge la classe 'version js' de nom bg-codeBUT ou bg-DEFAULT si la classe précédente n'existe pas
   function changement() {
@@ -43,14 +45,23 @@ function CaseFormation({
               onClick={changement}
               className="align-middle text-base text-center bg-blue-900 text-slate-50 border-blue-900"
             >
-              {but.prettyPrintFiliere}
+              {butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}
             </button>
-            <p>
-              Description formation :
-              {but.description ? ` ${but.description}` : ''}
-            </p>
+            <button type="button" className="text-left" onClick={() => setoverflowDesc(!overflowDesc)}>
+              <p className="font-bold">
+                Description formation :
+              </p>
+              <p className={classNames({
+                'max-h-16': !overflowDesc,
+                'overflow-hidden': !overflowDesc,
+              })}
+              >
+                {but.description ? ` ${but.description}` : ''}
+              </p>
+              {!overflowDesc ? <p>...</p> : null}
+            </button>
             <div>
-              <p>
+              <p className="font-bold">
                 Les spécialités :
               </p>
               {but.parcours.map((parcours) => (
@@ -61,19 +72,31 @@ function CaseFormation({
                 </p>
               ))}
             </div>
-            <p>
-              Débouchés métiers :
-              {but.metiers ? ` ${but.metiers}` : ''}
-            </p>
-            <p>
-              Titre académique de la formation :
-              {` ${but.nom} `}
-              {`(${but.code})`}
-            </p>
+            <button type="button" className="text-left" onClick={() => setoverflowJob(!overflowJob)}>
+              <p className="font-bold">
+                Débouchés métiers :
+              </p>
+              <p className={classNames({
+                'max-h-16': !overflowJob,
+                'overflow-hidden': !overflowJob,
+              })}
+              >
+                {but.metiers ? ` ${but.metiers}` : ''}
+              </p>
+              {!overflowJob ? <p>...</p> : null}
+            </button>
+            <div className="flex flex-wrap gap-1">
+              <p className="font-bold">
+                Titre académique de la formation :
+              </p>
+              <p>
+                {`${but.nom} (${but.code})`}
+              </p>
+            </div>
             <div>
               <a className="underline" target="_blank" href={but.urlIUT} rel="noreferrer">en savoir plus</a>
             </div>
-            <button className="text-base" onClick={selectionner} type="button">{!butManager.butSelectionnes.has(but) ? 'selectionner' : 'deselectionner'}</button>
+            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!butManager.butSelectionnes.has(but) ? 'selectionner' : 'deselectionner'}</button>
           </div>
         )
         : (

@@ -23,7 +23,7 @@ function FormationView() {
         <div className="border border-blue-900 flex">
           <input className="input-barre w-full" placeholder="Rechercher métier" type="text" ref={chercheInput} onChange={filtrer} />
         </div>
-        <h1 className="text-center text-xl">
+        <h1 className="text-center sm:text-sm lg:text-xl">
           Sélectionner un maximum de 3 univers métiers qui vous intéresse. (
           { butManager.nbButSelectionnes > 1
             ? (
@@ -42,7 +42,7 @@ function FormationView() {
             )}
           )
         </h1>
-        { butManager.nbButRecherches > 1
+        {/* { butManager.nbButRecherches > 1
           ? (
             <p className="text-end mr-2">
               {butManager.nbButRecherches}
@@ -56,7 +56,7 @@ function FormationView() {
               {' '}
               formation liée à la recherche
             </p>
-          )}
+          )} */}
       </div>
       <div className="md:mx-32 grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-8 px-3 pb-20">
         {butRecherches.map((but, index) => (but !== null

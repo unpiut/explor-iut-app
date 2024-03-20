@@ -14,28 +14,30 @@ function ResultView() {
 
   return (
     <div className="grid justify-center">
-      <div>
+      <div className="mb-20">
         {
             iutManager.nbIutSelectionnesId > 0 ? (
               <div>
-                {iutManager.iuts.filter(filtreIut).map((iut) => (
-                  <ResultatRecherche butSlct={butSelect} iut={iut} key={iut.site} />
-                ))}
-
+                <div className="max-h-[70vh] overflow-auto">
+                  {iutManager.iuts.filter(filtreIut).map((iut) => (
+                    <ResultatRecherche butSlct={butSelect} iut={iut} key={iut.site} />
+                  ))}
+                </div>
                 <a type="button" className="border-2 p-2 w-full mt-2 flex justify-center gap-4" href="/rendu-recapitulatif.ods">
                   <p>Télécharger le récapitulatif</p>
                   <img width={25} src={fleche} alt="fleche" />
                 </a>
               </div>
             )
-              : <p>Les IUT sélectionnés sur la carte apparaîtrons ici</p>
+              : <h1 className="text-lg">Les IUT sélectionnés sur la carte apparaîtrons ici</h1>
         }
       </div>
-      <Link className="border-2 w-full p-2 mb-14 flex mt-2 justify-center gap-4" to={iutManager.nbIutSelectionnesId > 0 ? '/mail' : '/result'}>
-        <p className={iutManager.nbIutSelectionnesId > 0 ? '' : 'text-gray-400'}>Les contacter tous par mail</p>
-        <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
-      </Link>
-      <Footer gauche={{ texte: 'Carte interactive', lien: 'map' }} />
+      <Footer
+        gauche={{ texte: 'Carte interactive', lien: 'map' }}
+        droite={{
+          texte: 'Les contacter tous par mail', lien: 'mail', disable: iutManager.nbIutSelectionnesId <= 0, lienActu: 'result',
+        }}
+      />
     </div>
   );
 }

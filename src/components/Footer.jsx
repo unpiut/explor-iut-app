@@ -7,19 +7,35 @@ function Footer({
   droite, gauche,
 }) {
   return (
-    <div className="items-center fixed grid bottom-0 right-0 left-0 bg-slate-50 mt-5">
-      {gauche
+    <div className="items-center justify-items-end justify-between fixed flex bottom-0 right-0 left-0 bg-slate-50 mt-5">
+      {gauche && droite
         ? (
-          <div className="flex justify-self-start h-3/5">
-            <img width={50} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
-            <Link to={`/${gauche.lien}`}>{gauche.texte}</Link>
-          </div>
+          <>
+            <div className="flex justify-self-start h-3/5 m-4 ">
+              <img width={30} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
+              <Link className="text-sm sm:text-base" to={`/${gauche.lien}`}>{gauche.texte}</Link>
+            </div>
+            <div className={`ring rounded ${!droite.disable ? 'ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
+              <Link className={`${!droite.disable ? '' : 'text-gray-400'} sm:text-base text-sm sm:font-bold`} to={!droite.disable ? `/${droite.lien}` : `/${droite.lienActu}`}>{droite.texte}</Link>
+              <img width={30} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
+            </div>
+          </>
         ) : null}
-      {droite
+      {!gauche && droite
         ? (
-          <div className="ring rounded ring-blue-900 m-4 items-center flex justify-self-end h-3/5">
-            <Link className="font-bold" to={`/${droite.lien}`}>{droite.texte}</Link>
-            <img width={30} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
+          <>
+            <div />
+            <div className={`ring rounded ${!droite.disable ? 'ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
+              <Link className={`${!droite.disable ? '' : 'text-gray-400'} sm:text-base text-sm sm:font-bold`} to={!droite.disable ? `/${droite.lien}` : `/${droite.lienActu}`}>{droite.texte}</Link>
+              <img width={30} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
+            </div>
+          </>
+        ) : null}
+      {gauche && !droite
+        ? (
+          <div className="flex justify-self-start h-3/5 m-4 ">
+            <img width={30} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
+            <Link className="text-sm sm:text-base" to={`/${gauche.lien}`}>{gauche.texte}</Link>
           </div>
         ) : null}
     </div>
@@ -29,6 +45,8 @@ Footer.propTypes = {
   droite: PropTypes.shape({
     texte: PropTypes.string.isRequired,
     lien: PropTypes.string,
+    disable: PropTypes.bool,
+    lienActu: PropTypes.string,
   }),
   gauche: PropTypes.shape({
     texte: PropTypes.string.isRequired,
