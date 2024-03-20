@@ -14,7 +14,9 @@ function MailView() {
     <>
       <h1 className="text-center text-xl">Courriel</h1>
       <p className="text-center w-1/2">
-        A partir d'un courriel type (contenant planning d'alternance, modalités de remise de l'offre d'alternance) que vous pourrez aussi compléter par d'autres demandes. Nous vous proposons un envoi groupé
+        A partir d&apos;un courriel type (contenant planning d&apos;alternance, modalités
+        de remise de l&apos;offre d&apos;alternance) que vous pourrez aussi compléter par
+        d&apos;autres demandes. Nous vous proposons un envoi groupé
         {iutManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${iutManager.nbIutSelectionnesId} IUT sélectionnés.`}
         .
       </p>

@@ -7,7 +7,7 @@ import RootStore from '../RootStore';
 import style from './CaseFormationjsx.css';
 
 function CaseFormation({
-  but, className, tabIndex,
+  but, tabIndex,
 }) {
   const [etat, setEtat] = useState(false);
   const { butManager, iutManager } = useContext(RootStore);
@@ -80,9 +80,9 @@ function CaseFormation({
           <button
             type="image" // Pose problème, à changer mais le type="button" empêche les background-image
             onClick={changement}
-            className={classNames('h-full', 'text-xs', 'md:text-sm', 'lg:text-lg', 'align-middle', 'text-center', 'leading-loose', className, maClasse, 'bg-contain')}
+            className={classNames('h-full', 'text-xs', 'md:text-sm', 'lg:text-base', 'text-wrap', 'align-middle', 'text-center', 'leading-loose', 'border-2', 'border-blue-900', maClasse, 'bg-contain')}
           >
-            <h2 className="text-white px-2 py-3 bg-blue-transparent w-full">{but.prettyPrintFiliere}</h2>
+            <h2 className="text-white px-2 py-3 bg-blue-transparent w-full">{butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}</h2>
           </button>
         )}
     </div>
@@ -90,7 +90,6 @@ function CaseFormation({
 }
 CaseFormation.propTypes = ({
   but: MPropTypes.objectOrObservableObject.isRequired,
-  className: PropTypes.node.isRequired,
   tabIndex: PropTypes.number.isRequired,
 });
 export default observer(CaseFormation);

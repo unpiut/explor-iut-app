@@ -1,9 +1,8 @@
 import React, { useContext, useRef } from 'react';
 import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
 import CaseFormation from './CaseFormation';
 import RootStore from '../RootStore';
-import fleche from '../assets/icone-les-iut.svg';
+import Footer from './Footer';
 // import TC from '../assets/TC.png';
 // import MMI from '../assets/MMI.png';
 // import GCCD from '../assets/GCCD.png';
@@ -18,19 +17,31 @@ function FormationView() {
     timerFiltre.current = setTimeout(() => butManager.rechercheBut(metier), 1000);
   }
 
-  function couleur(index) {
-    if (index % 2 === 0) {
-      return 'bg-blue-900 text-slate-50';
-    }
-    return 'bg-slate-50 text-blue-900 border-2 border-blue-900';
-  }
-
   return (
     <>
       <div className="mb-4">
         <div className="border border-blue-900 flex">
           <input className="input-barre w-full" placeholder="Rechercher métier" type="text" ref={chercheInput} onChange={filtrer} />
         </div>
+        <h1 className="text-center text-xl">
+          Sélectionner un maximum de 3 univers métiers qui vous intéresse. (
+          { butManager.nbButSelectionnes > 1
+            ? (
+              <>
+                {butManager.nbButSelectionnes}
+                {' '}
+                Formations sélectionnées
+              </>
+            )
+            : (
+              <>
+                {butManager.nbButSelectionnes}
+                {' '}
+                Formation sélectionnée
+              </>
+            )}
+          )
+        </h1>
         { butManager.nbButRecherches > 1
           ? (
             <p className="text-end mr-2">
@@ -52,16 +63,14 @@ function FormationView() {
           ? (
             <CaseFormation
               key={but.code}
-              className={couleur(index)}
               but={but}
               tabIndex={index}
             />
           )
           : null))}
       </div>
-      <div className="items-center fixed flex  justify-between bottom-0 right-0 left-0 bg-slate-50">
 
-        { butManager.nbButSelectionnes > 1
+      {/* { butManager.nbButSelectionnes > 1
           ? (
             <p className="pl-2">
               {butManager.nbButSelectionnes}
@@ -75,12 +84,8 @@ function FormationView() {
               {' '}
               Formation sélectionnée
             </p>
-          )}
-        <div className="ring rounded ring-blue-900 m-4 items-center flex justify-self-end h-3/5">
-          <Link className="font-bold" to="/map">Choix de la localisation</Link>
-          <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
-        </div>
-      </div>
+          )} */}
+      <Footer droite={{ texte: 'Choix de la localisation', lien: 'map' }} />
     </>
   );
 }

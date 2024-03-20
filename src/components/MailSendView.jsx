@@ -26,7 +26,7 @@ function ModifyMailView() {
           </Link>
           <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/">
             <img width={25} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
-            <p>Choisir d'autres formations</p>
+            <p>Choisir d&apos;autres formations</p>
           </Link>
         </div>
       </form>
