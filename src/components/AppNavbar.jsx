@@ -1,26 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import classNames from 'classnames';
 import logoPict from '../assets/logo-les-iut.svg';
 import fleche from '../assets/icone-les-iut.svg';
 import RootStore from '../RootStore';
 
 function AppNavbar() {
   const { iutManager } = useContext(RootStore);
-  function etendre() {
-    const nav = document.getElementById('mobile-menu');
-    if (nav.classList.contains('hidden')) {
-      nav.classList.remove('hidden');
-    } else {
-      nav.classList.add('hidden');
-    }
-  }
+  const [navOpen, setNavOpen] = useState(false);
+
   return (
     <nav className="bg-slate-50">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <button type="button" onClick={etendre} className="group relative inline-flex items-center justify-center rounded-md p-2 hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <button type="button" onClick={() => setNavOpen(!navOpen)} className="group relative inline-flex items-center justify-center rounded-md p-2 hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
               <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
@@ -44,15 +39,15 @@ function AppNavbar() {
                   <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                 </Link>
                 <Link to="/map" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
-                  <p className="group-hover:text-white">2. Carte interactive</p>
+                  <p className="group-hover:text-white">2. Choix de la localisation</p>
                   <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                 </Link>
                 <Link to="/result" className="group hover:bg-blue-900  flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
-                  <p className="group-hover:text-white">3. Récapitulatif des choix</p>
+                  <p className="group-hover:text-white">Récapitulatif de vos choix</p>
                   <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                 </Link>
                 <Link to={iutManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className={`${iutManager.nbIutSelectionnesId < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
-                  4. Courriel
+                  3. Courriel
                 </Link>
               </div>
             </div>
@@ -60,7 +55,11 @@ function AppNavbar() {
         </div>
       </div>
 
-      <div className="absolute bg-white w-full hidden sm:hidden  z-50" id="mobile-menu">
+      <div
+        className={classNames('absolute', 'bg-white', 'w-full', 'sm:hidden', 'z-50', {
+          hidden: !navOpen,
+        })}
+      >
         <div className="space-y-1 px-2 pb-3 pt-2">
           <Link to="https://www.iut.fr/" className=" hover:bg-blue-900 hover:text-white rounded-md px-3 py-2 text-lg font-medium">SITE LES IUT</Link>
           <div className="border border-blue-900" />
@@ -70,15 +69,15 @@ function AppNavbar() {
           </Link>
           <Link to="/map" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
             <img width={25} src={fleche} alt="fleche" />
-            <p className="group-hover:text-white">2. Carte interactive</p>
+            <p className="group-hover:text-white">2. Choix de la localisation</p>
           </Link>
           <Link to="/result" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
-            <p className="group-hover:text-white">3. Récapitulatif des choix</p>
+            <p className="group-hover:text-white">Récapitulatif de vos choix</p>
             <img width={25} src={fleche} alt="fleche" />
           </Link>
           <Link to={iutManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
             <img width={25} src={fleche} alt="fleche" />
-            <p className="group-hover:text-white">4. Courriel</p>
+            <p className="group-hover:text-white">3. Courriel</p>
           </Link>
         </div>
       </div>

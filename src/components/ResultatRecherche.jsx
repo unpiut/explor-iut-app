@@ -3,13 +3,13 @@ import { observer, PropTypes as MPropTypes } from 'mobx-react';
 
 function ResultatRecherche({ iut, butSlct }) {
   return (
-    <div className="border border-blue-900 pb-10">
-      <h2>{`${iut.nom} - ${iut.site}`}</h2>
+    <div>
       {iut.serviceAlt ? (
-        <div>
-          <h2>Service Alternance</h2>
+        <div className="border border-blue-900 pb-10">
+          <h2>{`${iut.nom} - ${iut.site}`}</h2>
+          <h3>Service Alternance</h3>
           <p>
-            Numéro de téléphone : $
+            Téléphone : $
             {iut.serviceAlt.tel}
           </p>
           <p>
@@ -20,10 +20,11 @@ function ResultatRecherche({ iut, butSlct }) {
       ) : iut.departements.map((but) => (
         butSlct.findIndex((b) => b.code === but.codesButDispenses[0]) >= 0
           ? (
-            <div key={iut.idIut + but.code}>
+            <div key={iut.idIut + but.code} className="border border-blue-900 pb-10">
+              <h2>{`${iut.nom} - ${iut.site}`}</h2>
               <h2>{butSlct[butSlct.findIndex((b) => b.code === but.codesButDispenses[0])].nom}</h2>
               <p>
-                Numero de téléphone :
+                Téléphone :
                 {but.tel}
               </p>
               <p>

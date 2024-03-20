@@ -22,11 +22,11 @@ function ModifyMailView() {
         <div className="grid justify-center">
           <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/result">
             <img width={25} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
-            <p>Revenir à la liste des IUT</p>
+            <p>Revenir au récapitulatif de vos choix</p>
           </Link>
-          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/map">
+          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/">
             <img width={25} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
-            <p>Revenir à la carte interactive</p>
+            <p>Choisir d'autres formations</p>
           </Link>
         </div>
       </form>

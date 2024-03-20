@@ -77,7 +77,7 @@ function FormationView() {
             </p>
           )}
         <div className="ring rounded ring-blue-900 m-4 items-center flex justify-self-end h-3/5">
-          <Link className="font-bold" to="/map">Carte interactive</Link>
+          <Link className="font-bold" to="/map">Choix de la localisation</Link>
           <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
         </div>
       </div>

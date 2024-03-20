@@ -51,7 +51,7 @@ function CaseFormation({
             </p>
             <div>
               <p>
-                Parcours disponible :
+                Les spécialités :
               </p>
               {but.parcours.map((parcours) => (
                 <p key={parcours[0]}>
@@ -66,8 +66,9 @@ function CaseFormation({
               {but.metiers ? ` ${but.metiers}` : ''}
             </p>
             <p>
-              Formation :
-              {` ${but.nom}`}
+              Titre académique de la formation :
+              {` ${but.nom} `}
+              {`(${but.code})`}
             </p>
             <div>
               <a className="underline" target="_blank" href={but.urlIUT} rel="noreferrer">en savoir plus</a>

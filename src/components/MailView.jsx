@@ -13,9 +13,9 @@ function MailView() {
   return (
     <>
       <h1 className="text-center text-xl">Courriel</h1>
-      <p className="text-center">
-        Votre courriel sera envoyé
-        {iutManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${iutManager.nbIutSelectionnesId} IUT sélectionnés`}
+      <p className="text-center w-1/2">
+        A partir d'un courriel type (contenant planning d'alternance, modalités de remise de l'offre d'alternance) que vous pourrez aussi compléter par d'autres demandes. Nous vous proposons un envoi groupé
+        {iutManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${iutManager.nbIutSelectionnesId} IUT sélectionnés.`}
         .
       </p>
       <form method="GET" className="justify-center grid w-full">
@@ -44,7 +44,7 @@ function MailView() {
           </label>
         </div>
         <div className="grid justify-center">
-          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/modifyMail">Modifier le mail</Link>
+          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/modifyMail">Consultation et/ou modification du mail type</Link>
           <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/mailSend">Envoi du mail</Link>
         </div>
       </form>
