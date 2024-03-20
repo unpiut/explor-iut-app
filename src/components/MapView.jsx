@@ -8,8 +8,9 @@ function MapView() {
   const { iutManager } = useContext(RootStore);
   return (
     <div className="grid">
-      <h1 className="text-center text-xl">
-        Sélectionner autant d&apos;instituts que vous le voulez. (
+      <h1 className="text-center text-xl font-bold">2. Choix de la localisation</h1>
+      <h2 className="text-center sm:text-sm lg:text-base">
+        Vous retrouvez ici tous les instituts contenant la ou les formations sélectionnées. Sélectionner autant d&apos;instituts que vous le voulez. (
         { iutManager.nbIutSelectionnesId > 1
           ? (
             <>
@@ -26,10 +27,10 @@ function MapView() {
             </>
           )}
         )
-      </h1>
+      </h2>
       <IUTFranceMap className="h-[70vh]" />
 
-      <Footer gauche={{ texte: 'Retour aux formations', lien: '' }} droite={{ texte: 'Prendre contact avec les IUT', lien: 'result' }} />
+      <Footer gauche={{ texte: 'Retour aux formations', lien: '' }} droite={{ texte: `Prendre contact avec les ${iutManager.nbIutSelectionnesId} IUT`, lien: 'result' }} />
 
     </div>
   );

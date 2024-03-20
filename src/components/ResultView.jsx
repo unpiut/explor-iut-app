@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
 import ResultatRecherche from './ResultatRecherche';
 import RootStore from '../RootStore';
 import fleche from '../assets/icone-les-iut.svg';
@@ -14,6 +13,7 @@ function ResultView() {
 
   return (
     <div className="grid justify-center">
+      <h1 className="text-center text-xl font-bold">Récapitulatif de vos choix</h1>
       <div className="mb-20">
         {
             iutManager.nbIutSelectionnesId > 0 ? (
@@ -29,7 +29,7 @@ function ResultView() {
                 </a>
               </div>
             )
-              : <h1 className="text-lg">Les IUT sélectionnés sur la carte apparaîtrons ici</h1>
+              : <h2 className="sm:text-sm lg:text-base">Les IUT sélectionnés sur la carte apparaîtrons ici</h2>
         }
       </div>
       <Footer

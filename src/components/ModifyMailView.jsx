@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import RootStore from '../RootStore';
 
@@ -11,10 +10,12 @@ function ModifyMailView() {
   }
   return (
     <>
-      <h1 className="text-center text-xl">Modification mail</h1>
-      <p className="text-center">
-        Votre courriel sera envoyé
-        {iutManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${iutManager.nbIutSelectionnesId} IUT sélectionnés`}
+      <h1 className="text-center text-xl font-bold">Modification courriel</h1>
+      <p className="text-center text-xs sm:text-base lg:px-80">
+        A partir d&apos;un courriel type (contenant planning d&apos;alternance, modalités
+        de remise de l&apos;offre d&apos;alternance) que vous pourrez aussi compléter par
+        d&apos;autres demandes. Nous vous proposons un envoi groupé
+        {iutManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${iutManager.nbIutSelectionnesId} IUT sélectionnés.`}
         .
       </p>
       <form method="GET">
@@ -43,7 +44,7 @@ function ModifyMailView() {
           </label>
         </div>
       </form>
-      <Footer gauche={{ texte: 'Retour aux informations du mail', lien: 'mail' }} droite={{ texte: 'Envoi du mail', lien: 'mailSend' }} />
+      <Footer gauche={{ texte: 'Retour aux informations du courriel', lien: 'mail' }} droite={{ texte: 'Envoi du courriel', lien: 'mailSend' }} />
     </>
   );
 }

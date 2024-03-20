@@ -7,16 +7,22 @@ import RootStore from '../RootStore';
 import style from './CaseFormationjsx.css';
 
 function CaseFormation({
-  but, tabIndex,
+  but, tabIndex, canOpen, beClosed,
 }) {
-  const [etat, setEtat] = useState(false);
+  const [close, setClose] = useState(true);
   const [overflowDesc, setoverflowDesc] = useState(false);
   const [overflowJob, setoverflowJob] = useState(false);
   const { butManager, iutManager } = useContext(RootStore);
   const maClasse = style[`bg-${but.code}`] ?? style['bg-DEFAULT']; // On charge la classe 'version js' de nom bg-codeBUT ou bg-DEFAULT si la classe précédente n'existe pas
   function changement() {
     but.getInfo();
-    setEtat(!etat);
+    if (close) {
+      canOpen(tabIndex);
+      setClose(false);
+    } else {
+      canOpen(null);
+      setClose(true);
+    }
   }
 
   function selectionner() {
@@ -27,15 +33,15 @@ function CaseFormation({
   return (
     <div
       className={classNames('grid', 'items-center', {
-        'aspect-square': !etat,
-        'col-span-1': !etat,
-        'col-span-2': etat,
-        'md:col-span-3': etat,
-        'lg:col-span-4': etat,
+        'aspect-square': !beClosed,
+        'col-span-1': !beClosed,
+        'col-span-2': beClosed,
+        'md:col-span-3': beClosed,
+        'lg:col-span-4': beClosed,
       })}
       tabIndex={tabIndex}
     >
-      {etat
+      {beClosed
         ? (
           <div
             className="grid gap-y-2 border-2 text-xs  border-blue-900"
@@ -43,7 +49,7 @@ function CaseFormation({
             <button
               type="button"
               onClick={changement}
-              className="align-middle text-base text-center bg-blue-900 text-slate-50 border-blue-900"
+              className="align-middle font-bold text-base text-center bg-blue-900 text-slate-50 border-blue-900"
             >
               {butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}
             </button>
@@ -103,9 +109,9 @@ function CaseFormation({
           <button
             type="image" // Pose problème, à changer mais le type="button" empêche les background-image
             onClick={changement}
-            className={classNames('h-full', 'text-xs', 'md:text-sm', 'lg:text-base', 'text-wrap', 'align-middle', 'text-center', 'leading-loose', 'border-2', 'border-blue-900', maClasse, 'bg-contain')}
+            className={classNames('h-full', 'text-xs', 'md:text-sm', 'align-middle', 'text-center', 'leading-loose', 'border-2', 'border-blue-900', maClasse, 'bg-contain')}
           >
-            <h2 className="text-white px-2 py-3 bg-blue-transparent w-full">{butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}</h2>
+            <h2 className="text-white px-2 font-bold py-3 bg-blue-transparent w-full">{butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}</h2>
           </button>
         )}
     </div>
@@ -114,5 +120,7 @@ function CaseFormation({
 CaseFormation.propTypes = ({
   but: MPropTypes.objectOrObservableObject.isRequired,
   tabIndex: PropTypes.number.isRequired,
+  canOpen: PropTypes.func.isRequired,
+  beClosed: PropTypes.bool.isRequired,
 });
 export default observer(CaseFormation);

@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react';
 import CaseFormation from './CaseFormation';
 import RootStore from '../RootStore';
@@ -8,22 +8,15 @@ import Footer from './Footer';
 // import GCCD from '../assets/GCCD.png';
 
 function FormationView() {
-  const chercheInput = useRef();
-  const timerFiltre = useRef();
+  const [openIndex, setOpenIndex] = useState(null);
   const { butManager } = useContext(RootStore);
   const { butRecherches } = butManager;
-  function filtrer() {
-    const metier = chercheInput.current?.value;
-    timerFiltre.current = setTimeout(() => butManager.rechercheBut(metier), 1000);
-  }
 
   return (
     <>
       <div className="mb-4">
-        <div className="border border-blue-900 flex">
-          <input className="input-barre w-full" placeholder="Rechercher métier" type="text" ref={chercheInput} onChange={filtrer} />
-        </div>
-        <h1 className="text-center sm:text-sm lg:text-xl">
+        <h1 className="text-center text-xl font-bold">1. Choix des formations</h1>
+        <h1 className="text-center sm:text-sm lg:text-base">
           Sélectionner un maximum de 3 univers métiers qui vous intéresse. (
           { butManager.nbButSelectionnes > 1
             ? (
@@ -65,6 +58,8 @@ function FormationView() {
               key={but.code}
               but={but}
               tabIndex={index}
+              beClosed={index === openIndex}
+              canOpen={(unIndex) => setOpenIndex(unIndex)}
             />
           )
           : null))}
