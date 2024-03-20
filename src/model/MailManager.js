@@ -17,7 +17,7 @@ class MailManager {
 
   _corpsMail;
 
-  construct() {
+  constructor() {
     makeAutoObservable(this);
     this._personnalizeObjet = false;
     this._personnalizeCorps = false;
@@ -25,6 +25,8 @@ class MailManager {
     this._nom = '';
     this._nomEntreprise = '';
     this._fonctionDansEntreprise = '';
+    this._objet = '';
+    this._corpsMail = '';
   }
 
   get adresseMail() {
