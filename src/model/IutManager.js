@@ -68,6 +68,18 @@ class IutManager {
     }
   }
 
+  switchIutSelectionnesIdByBut(buts) {
+    const oldIutRecherches = this._iutSelectionnesId;
+    this._iutSelectionnesId.clear();
+    buts.forEach((but) => {
+      oldIutRecherches.forEach((i) => {
+        if (i.departements.find((d) => d.codesButDispenses[0] === but.code)) {
+          this._iutSelectionnesId.add(i);
+        }
+      });
+    });
+  }
+
   async _getAllIut() {
     if (this._allIutRetrieved) {
       return this._iuts;
