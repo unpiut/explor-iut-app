@@ -107,9 +107,9 @@ function CaseFormation({
         )
         : (
           <button
-            type="image" // Pose problème, à changer mais le type="button" empêche les background-image
+            type="button" // Pose problème, à changer mais le type="button" empêche les background-image
             onClick={changement}
-            className={classNames('h-full', 'text-xs', 'md:text-sm', 'align-middle', 'text-center', 'leading-loose', 'border-2', 'border-blue-900', maClasse, 'bg-contain')}
+            className={`h-full max-w-full overflow-hidden break-words text-xs md:text-base align-middle text-center leading-loose border-2 border-blue-900 ${maClasse} bg-contain`}
           >
             <h2 className="text-white px-2 font-bold py-3 bg-blue-transparent w-full">{butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}</h2>
           </button>

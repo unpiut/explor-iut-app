@@ -59,7 +59,7 @@ function FormationView() {
               but={but}
               tabIndex={index}
               isClose={index === openIndex}
-              canOpen={() => setOpenIndex(index)}
+              canOpen={() => (index === openIndex ? setOpenIndex(null) : setOpenIndex(index))}
             />
           )
           : null))}

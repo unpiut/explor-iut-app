@@ -10,7 +10,8 @@ function MapView() {
     <div className="grid">
       <h1 className="text-center text-xl font-bold">2. Choix de la localisation</h1>
       <h2 className="text-center sm:text-sm lg:text-base">
-        Vous retrouvez ici tous les instituts contenant la ou les formations sélectionnées. Sélectionner autant d&apos;instituts que vous le voulez. (
+        Vous retrouvez ici tous les instituts contenant la ou les formations sélectionnées.
+        Sélectionner autant d&apos;instituts que vous le voulez. (
         { iutManager.nbIutSelectionnesId > 1
           ? (
             <>
