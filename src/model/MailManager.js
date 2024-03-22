@@ -66,9 +66,9 @@ class MailManager {
       return this._objet;
     }
     if (this._nomEntreprise) {
-      return `Recherche alternance - ${this._nomEntreprise}`;
+      return `${this._nomEntreprise} - Demande d’information sur la déposition d'une offre d’alternance au sein de l’IUT`;
     }
-    return 'Recherche alternance - [votreNomDEntreprise]';
+    return "nom modifiable - Demande d’information sur la déposition d'une offre d’alternance au sein de l’IUT";
   }
 
   set objet(newObjet) {
@@ -80,14 +80,13 @@ class MailManager {
     if (this._personnalizeCorps) {
       return this._corpsMail;
     }
-    if (this._nom && this._fonctionDansEntreprise && this._nomEntreprise && this._adresseMail) {
-      return `Bonjour, 
-    je m'appelle ${this._nom}, je suis ${this._fonctionDansEntreprise} de ${this._nomEntreprise} et je recherche une alternance dans votre IUT.
-    Veuillez me recontacter à cette adresse : ${this._adresseMail} pour que nous puissions discuter de la mise en oeuvre de tout cela `;
-    }
-    return `Bonjour, 
-      je m'appelle [votreNom], je suis [votreFonction] de [votreNomDEntreprise] et je recherche une alternance dans votre IUT.
-      Veuillez me recontacter à cette adresse : [votreAdresseMail] pour que nous puissions discuter de la mise en oeuvre de tout cela `;
+    return `Bonjour,
+      Suite à ma consultation et ma recherche sur le site iut.fr, j’ai identifié des formations qui correspondent à mes recherches d’apprentis. Afin de préciser ma demande et de vous communiquer pourriez vous me communiquer pour chacune des formations :
+      - Quelles années sont concernés par l’alternance?
+      - Quelles sont les plannings d’alternance pour la rentrée prochaine?
+      - Quelles sont les modalités pour déposer mon offre d’alternance?
+      Merci de transmettre cette demande au service compétent au sein de votre IUT et dans l’attente d’un retour rapide,
+      Bien cordialement`;
   }
 
   set corpsMail(nouveauCorps) {

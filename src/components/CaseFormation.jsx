@@ -49,10 +49,14 @@ function CaseFormation({
             <button
               type="button"
               onClick={changement}
-              className="align-middle font-bold text-base text-center bg-blue-900 text-slate-50 border-blue-900"
+              className={`align-middle font-bold text-base text-center ${butManager.butSelectionnes.has(but) ? 'bg-red-700' : 'bg-blue-900'} text-slate-50 border-blue-900`}
             >
               {butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}
             </button>
+            <p className="font-bold text-sm">
+              Titre académique de la formation :
+              {` ${but.nom} (${but.code})`}
+            </p>
             <button type="button" className="text-left" onClick={() => setoverflowDesc(!overflowDesc)}>
               <p className="font-bold">
                 Description formation :
@@ -91,14 +95,7 @@ function CaseFormation({
               </p>
               {!overflowJob ? <p>...</p> : null}
             </button>
-            <div className="flex flex-wrap gap-1">
-              <p className="font-bold">
-                Titre académique de la formation :
-              </p>
-              <p>
-                {`${but.nom} (${but.code})`}
-              </p>
-            </div>
+
             <div>
               <a className="underline" target="_blank" href={but.urlIUT} rel="noreferrer">en savoir plus</a>
             </div>
@@ -111,7 +108,7 @@ function CaseFormation({
             onClick={changement}
             className={`h-full max-w-full overflow-hidden break-words text-xs md:text-base align-middle text-center leading-loose border-2 border-blue-900 ${maClasse} bg-contain`}
           >
-            <h2 className="text-white px-2 font-bold py-3 bg-blue-transparent w-full">{butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}</h2>
+            <h2 className={`text-white px-2 font-bold py-3 ${butManager.butSelectionnes.has(but) ? 'bg-red-transparent' : 'bg-blue-transparent'} w-full`}>{butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}</h2>
           </button>
         )}
     </div>
