@@ -21,14 +21,14 @@ function ResultatRecherche({ iut, butSlct }) {
         butSlct.findIndex((b) => b.code === but.codesButDispenses[0]) >= 0
           ? (
             <div key={iut.idIut + but.code} className="border border-blue-900 pb-10">
-              <h2>{`${iut.nom} - ${iut.site}`}</h2>
+              <h2 className="text-center font-bold">{`${iut.nom} - ${iut.site}`}</h2>
               <h2>{butSlct[butSlct.findIndex((b) => b.code === but.codesButDispenses[0])].nom}</h2>
               <p>
-                Téléphone :
+                📞 Téléphone :
                 {but.tel}
               </p>
               <p>
-                Mail :
+                📧 Mail :
                 {but.mel}
               </p>
             </div>

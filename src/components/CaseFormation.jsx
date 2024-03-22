@@ -7,14 +7,22 @@ import RootStore from '../RootStore';
 import style from './CaseFormationjsx.css';
 
 function CaseFormation({
-  but, className, tabIndex,
+  but, tabIndex, canOpen, isClose,
 }) {
-  const [etat, setEtat] = useState(false);
+  const [close, setClose] = useState(true);
+  const [overflowDesc, setoverflowDesc] = useState(false);
+  const [overflowJob, setoverflowJob] = useState(false);
   const { butManager, iutManager } = useContext(RootStore);
   const maClasse = style[`bg-${but.code}`] ?? style['bg-DEFAULT']; // On charge la classe 'version js' de nom bg-codeBUT ou bg-DEFAULT si la classe précédente n'existe pas
   function changement() {
     but.getInfo();
-    setEtat(!etat);
+    if (close) {
+      canOpen();
+      setClose(false);
+    } else {
+      canOpen();
+      setClose(true);
+    }
   }
 
   function selectionner() {
@@ -25,15 +33,15 @@ function CaseFormation({
   return (
     <div
       className={classNames('grid', 'items-center', {
-        'aspect-square': !etat,
-        'col-span-1': !etat,
-        'col-span-2': etat,
-        'md:col-span-3': etat,
-        'lg:col-span-4': etat,
+        'aspect-square': !isClose,
+        'col-span-1': !isClose,
+        'col-span-2': isClose,
+        'md:col-span-3': isClose,
+        'lg:col-span-4': isClose,
       })}
       tabIndex={tabIndex}
     >
-      {etat
+      {isClose
         ? (
           <div
             className="grid gap-y-2 border-2 text-xs  border-blue-900"
@@ -41,16 +49,29 @@ function CaseFormation({
             <button
               type="button"
               onClick={changement}
-              className="align-middle text-base text-center bg-blue-900 text-slate-50 border-blue-900"
+              className={`align-middle font-bold text-base text-center ${butManager.butSelectionnes.has(but) ? 'bg-red-700' : 'bg-blue-900'} text-slate-50 border-blue-900`}
             >
-              {but.prettyPrintFiliere}
+              {butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}
             </button>
-            <p>
-              Description formation :
-              {but.description ? ` ${but.description}` : ''}
+            <p className="font-bold text-sm">
+              Titre académique de la formation :
+              {` ${but.nom} (${but.code})`}
             </p>
+            <button type="button" className="text-left" onClick={() => setoverflowDesc(!overflowDesc)}>
+              <p className="font-bold">
+                Description formation :
+              </p>
+              <p className={classNames({
+                'max-h-16': !overflowDesc,
+                'overflow-hidden': !overflowDesc,
+              })}
+              >
+                {but.description ? ` ${but.description}` : ''}
+              </p>
+              {!overflowDesc ? <p>...</p> : null}
+            </button>
             <div>
-              <p>
+              <p className="font-bold">
                 Les spécialités :
               </p>
               {but.parcours.map((parcours) => (
@@ -61,28 +82,33 @@ function CaseFormation({
                 </p>
               ))}
             </div>
-            <p>
-              Débouchés métiers :
-              {but.metiers ? ` ${but.metiers}` : ''}
-            </p>
-            <p>
-              Titre académique de la formation :
-              {` ${but.nom} `}
-              {`(${but.code})`}
-            </p>
+            <button type="button" className="text-left" onClick={() => setoverflowJob(!overflowJob)}>
+              <p className="font-bold">
+                Débouchés métiers :
+              </p>
+              <p className={classNames({
+                'max-h-16': !overflowJob,
+                'overflow-hidden': !overflowJob,
+              })}
+              >
+                {but.metiers ? ` ${but.metiers}` : ''}
+              </p>
+              {!overflowJob ? <p>...</p> : null}
+            </button>
+
             <div>
               <a className="underline" target="_blank" href={but.urlIUT} rel="noreferrer">en savoir plus</a>
             </div>
-            <button className="text-base" onClick={selectionner} type="button">{!butManager.butSelectionnes.has(but) ? 'selectionner' : 'deselectionner'}</button>
+            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!butManager.butSelectionnes.has(but) ? 'selectionner' : 'deselectionner'}</button>
           </div>
         )
         : (
           <button
-            type="image" // Pose problème, à changer mais le type="button" empêche les background-image
+            type="button" // Pose problème, à changer mais le type="button" empêche les background-image
             onClick={changement}
-            className={classNames('h-full', 'text-xs', 'md:text-sm', 'lg:text-lg', 'align-middle', 'text-center', 'leading-loose', className, maClasse, 'bg-contain')}
+            className={`h-full max-w-full overflow-hidden break-words text-xs md:text-base align-middle text-center leading-loose border-2 border-blue-900 ${maClasse} bg-contain`}
           >
-            <h2 className="text-white px-2 py-3 bg-blue-transparent w-full">{but.prettyPrintFiliere}</h2>
+            <h2 className={`text-white px-2 font-bold py-3 ${butManager.butSelectionnes.has(but) ? 'bg-red-transparent' : 'bg-blue-transparent'} w-full`}>{butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}</h2>
           </button>
         )}
     </div>
@@ -90,7 +116,8 @@ function CaseFormation({
 }
 CaseFormation.propTypes = ({
   but: MPropTypes.objectOrObservableObject.isRequired,
-  className: PropTypes.node.isRequired,
   tabIndex: PropTypes.number.isRequired,
+  canOpen: PropTypes.func.isRequired,
+  isClose: PropTypes.bool.isRequired,
 });
 export default observer(CaseFormation);

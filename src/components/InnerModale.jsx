@@ -11,11 +11,8 @@ function InnerModale({ iut }) {
   function selectionner() {
     iutManager.switchIutSelectionnesId(iut);
   }
-  function descriptionBut() {
-    butManager.getButByCodeWithInfo(bouttonDesc.current.value).then((b) => setButChoisi(b));
-  }
+
   const filtre = (b) => (butSelect.find((unBut) => unBut.code === b.codesButDispenses[0]));
-  // const filtreIUT = (d) => (butSelectionnes ? butSelectionnes.has(d) : d); A travailler
   if (butChoisi) {
     return (
       <>
@@ -60,10 +57,10 @@ function InnerModale({ iut }) {
   return (
     <>
       {iut.departements.filter(filtre).map((d) => (
-        <div className="flex w-full justify-around align-middle" key={d.code}>
+        <div className="flex  gap-2 w-full justify-around align-middle" key={d.code}>
           <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
-          <p>{d.code}</p>
-          <button type="button" value={d.code} ref={bouttonDesc} className="border text-base border-blue-900 px-2 rounded-full" onClick={descriptionBut}>i</button>
+          <p>{butManager.buts.find((b) => b.code === d.codesButDispenses[0]).prettyPrintFiliere}</p>
+          <button type="button" value={d.code} ref={bouttonDesc} className="border text-base border-blue-900 px-2 rounded-full" onClick={() => butManager.getButByCodeWithInfo(d.code).then((b) => setButChoisi(b))}>i</button>
         </div>
       ))}
       <button onClick={selectionner} type="button">{!iutManager.iutSelectionnesId.has(iut.idIut) ? 'Ajouter cet IUT pour la prise de contact' : 'Retirer cet IUT de la liste de contact'}</button>

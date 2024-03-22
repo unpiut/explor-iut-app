@@ -71,7 +71,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         type: 'effectScatter',
         coordinateSystem: 'geo',
         symbol: 'circle',
-        color: 'red',
+        colorStops: [{ offset: 0, color: 'red' }, { offset: 1, color: 'blue' }],
         symbolSize: 10,
         showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
         tooltip: { // propriété des tooltip

@@ -18,6 +18,7 @@ module.exports = {
       },
       colors: {
         'blue-transparent': 'rgba(30, 58, 138, 0.9)',
+        'red-transparent': 'rgba(185, 28, 28, 0.9)',
       },
     },
   },

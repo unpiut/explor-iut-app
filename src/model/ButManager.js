@@ -53,7 +53,7 @@ class ButManager {
   switchButSelectionne(but) {
     if (this._butSelectionnes.has(but)) {
       this._butSelectionnes.delete(but);
-    } else {
+    } else if (this._butSelectionnes.size < 3) {
       this._butSelectionnes.add(but);
     }
   }
