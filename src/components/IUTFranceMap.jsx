@@ -26,7 +26,21 @@ function iut2series(iuts, franceMap) {
   }));
 }
 
-function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
+function iutSelect2series(iutSelectionnes, franceMap) {
+  return iutSelectionnes.filter((iut) => {
+    if (!iut.location || (iut.location.x ?? false) === false) {
+      // console.warn(`Missing location information for IUT ${iut.completeNom}`, iut);
+      return false;
+    }
+    return true;
+  }).map((iut) => ({
+    name: iut.site ? `${iut.nom} - ${iut.site}` : iut.nom,
+    value: franceMap.mapRegionPoint(iut.region, iut.location),
+    iutId: iut.idIut,
+  }));
+}
+
+function createInitalEchartOption(mapName, iuts, franceMap, iutSelectionnes, userCoors = null) {
   const userZoomInfo = { zoom: 1, center: null };
   if (userCoors) {
     console.log('Find region code for user');
@@ -60,6 +74,21 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         },
       },
     },
+    graphic: {
+      id: 'selectedRect',
+      elements: [{
+        type: 'rect',
+        draggable: 'true',
+        cursor: 'pointer',
+        shape: {
+          x: 0,
+          y: 0,
+          width: 100,
+          height: 100,
+        },
+        z: 100,
+      }],
+    },
     tooltip: {
       show: false,
     },
@@ -71,7 +100,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         type: 'effectScatter',
         coordinateSystem: 'geo',
         symbol: 'circle',
-        colorStops: [{ offset: 0, color: 'red' }, { offset: 1, color: 'blue' }],
+        color: 'blue',
         symbolSize: 10,
         showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
         tooltip: { // propriété des tooltip
@@ -84,27 +113,51 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         },
         data: iut2series(iuts, franceMap),
       },
+      {
+        id: 'selectedIut',
+        name: 'IUT',
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        symbol: 'rect',
+        color: 'red',
+        symbolSize: 12,
+        showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
+        tooltip: { // propriété des tooltip
+          formatter: ({ data }) => data.name,
+          show: true,
+        },
+        rippleEffect: { // Configuration de l'effet
+          brushType: 'stroke',
+          scale: 2.5,
+        },
+        data: iutSelect2series(iuts, franceMap),
+      },
     ],
   };
 }
 
-function createDataOnlyOption(iuts, franceMap) {
+function createDataOnlyOption(iuts, franceMap, iutSelectionnes) {
   return {
     series: [
       {
         id: 'iut',
         data: iut2series(iuts, franceMap),
       },
+      {
+        id: 'selectedIut',
+        data: iut2series(iutSelectionnes, franceMap),
+      },
     ],
   };
 }
 
 function IUTFranceMap({ className }) {
-  const { franceMap, iutManager } = useContext(RootStore);
+  const { franceMap, iutManager, selectedManager } = useContext(RootStore);
   const [echartState, setEchartState] = useState(null);
   const [afficheModale, setAfficheModale] = useState(false);
   const [modale, setModale] = useState(null);
   const refContainer = useRef();
+  const actualZoom = useRef();
 
   console.log('IUTFranceMap: redraw');
 
@@ -119,30 +172,45 @@ function IUTFranceMap({ className }) {
 
       theChart.on('click', { seriesId: 'iut' }, (event) => {
         setAfficheModale(true);
-        setModale(<Modale iutId={event.data.iutId} onClose={() => setAfficheModale(false)} />);
+        setModale(<Modale
+          iutId={event.data.iutId}
+          onClose={() => setAfficheModale(false)}
+          X={event.event.event.pageX}
+          Y={event.event.event.pageY}
+        />);
       });
 
-      theChart.on('click', 'geo', (event) => {
-        const currentZoom = theChart.getOption().geo[0]?.zoom;
-        if (currentZoom > 1) {
-          theChart.setOption({
-            geo: {
-              center: null,
-              zoom: 1,
-            },
-          });
-        } else {
-          const zoomInfo = franceMap.getCenterAndZoomRatioForRegionCode(event.name);
-          if (zoomInfo) {
-            theChart.setOption({
-              geo: {
-                center: zoomInfo.correctedCenter,
-                zoom: zoomInfo.zoomRatio,
-              },
-            });
-          }
-        }
+      theChart.on('click', { seriesId: 'selectedIut' }, (event) => {
+        setAfficheModale(true);
+        setModale(<Modale
+          iutId={event.data.iutId}
+          onClose={() => setAfficheModale(false)}
+          X={event.event.event.pageX}
+          Y={event.event.event.pageY}
+        />);
       });
+
+      // theChart.on('click', 'geo', (event) => {
+      //   const currentZoom = theChart.getOption().geo[0]?.zoom;
+      //   if (currentZoom > 1) {
+      //     theChart.setOption({
+      //       geo: {
+      //         center: null,
+      //         zoom: 1,
+      //       },
+      //     });
+      //   } else {
+      //     const zoomInfo = franceMap.getCenterAndZoomRatioForRegionCode(event.name);
+      //     if (zoomInfo) {
+      //       theChart.setOption({
+      //         geo: {
+      //           center: zoomInfo.correctedCenter,
+      //           zoom: zoomInfo.zoomRatio,
+      //         },
+      //       });
+      //     }
+      //   }
+      // });
 
       // Récupération des données de la france uniquement
       franceMap.load()
@@ -157,16 +225,34 @@ function IUTFranceMap({ className }) {
     }
   }, [refContainer.current]); // Le useEffect sera rappelé si la réf dom de la carte change
 
+  // useEffect(() => {
+  //   const theChart = echarts.getInstanceByDom(refContainer.current.children);
+  //   console.log(theChart.getOption());
+  //   actualZoom.current = theChart.getOption().geo[0]?.zoom;
+  //   console.log(actualZoom.current);
+  //   if (actualZoom.current > 6) {
+  //     theChart.setOption({
+  //       series: [
+  //         {
+  //           id: 'iut',
+  //           symbol: 'diamond',
+  //         },
+  //       ],
+  //     });
+  //   }
+  // }, [actualZoom.current]);
+
   useEffect(() => autorun(() => {
     // Mise à jour de la carte uniquement si la carte a bien été crée et si l'on a des iuts
     if (echartState && iutManager.nbIuts) {
       console.log('re-set data');
-      console.log(iutManager.iutRecherchesTab);
       // choix des iuts : ceux selectionnés si l'on a une selection sinon tous les iuts
       const iuts = iutManager.iutRecherchesTab.length
         ? iutManager.iutRecherchesTab
         : iutManager.iuts;
-      echartState.setOption(createDataOnlyOption(iuts, franceMap));
+      echartState.setOption(
+        createDataOnlyOption(iuts, franceMap, selectedManager.iutSelectionnesTab),
+      );
     }
   }), [echartState, iutManager]);
 
@@ -181,8 +267,5 @@ function IUTFranceMap({ className }) {
     </div>
   );
 }
-IUTFranceMap.propTypes = ({
-  className: PropTypes.string.isRequired,
-});
 
 export default observer(IUTFranceMap);

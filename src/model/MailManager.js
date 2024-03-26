@@ -93,6 +93,10 @@ class MailManager {
     this._personnalizeCorps = true;
     this._corpsMail = nouveauCorps;
   }
+
+  isUpdatedInfo() {
+    return this._adresseMail === '' || this._nom === '' || this._fonctionDansEntreprise === '' || this._nomEntreprise === '';
+  }
 }
 
 export default MailManager;

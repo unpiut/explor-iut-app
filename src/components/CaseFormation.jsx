@@ -12,7 +12,7 @@ function CaseFormation({
   const [close, setClose] = useState(true);
   const [overflowDesc, setoverflowDesc] = useState(false);
   const [overflowJob, setoverflowJob] = useState(false);
-  const { butManager, iutManager } = useContext(RootStore);
+  const { iutManager, selectedManager } = useContext(RootStore);
   const maClasse = style[`bg-${but.code}`] ?? style['bg-DEFAULT']; // On charge la classe 'version js' de nom bg-codeBUT ou bg-DEFAULT si la classe précédente n'existe pas
   function changement() {
     but.getInfo();
@@ -26,8 +26,8 @@ function CaseFormation({
   }
 
   function selectionner() {
-    butManager.switchButSelectionne(but);
-    iutManager.switchIutRecherches(butManager.butSelectionnes);
+    selectedManager.switchButSelectionne(but);
+    iutManager.switchIutRecherches(selectedManager.butSelectionnes);
   }
 
   return (
@@ -49,7 +49,7 @@ function CaseFormation({
             <button
               type="button"
               onClick={changement}
-              className={`align-middle font-bold text-base text-center ${butManager.butSelectionnes.has(but) ? 'bg-red-700' : 'bg-blue-900'} text-slate-50 border-blue-900`}
+              className={`align-middle font-bold text-base text-center ${selectedManager.butSelectionnes.has(but) ? 'bg-red-700' : 'bg-blue-900'} text-slate-50 border-blue-900`}
             >
               {butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}
             </button>
@@ -99,7 +99,7 @@ function CaseFormation({
             <div>
               <a className="underline" target="_blank" href={but.urlIUT} rel="noreferrer">en savoir plus</a>
             </div>
-            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!butManager.butSelectionnes.has(but) ? 'selectionner' : 'deselectionner'}</button>
+            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? 'selectionner' : 'deselectionner'}</button>
           </div>
         )
         : (
@@ -108,7 +108,7 @@ function CaseFormation({
             onClick={changement}
             className={`h-full max-w-full overflow-hidden break-words text-xs md:text-base align-middle text-center leading-loose border-2 border-blue-900 ${maClasse} bg-contain`}
           >
-            <h2 className={`text-white px-2 font-bold py-3 ${butManager.butSelectionnes.has(but) ? 'bg-red-transparent' : 'bg-blue-transparent'} w-full`}>{butManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}</h2>
+            <h2 className={`text-white px-2 font-bold py-3 ${selectedManager.butSelectionnes.has(but) ? 'bg-red-transparent' : 'bg-blue-transparent'} w-full`}>{but.prettyPrintFiliere}</h2>
           </button>
         )}
     </div>

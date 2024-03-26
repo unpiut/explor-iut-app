@@ -7,7 +7,7 @@ import fleche from '../assets/icone-les-iut.svg';
 import RootStore from '../RootStore';
 
 function AppNavbar() {
-  const { iutManager } = useContext(RootStore);
+  const { selectedManager } = useContext(RootStore);
   const [navOpen, setNavOpen] = useState(false);
 
   return (
@@ -38,15 +38,15 @@ function AppNavbar() {
                   <p className="group-hover:text-white">1. Choix des formations</p>
                   <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                 </Link>
-                <Link to="/map" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
-                  <p className="group-hover:text-white">2. Choix de la localisation</p>
+                <Link to={selectedManager.nbButSelectionnes > 0 ? '/map' : '?'} className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
+                  <p className={selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'group-hover:bg-blue-900 group-hover:text-white'}>2. Choix de la localisation</p>
                   <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                 </Link>
-                <Link to="/result" className="group hover:bg-blue-900  flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
-                  <p className="group-hover:text-white">Récapitulatif de vos choix</p>
+                <Link to={selectedManager.nbButSelectionnes > 0 ? '/result' : '?'} className="group hover:bg-blue-900  flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
+                  <p className={selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'group-hover:bg-blue-900 group-hover:text-white'}>Récapitulatif de vos choix</p>
                   <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                 </Link>
-                <Link to={iutManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className={`${iutManager.nbIutSelectionnesId < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
+                <Link to={selectedManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className={`${selectedManager.nbIutSelectionnesId < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
                   3. Courriel
                 </Link>
               </div>
@@ -75,7 +75,7 @@ function AppNavbar() {
             <p className="group-hover:text-white">Récapitulatif de vos choix</p>
             <img width={25} src={fleche} alt="fleche" />
           </Link>
-          <Link to={iutManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
+          <Link to={selectedManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
             <img width={25} src={fleche} alt="fleche" />
             <p className="group-hover:text-white">3. Courriel</p>
           </Link>

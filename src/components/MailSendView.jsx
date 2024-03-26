@@ -5,8 +5,8 @@ import fleche from '../assets/icone-les-iut.svg';
 import RootStore from '../RootStore';
 
 function ModifyMailView() {
-  const { iutManager } = useContext(RootStore);
-  if (!iutManager.nbIutSelectionnesId) {
+  const { selectedManager } = useContext(RootStore);
+  if (!selectedManager.nbIutSelectionnesId) {
     window.location.replace('/');
   }
   return (
@@ -14,7 +14,7 @@ function ModifyMailView() {
       <h1 className="text-center text-xl">Courriel envoyé</h1>
       <p className="text-center">
         Votre courriel a bien été envoyé
-        {iutManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${iutManager.nbIutSelectionnesId} IUT sélectionnés`}
+        {selectedManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${selectedManager.nbIutSelectionnesId} IUT sélectionnés`}
         .
       </p>
       <form method="GET">

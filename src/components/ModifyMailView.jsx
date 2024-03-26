@@ -4,10 +4,7 @@ import Footer from './Footer';
 import RootStore from '../RootStore';
 
 function ModifyMailView() {
-  const { iutManager, mailManager } = useContext(RootStore);
-  if (!iutManager.nbIutSelectionnesId) {
-    window.location.replace('/');
-  }
+  const { selectedManager, mailManager } = useContext(RootStore);
   return (
     <>
       <h1 className="text-center text-xl font-bold">Modification courriel</h1>
@@ -15,7 +12,7 @@ function ModifyMailView() {
         A partir d&apos;un courriel type (contenant planning d&apos;alternance, modalités
         de remise de l&apos;offre d&apos;alternance) que vous pourrez aussi compléter par
         d&apos;autres demandes, nous vous proposons un envoi groupé
-        {iutManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${iutManager.nbIutSelectionnesId} IUT sélectionnés.`}
+        {selectedManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${selectedManager.nbIutSelectionnesId} IUT sélectionnés.`}
         .
       </p>
       <form method="GET">

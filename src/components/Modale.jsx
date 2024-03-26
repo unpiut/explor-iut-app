@@ -1,33 +1,51 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
 import RootStore from '../RootStore';
-import fleche from '../assets/icone-les-iut.svg';
 
-function Modale({ iutId, onClose }) {
-  const { iutManager, butManager } = useContext(RootStore);
+function Modale({
+  iutId, onClose, X, Y,
+}) {
+  const { iutManager, butManager, selectedManager } = useContext(RootStore);
   const iut = iutManager.iuts.find((i) => i.idIut === iutId);
-  const filtre = (b) => (
-    butManager.butSelectionnesTab.find((unBut) => unBut.code === b.codesButDispenses[0])
-  );
+  const butSelect = selectedManager.butSelectionnesTab;
+  const filtre = (b) => (butSelect.find((unBut) => unBut.code === b.codesButDispenses[0]));
+  function selectionner() {
+    selectedManager.switchIutSelectionnes(iut);
+  }
   return (
-    <div className="px-10 grid justify-center gap-y-2 border-2 text-xs  border-blue-900">
+    <div style={{ top: `${Y}px`, left: `${X}px` }} className="absolute px-10 grid justify-center bg-slate-50 z-10 gap-y-2 border-2 text-xs md:text-base border-blue-900">
       <div className="flex justify-between">
-        <h2 className="align-middle">{iut.site}</h2>
+        <h2 className="align-middle">{iut.site ? `${iut.nom} - ${iut.site}` : iut.nom}</h2>
         <button type="button" onClick={onClose}>X</button>
       </div>
-      {iut.departements.filter(filtre).map((d) => (
-        <div className="flex  gap-2 w-full justify-around align-middle" key={d.code}>
-          <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
-          <p>{butManager.buts.find((b) => b.code === d.codesButDispenses[0]).prettyPrintFiliere}</p>
-        </div>
-      ))}
-      <button onClick={selectionner} type="button">{!iutManager.iutSelectionnesId.has(iut.idIut) ? 'Ajouter cet IUT pour la prise de contact' : 'Retirer cet IUT de la liste de contact'}</button>
+      <div>
+        {iut.departements.filter(filtre).map((d) => (
+          <div className="w-full" key={d.code}>
+            <p className="ml-5 ">
+              {'· '}
+              {
+            butManager.buts.find((b) => b.code === d.codesButDispenses[0]).prettyPrintFiliere
+            }
+            </p>
+          </div>
+        ))}
+        <button
+          onClick={selectionner}
+          type="button"
+          className="max-w-full break-words text-xs p-1 m-2 md:text-base align-middle text-center border-2 border-blue-900 bg-contain font-bold"
+        >
+          {!selectedManager.iutSelectionnesId.has(iut.idIut) ? 'Ajouter cet IUT pour la prise de contact' : 'Retirer cet IUT de la liste de contact'}
+        </button>
+      </div>
     </div>
   );
 }
 Modale.propTypes = ({
   iutId: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
+  X: PropTypes.number.isRequired,
+  Y: PropTypes.number.isRequired,
 });
 
-export default Modale;
+export default observer(Modale);
