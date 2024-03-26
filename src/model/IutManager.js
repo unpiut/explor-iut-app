@@ -4,9 +4,6 @@ import Iut from './Iut';
 class IutManager {
   _iuts;
 
-  _iutSelectionnesId;
-  // On enregistre les id à la place car lors de la comparaison, on compare l'iut et son wrapper
-
   _iutRecherches;
 
   _fetchAction;
@@ -16,7 +13,6 @@ class IutManager {
   constructor() {
     makeAutoObservable(this);
     this._iuts = [];
-    this._iutSelectionnesId = new Set();
     this._iutRecherches = new Set();
     this._allIutRetrieved = false;
   }
@@ -29,14 +25,6 @@ class IutManager {
     return this._iuts.length;
   }
 
-  get iutSelectionnesId() {
-    return this._iutSelectionnesId;
-  }
-
-  get iutSelectionnesIdTab() {
-    return Array.from(this._iutSelectionnesId);
-  }
-
   get iutRecherches() {
     return this._iutRecherches;
   }
@@ -45,36 +33,12 @@ class IutManager {
     return Array.from(this._iutRecherches);
   }
 
-  get nbIutSelectionnesId() {
-    return this._iutSelectionnesId.size;
-  }
-
   switchIutRecherches(buts) {
     this._iutRecherches.clear();
     buts.forEach((but) => {
       this._iuts.forEach((i) => {
         if (i.departements.find((d) => d.codesButDispenses[0] === but.code)) {
           this._iutRecherches.add(i);
-        }
-      });
-    });
-  }
-
-  switchIutSelectionnesId(iut) {
-    if (this._iutSelectionnesId.has(iut.idIut)) {
-      this._iutSelectionnesId.delete(iut.idIut);
-    } else {
-      this._iutSelectionnesId.add(iut.idIut);
-    }
-  }
-
-  switchIutSelectionnesIdByBut(buts) {
-    const oldIutRecherches = this._iutSelectionnesId;
-    this._iutSelectionnesId.clear();
-    buts.forEach((but) => {
-      oldIutRecherches.forEach((i) => {
-        if (i.departements.find((d) => d.codesButDispenses[0] === but.code)) {
-          this._iutSelectionnesId.add(i);
         }
       });
     });
@@ -128,12 +92,6 @@ class IutManager {
       iutsBon += this._iuts.filter(filtre);
     }
     return iutsBon;
-  }
-
-  async miseAJour() {
-    this.iuts.filter((i) => this.iutSelectionnesId.has(i.idIut)).forEach(async (i) => {
-      await i.getInfo();
-    });
   }
 }
 

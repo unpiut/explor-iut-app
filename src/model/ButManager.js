@@ -4,8 +4,6 @@ import But from './But';
 class ButManager {
   _buts;
 
-  _butSelectionnes;
-
   _butRecherches;
 
   _fetchAction;
@@ -16,20 +14,11 @@ class ButManager {
     makeAutoObservable(this);
     this._buts = [];
     this._butRecherches = [];
-    this._butSelectionnes = new Set();
     this._allButRetrieved = false;
   }
 
   get buts() {
     return this._buts;
-  }
-
-  get butSelectionnes() {
-    return this._butSelectionnes;
-  }
-
-  get butSelectionnesTab() {
-    return Array.from(this._butSelectionnes);
   }
 
   get butRecherches() {
@@ -40,22 +29,10 @@ class ButManager {
     return this._buts.length;
   }
 
-  get nbButSelectionnes() {
-    return this._butSelectionnes.size;
-  }
-
   get nbButRecherches() {
     let compte = 0;
     this._butRecherches.forEach((but) => { if (but !== null)compte += 1; });
     return compte;
-  }
-
-  switchButSelectionne(but) {
-    if (this._butSelectionnes.has(but)) {
-      this._butSelectionnes.delete(but);
-    } else if (this._butSelectionnes.size < 3) {
-      this._butSelectionnes.add(but);
-    }
   }
 
   async _getAllBut() {
