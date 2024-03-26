@@ -40,7 +40,6 @@ function MapView() {
             ))}
           </div>
         </div>
-        <IUTFranceMap className="h-[70vh]" />
       </div>
       <Footer gauche={{ texte: 'Retour aux formations', lien: '' }} droite={{ texte: `Prendre contact avec les ${selectedManager.nbIutSelectionnesId} IUT`, lien: 'result' }} />
 
