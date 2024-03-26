@@ -5,9 +5,6 @@ import RootStore from '../RootStore';
 
 function MailView() {
   const { mailManager, selectedManager } = useContext(RootStore);
-  if (!selectedManager.nbIutSelectionnesId) {
-    window.location.replace('/');
-  }
   return (
     <>
       <h1 className="text-center text-xl font-bold">Courriel</h1>

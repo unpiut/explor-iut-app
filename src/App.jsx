@@ -2,6 +2,7 @@ import React from 'react';
 // import classNames from 'classnames';
 import {
   createBrowserRouter,
+  redirect,
   RouterProvider,
 } from 'react-router-dom';
 import Root from './components/Root';
@@ -34,18 +35,42 @@ const router = createBrowserRouter([
       {
         path: 'map',
         element: <WithPagedTitle pageTitle="Carte"><MapView /></WithPagedTitle>,
+        loader: async () => {
+          if (!STORE.selectedManager.nbButSelectionnes) {
+            throw redirect('/');
+          }
+          return null;
+        },
       },
       {
         path: 'result',
         element: <WithPagedTitle pageTitle="Resultat"><ResultView /></WithPagedTitle>,
+        loader: async () => {
+          if (!STORE.selectedManager.nbButSelectionnes) {
+            throw redirect('/');
+          }
+          return null;
+        },
       },
       {
         path: 'mail',
         element: <WithPagedTitle pageTitle="Courriel"><MailView /></WithPagedTitle>,
+        loader: async () => {
+          if (!STORE.selectedManager.nbIutSelectionnesId) {
+            throw redirect('/');
+          }
+          return null;
+        },
       },
       {
         path: 'modifyMail',
         element: <WithPagedTitle pageTitle="ModifierCourriel"><ModifyMailView /></WithPagedTitle>,
+        loader: async () => {
+          if (!STORE.selectedManager.nbIutSelectionnesId) {
+            throw redirect('/');
+          }
+          return null;
+        },
       },
       {
         path: 'mailSend',
