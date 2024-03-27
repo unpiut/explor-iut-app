@@ -56,7 +56,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, iutSelectionnes, use
   return {
     geo: { // Options d'un système de coordonnées géographique: https://echarts.apache.org/en/option.html#geo
       map: mapName, // Nom de la map enregistrée
-      roam: false, // Autorise le déplacement et le zoom dans la carte avec de la souris*
+      roam: true, // Autorise le déplacement et le zoom dans la carte avec de la souris*
       legend: false,
       itemStyle: { //
         areaColor: '#e7e8ea', // Couleur de base des zones (gris)
@@ -79,21 +79,27 @@ function createInitalEchartOption(mapName, iuts, franceMap, iutSelectionnes, use
     },
     graphic: {
       id: 'selectedRect',
-      color: 'red',
       type: 'rect',
       draggable: 'false',
       cursor: 'pointer',
       z: 100,
+      style: {
+        fill: '#1028A7',
+        opacity: 0.2,
+      },
     },
     // legend: {}, par de lédende pour cette visualisation
     series: [
       {
         id: 'iut',
         name: 'IUT',
-        type: 'effectScatter',
+        type: 'graph',
         coordinateSystem: 'geo',
         symbol: 'circle',
         color: 'blue',
+        force: {
+          initLayout: 'circular',
+        },
         symbolSize: 10,
         showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
         tooltip: { // propriété des tooltip
@@ -150,7 +156,10 @@ function IUTFranceMap({ className }) {
   const [afficheModale, setAfficheModale] = useState(false);
   const [modale, setModale] = useState(null);
   const refContainer = useRef();
-  const position = useRef({ x: null, y: null, enAction: false });
+  const position = useRef({
+    initialX: null, x: null, width: null, initialY: null, y: null, height: null, enAction: false,
+  });
+  const enDeplacement = useRef(false);
 
   console.log('IUTFranceMap: redraw');
 
@@ -158,7 +167,6 @@ function IUTFranceMap({ className }) {
   useEffect(() => {
     if (refContainer.current && !echartState) {
       console.log('CREATE IUTFranceMap chart');
-      console.log(refContainer.current);
       const theChart = echarts.init(refContainer.current);
 
       theChart.showLoading();
@@ -167,14 +175,17 @@ function IUTFranceMap({ className }) {
       document.addEventListener('keydown', (event) => { // Evenement permettant de quitter la modale avec Echap
         if (event.code === 'Backspace') {
           setAfficheModale(false);
-        } else if (event.code === 'ControlLeft') {
-          theChart.setOption({ geo: { roam: true } });
+        } else if (event.code === 'ControlLeft' && !enDeplacement.current) {
+          theChart.setOption({ geo: { roam: false } });
+          enDeplacement.current = true;
         }
       });
 
       document.addEventListener('keyup', (evt) => {
         if (evt.code === 'ControlLeft') {
-          theChart.setOption({ geo: { roam: false } });
+          theChart.setOption({ geo: { roam: true } });
+
+          enDeplacement.current = false;
         }
       });
 
@@ -198,24 +209,40 @@ function IUTFranceMap({ className }) {
         />);
       });
 
-      document.addEventListener('mousedown', (evt) => { // Récupération des valeurs du départ du rectangle de sélection
-        position.current = { x: evt.offsetX, y: evt.offsetY, enAction: true };
+      theChart.on('mousedown', 'geo', (evt) => { // Récupération des valeurs du départ du rectangle de sélection
+        position.current = {
+          initialX: evt.event.offsetX,
+          initialY: evt.event.offsetY,
+          enAction: true,
+        };
       });
 
       document.addEventListener('mousemove', (evt) => { // Dessin du rectangle de sélection avec la position actuelle de la souris
         if (position.current.enAction) {
+          if (!(position.current.initialX < evt.offsetX)) {
+            position.current.x = evt.offsetX;
+            position.current.width = position.current.initialX - evt.offsetX;
+          } else {
+            position.current.x = position.current.initialX;
+            position.current.width = evt.offsetX - position.current.initialX;
+          }
+
+          if (!(position.current.initialY < evt.offsetY)) {
+            position.current.y = evt.offsetY;
+            position.current.height = position.current.initialY - evt.offsetY;
+          } else {
+            position.current.y = position.current.initialY;
+            position.current.height = evt.offsetY - position.current.initialY;
+          }
+
           theChart.setOption({
             graphic: {
               id: 'selectedRect',
               shape: {
-                x: position.current.x < evt.offsetX ? position.current.x : evt.offsetX,
-                y: position.current.y < evt.offsetY ? position.current.y : evt.offsetY,
-                width: position.current.x < evt.offsetX
-                  ? evt.offsetX - position.current.x
-                  : position.current.x - evt.offsetX,
-                height: position.current.y < evt.offsetY
-                  ? evt.offsetY - position.current.y
-                  : position.current.y - evt.offsetY,
+                x: position.current.x,
+                y: position.current.y,
+                width: position.current.width,
+                height: position.current.height,
               },
             },
           });
@@ -223,18 +250,34 @@ function IUTFranceMap({ className }) {
       });
 
       document.addEventListener('mouseup', () => { // Suppression du rectangle et récupération des IUT présents dans la zone
-        theChart.setOption({
-          graphic: {
-            id: 'selectedRect',
-            shape: {
-              x: 0,
-              y: 0,
-              width: 0,
-              height: 0,
+        if (position.current.enAction) {
+          const iutChart = theChart.getOption().series[0].data;
+          iutChart.filter((i) => {
+            if (i.value) {
+              const positionI = theChart.convertToPixel('geo', i.value);
+              return position.current.x < positionI[0]
+              && positionI[0] < position.current.width + position.current.x
+              && positionI[1] < position.current.height + position.current.y
+              && position.current.y < positionI[1];
+            }
+            return false;
+          }).map((i) => selectedManager.switchIutSelectionnes(iutManager.getIutById(i.iutId)));
+
+          theChart.setOption({
+            graphic: {
+              id: 'selectedRect',
+              shape: {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0,
+              },
             },
-          },
-        });
-        position.current = { x: null, y: null, enAction: false };
+          });
+          position.current = {
+            x: null, width: null, y: null, height: null, enAction: false,
+          };
+        }
       });
 
       // Récupération des données de la france uniquement

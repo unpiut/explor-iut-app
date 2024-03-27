@@ -72,16 +72,12 @@ class IutManager {
     return this._fetchAction;
   }
 
-  async getIutById(idIut) {
-    let iut = this._iuts.find((unIut) => unIut.idIut === idIut && unIut.description);
+  getIutById(idIut) {
+    const iut = this._iuts.find((i) => i.idIut === idIut);
     if (iut) {
-      throw new Error("L'iut a déjà été enregistré");
+      return iut;
     }
-    iut = await fetch(`https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/iut/${idIut}`);
-    iut = await iut.json();
-    runInAction(() => {
-      this._iuts.push(new Iut(iut));
-    });
+    throw new Error("L'iut n'existe pas");
   }
 
   getIutByButs(buts) {
