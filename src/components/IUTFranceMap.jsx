@@ -170,6 +170,10 @@ function IUTFranceMap({ className }) {
 
       theChart.showLoading();
 
+      theChart.on('click', 'geo', () => setAfficheModale(false));
+      document.addEventListener('keydown', (event) => {
+        if (event.code === 'Backspace') { setAfficheModale(false); }
+      });
       theChart.on('click', { seriesId: 'iut' }, (event) => {
         setAfficheModale(true);
         setModale(<Modale
