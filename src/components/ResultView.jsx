@@ -17,7 +17,7 @@ function ResultView() {
         {
             selectedManager.nbIutSelectionnesId > 0 ? (
               <div>
-                <div className="max-h-[70vh] overflow-auto">
+                <div className="max-h-[60vh] gap-2 overflow-auto grid grid-cols-3">
                   {selectedManager.iutSelectionnesTab.map((iut) => (
                     <ResultatRecherche butSlct={butSelect} iut={iut} key={iut.site} />
                   ))}
