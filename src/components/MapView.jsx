@@ -36,7 +36,7 @@ function MapView() {
           <h2>Formations sélectionnées</h2>
           <div className="border-x-2 border-b-2 border-blue-900">
             {selectedManager.butSelectionnesTab.map((b, index) => (
-              <FicheRappelIut but={b} index={index} key={b} />
+              <FicheRappelIut but={b} index={index} key={b.code} />
             ))}
           </div>
         </div>

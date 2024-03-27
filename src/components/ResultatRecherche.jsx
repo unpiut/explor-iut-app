@@ -14,7 +14,11 @@ function ResultatRecherche({ iut, butSlct }) {
       <h2>Formations présentes : </h2>
       {iut.departements.map((but) => (
         butSlct.findIndex((b) => b.code === but.codesButDispenses[0]) >= 0
-          ? <h2>{butSlct[butSlct.findIndex((b) => b.code === but.codesButDispenses[0])].nom}</h2>
+          ? (
+            <h2 key={but.codesButDispenses[0]}>
+              {butSlct[butSlct.findIndex((b) => b.code === but.codesButDispenses[0])].nom}
+            </h2>
+          )
           : null))}
       <p>
         📞 Téléphone :
