@@ -40,7 +40,7 @@ function iutSelect2series(iutSelectionnes, franceMap) {
   }));
 }
 
-function createInitalEchartOption(mapName, iuts, franceMap, iutSelectionnes, userCoors = null) {
+function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
   const userZoomInfo = { zoom: 1, center: null };
   if (userCoors) {
     console.log('Find region code for user');
@@ -49,6 +49,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, iutSelectionnes, use
       console.warn('No region code found for user');
     } else {
       const zoomInfo = franceMap.getCenterAndZoomRatioForRegionCode(userRegionCode);
+      console.log(zoomInfo);
       userZoomInfo.zoom = zoomInfo.zoomRatio;
       userZoomInfo.center = zoomInfo.correctedCenter;
     }
@@ -88,6 +89,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, iutSelectionnes, use
         opacity: 0.2,
       },
     },
+    animationDuration: 2000,
     // legend: {}, par de lédende pour cette visualisation
     series: [
       {
@@ -98,7 +100,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, iutSelectionnes, use
         symbol: 'circle',
         color: 'blue',
         force: {
-          initLayout: 'circular',
+          repulsion: 200,
         },
         symbolSize: 10,
         showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
@@ -150,12 +152,22 @@ function createDataOnlyOption(iuts, franceMap, iutSelectionnes) {
   };
 }
 
+function zoomGeoLoc({ latitude, longitude }) {
+  return {
+    geo: {
+      zoom: 10,
+      center: [longitude, latitude],
+    },
+  };
+}
+
 function IUTFranceMap({ className }) {
   const { franceMap, iutManager, selectedManager } = useContext(RootStore);
   const [echartState, setEchartState] = useState(null);
   const [afficheModale, setAfficheModale] = useState(false);
   const [modale, setModale] = useState(null);
   const refContainer = useRef();
+  const geoLocal = useRef({ latitude: null, longitude: null });
   const position = useRef({
     initialX: null, x: null, width: null, initialY: null, y: null, height: null, enAction: false,
   });
@@ -281,11 +293,25 @@ function IUTFranceMap({ className }) {
       });
 
       // Récupération des données de la france uniquement
-      franceMap.load()
+      Promise.all([franceMap.load(),
+        navigator.geolocation.getCurrentPosition((geoPosition) => {
+          geoLocal.current.latitude = geoPosition.coords.latitude;
+          geoLocal.current.longitude = geoPosition.coords.longitude;
+        })])
         .then(() => {
-        // Création des options initiale avec la carte de france et un tableau d'IUTs vide
+          console.log(geoLocal.current);
+          // Création des options initiale avec la carte de france et un tableau d'IUTs vide
           theChart.hideLoading();
-          theChart.setOption(createInitalEchartOption(franceMap.mapName, [], franceMap));
+          theChart.setOption(
+            createInitalEchartOption(franceMap.mapName, [], franceMap, geoLocal.current),
+
+          );
+          if (!(geoLocal.current.latitude === null && geoLocal.current.longitude === null)) {
+            setTimeout(() => {
+              theChart.setOption(zoomGeoLoc(geoLocal.current));
+              setEchartState(theChart);
+            }, 600);
+          }
           // mise en place du state
           // A pour effet de déclencher un useEffect suivant
           setEchartState(theChart);
@@ -306,7 +332,6 @@ function IUTFranceMap({ className }) {
       );
     }
   }), [echartState, iutManager]);
-
   return (
     <div>
       <div className="grid justify-center">
