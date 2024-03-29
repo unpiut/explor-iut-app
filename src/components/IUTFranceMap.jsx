@@ -12,32 +12,63 @@ import RootStore from '../RootStore';
 import Modale from './Modale';
 // import { findGeloloc } from '../../model/geolocService';
 
-function iut2series(iuts, franceMap) {
-  return iuts.filter((iut) => {
+function iut2series(iuts, franceMap, iutSelectionnes = null, butsRecherches = null) {
+  let butsCodeRecherche = [];
+  const data = [];
+  const edges = [];
+  if (butsRecherches) {
+    butsCodeRecherche = butsRecherches.map((b) => b.code);
+  }
+  iuts.filter((iut) => {
     if (!iut.location || (iut.location.x ?? false) === false) {
       // console.warn(`Missing location information for IUT ${iut.completeNom}`, iut);
       return false;
     }
     return true;
-  }).map((iut) => ({
-    name: iut.site ? `${iut.nom} - ${iut.site}` : iut.nom,
-    value: franceMap.mapRegionPoint(iut.region, iut.location),
-    iutId: iut.idIut,
-  }));
-}
-
-function iutSelect2series(iutSelectionnes, franceMap) {
-  return iutSelectionnes.filter((iut) => {
-    if (!iut.location || (iut.location.x ?? false) === false) {
-      // console.warn(`Missing location information for IUT ${iut.completeNom}`, iut);
-      return false;
+  }).flatMap((iut) => {
+    if (butsRecherches) {
+      const selectionne = iutSelectionnes.some((i) => i === iut);
+      return iut.departements.filter(
+        (dep) => butsCodeRecherche.some((code) => code === dep.codesButDispenses[0]),
+      ).map((d, index) => {
+        if (index === 0) {
+          data.push({
+            id: iut.site ? `${iut.nom} - ${iut.site}` : `${iut.nom}`,
+            name: iut.site ? `${iut.nom} - ${iut.site}` : `${iut.nom}`,
+            fixed: true,
+            value: franceMap.mapRegionPoint(iut.region, iut.location),
+            iutId: iut.idIut,
+            itemStyle: { color: selectionne ? 'red' : 'blue' },
+            symbol: d.codesButDispenses[0] === butsCodeRecherche[0] ? 'circle' : 'rect',
+          });
+        } else {
+          data.push({
+            id: iut.site ? `${iut.nom} - ${iut.site} - ${d.code}` : `${iut.nom} - ${d.code}`,
+            name: iut.site ? `${iut.nom} - ${iut.site} - ${d.code}` : `${iut.nom} - ${d.code}`,
+            value: franceMap.mapRegionPoint(iut.region, iut.location),
+            iutId: iut.idIut,
+            itemStyle: { color: selectionne ? 'red' : 'blue' },
+            symbol: d.codesButDispenses[0] === butsCodeRecherche[0] ? 'circle' : 'rect',
+          });
+          edges.push({
+            source: iut.site ? `${iut.nom} - ${iut.site}` : `${iut.nom}`,
+            target: iut.site ? `${iut.nom} - ${iut.site} - ${d.code}` : `${iut.nom} - ${d.code}`,
+          });
+        }
+        return [data, edges];
+      });
     }
-    return true;
-  }).map((iut) => ({
-    name: iut.site ? `${iut.nom} - ${iut.site}` : iut.nom,
-    value: franceMap.mapRegionPoint(iut.region, iut.location),
-    iutId: iut.idIut,
-  }));
+    data.push({
+      id: iut.site ? `${iut.nom} - ${iut.site}` : iut.nom,
+      name: iut.site ? `${iut.nom} - ${iut.site}` : iut.nom,
+      value: franceMap.mapRegionPoint(iut.region, iut.location),
+      iutId: iut.idIut,
+      color: 'blue',
+      symbol: 'circle',
+    });
+    return [data, edges];
+  });
+  return [data, edges];
 }
 
 function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
@@ -54,6 +85,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
       userZoomInfo.center = zoomInfo.correctedCenter;
     }
   }
+  const [lesDatas, edges] = iut2series(iuts, franceMap);
   return {
     geo: { // Options d'un système de coordonnées géographique: https://echarts.apache.org/en/option.html#geo
       map: mapName, // Nom de la map enregistrée
@@ -97,10 +129,14 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         name: 'IUT',
         type: 'graph',
         coordinateSystem: 'geo',
-        symbol: 'circle',
-        color: 'blue',
         force: {
-          repulsion: 200,
+          repulsion: 100,
+          edgeLength: 5,
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
         },
         symbolSize: 10,
         showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
@@ -112,41 +148,21 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
           brushType: 'stroke',
           scale: 2.5,
         },
-        data: iut2series(iuts, franceMap),
-      },
-      {
-        id: 'selectedIut',
-        name: 'IUT',
-        type: 'effectScatter',
-        coordinateSystem: 'geo',
-        symbol: 'rect',
-        color: 'red',
-        symbolSize: 12,
-        showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
-        tooltip: { // propriété des tooltip
-          formatter: ({ data }) => data.name,
-          show: true,
-        },
-        rippleEffect: { // Configuration de l'effet
-          brushType: 'stroke',
-          scale: 2.5,
-        },
-        data: iutSelect2series(iuts, franceMap),
+        data: lesDatas,
+        edges,
       },
     ],
   };
 }
 
-function createDataOnlyOption(iuts, franceMap, iutSelectionnes) {
+function createDataOnlyOption(iuts, franceMap, iutSelectionnes, butsRecherches) {
+  const [data, edges] = iut2series(iuts, franceMap, iutSelectionnes, butsRecherches);
   return {
     series: [
       {
         id: 'iut',
-        data: iut2series(iuts, franceMap),
-      },
-      {
-        id: 'selectedIut',
-        data: iut2series(iutSelectionnes, franceMap),
+        data,
+        edges,
       },
     ],
   };
@@ -155,14 +171,16 @@ function createDataOnlyOption(iuts, franceMap, iutSelectionnes) {
 function zoomGeoLoc({ latitude, longitude }) {
   return {
     geo: {
-      zoom: 10,
+      zoom: 5,
       center: [longitude, latitude],
     },
   };
 }
 
 function IUTFranceMap({ className }) {
-  const { franceMap, iutManager, selectedManager } = useContext(RootStore);
+  const {
+    franceMap, iutManager, selectedManager,
+  } = useContext(RootStore);
   const [echartState, setEchartState] = useState(null);
   const [afficheModale, setAfficheModale] = useState(false);
   const [modale, setModale] = useState(null);
@@ -262,8 +280,11 @@ function IUTFranceMap({ className }) {
       });
 
       document.addEventListener('mouseup', () => { // Suppression du rectangle et récupération des IUT présents dans la zone
+        const iutIdSelect = [];
         if (position.current.enAction) {
           const iutChart = theChart.getOption().series[0].data;
+          console.log(iutChart);
+          console.log(theChart.getOption());
           iutChart.filter((i) => {
             if (i.value) {
               const positionI = theChart.convertToPixel('geo', i.value);
@@ -273,7 +294,13 @@ function IUTFranceMap({ className }) {
               && position.current.y < positionI[1];
             }
             return false;
-          }).map((i) => selectedManager.switchIutSelectionnes(iutManager.getIutById(i.iutId)));
+          }).map((i) => {
+            if (!iutIdSelect.some((iutId) => iutId === i.iutId)) {
+              iutIdSelect.push(i.iutId);
+              selectedManager.switchIutSelectionnes(iutManager.getIutById(i.iutId));
+            }
+            return i;
+          });
 
           theChart.setOption({
             graphic: {
@@ -299,11 +326,15 @@ function IUTFranceMap({ className }) {
           geoLocal.current.longitude = geoPosition.coords.longitude;
         })])
         .then(() => {
-          console.log(geoLocal.current);
           // Création des options initiale avec la carte de france et un tableau d'IUTs vide
           theChart.hideLoading();
           theChart.setOption(
-            createInitalEchartOption(franceMap.mapName, [], franceMap, geoLocal.current),
+            createInitalEchartOption(
+              franceMap.mapName,
+              [],
+              franceMap,
+              geoLocal.current,
+            ),
 
           );
           if (!(geoLocal.current.latitude === null && geoLocal.current.longitude === null)) {
@@ -324,11 +355,13 @@ function IUTFranceMap({ className }) {
     if (echartState && iutManager.nbIuts) {
       console.log('re-set data');
       // choix des iuts : ceux selectionnés si l'on a une selection sinon tous les iuts
-      const iuts = iutManager.iutRecherchesTab.length
-        ? iutManager.iutRecherchesTab
-        : iutManager.iuts;
       echartState.setOption(
-        createDataOnlyOption(iuts, franceMap, selectedManager.iutSelectionnesTab),
+        createDataOnlyOption(
+          iutManager.iutRecherchesTab,
+          franceMap,
+          selectedManager.iutSelectionnesTab,
+          selectedManager.butSelectionnesTab,
+        ),
       );
     }
   }), [echartState, iutManager]);
