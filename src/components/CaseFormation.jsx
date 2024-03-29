@@ -51,7 +51,7 @@ function CaseFormation({
               onClick={changement}
               className={`align-middle font-bold text-base text-center ${selectedManager.butSelectionnes.has(but) ? 'bg-red-700' : 'bg-blue-900'} text-slate-50 border-blue-900`}
             >
-              {selectedManager.butSelectionnes.has(but) ? `${but.prettyPrintFiliere} ✔️` : but.prettyPrintFiliere}
+              {but.prettyPrintFiliere}
             </button>
             <p className="font-bold text-sm">
               Titre académique de la formation :
