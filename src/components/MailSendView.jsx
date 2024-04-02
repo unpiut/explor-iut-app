@@ -6,9 +6,6 @@ import RootStore from '../RootStore';
 
 function ModifyMailView() {
   const { selectedManager } = useContext(RootStore);
-  if (!selectedManager.nbIutSelectionnesId) {
-    window.location.replace('/');
-  }
   return (
     <div className="grid h-screen">
       <h1 className="text-center text-xl">Courriel envoyé</h1>
@@ -24,7 +21,7 @@ function ModifyMailView() {
             <img width={25} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
             <p>Revenir au récapitulatif de vos choix</p>
           </Link>
-          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/">
+          <Link className="border-2 p-2  flex m-2 justify-center gap-4" to="/formation">
             <img width={25} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
             <p>Choisir d&apos;autres formations</p>
           </Link>

@@ -14,10 +14,10 @@ function Modale({
     selectedManager.switchIutSelectionnes(iut);
   }
   return (
-    <div style={X && Y ? { top: `${Y}px`, left: `${X}px` } : null} className={`absolute px-10 grid justify-center bg-slate-50 z-10 gap-y-2 border-2 text-xs md:text-base border-blue-900 ${!(X && Y) ? 'left-10 right-10 top-[60%]' : ''}`}>
-      <div className="flex justify-between">
+    <div style={X && Y ? { top: `${Y}px`, left: `${X}px` } : null} className={`absolute px-5 grid justify-center bg-slate-50 z-10 gap-y-2 border-2 text-xs md:text-base border-blue-900 ${!(X && Y) ? 'left-10 right-10 top-[60%]' : ''}`}>
+      <div className="flex justify-between gap-5">
         <h2 className="align-middle">{iut.site ? `${iut.nom} - ${iut.site}` : iut.nom}</h2>
-        <button type="button" onClick={onClose}>X</button>
+        <button className="font-bold" type="button" onClick={onClose}>X</button>
       </div>
       <div>
         {iut.departements.filter(filtre).map((d) => (

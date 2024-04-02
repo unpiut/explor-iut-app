@@ -49,14 +49,19 @@ function CaseFormation({
             <button
               type="button"
               onClick={changement}
-              className={`align-middle font-bold text-base text-center ${selectedManager.butSelectionnes.has(but) ? 'bg-red-700' : 'bg-blue-900'} text-slate-50 border-blue-900`}
+              className={`align-middle font-bold grid grid-cols-3 text-base text-center ${selectedManager.butSelectionnes.has(but) ? 'bg-red-700' : 'bg-blue-900'} border-blue-900`}
             >
-              {but.prettyPrintFiliere}
+              <div />
+              <p className="text-slate-50">{but.prettyPrintFiliere}</p>
+              <p className="text-slate-50 justify-self-end pr-3">X</p>
             </button>
-            <p className="font-bold text-sm">
-              Titre académique de la formation :
-              {` ${but.nom} (${but.code})`}
-            </p>
+            <div className="flex flex-wrap align-middle gap-2">
+              <p className="align-middle">Titre académique de la formation :</p>
+              <p className="font-bold text-sm">
+
+                {`${but.nom} (${but.code})`}
+              </p>
+            </div>
             <button type="button" className="text-left" onClick={() => setoverflowDesc(!overflowDesc)}>
               <p className="font-bold">
                 Description formation :
@@ -97,16 +102,16 @@ function CaseFormation({
             </button>
 
             <div>
-              <a className="underline" target="_blank" href={but.urlIUT} rel="noreferrer">en savoir plus</a>
+              <a className="underline" target="_blank" href={but.urlIUT} rel="noreferrer">en savoir plus avec iut.fr</a>
             </div>
-            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? 'selectionner' : 'deselectionner'}</button>
+            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? 'selectionner cette formation' : 'deselectionner cette formation'}</button>
           </div>
         )
         : (
           <button
             type="button" // Pose problème, à changer mais le type="button" empêche les background-image
             onClick={changement}
-            className={`h-full max-w-full overflow-hidden break-words text-xs md:text-base align-middle text-center leading-loose border-2 border-blue-900 ${maClasse} bg-contain`}
+            className={`h-full max-w-full overflow-hidden break-words text-xs md:text-base align-middle text-center leading-loose hover:bg-[length:130%] transition-all duration-300 bg-center border-2 border-blue-900 ${maClasse} bg-contain`}
           >
             <h2 className={`text-white px-2 font-bold py-3 ${selectedManager.butSelectionnes.has(but) ? 'bg-red-transparent' : 'bg-blue-transparent'} w-full`}>{but.prettyPrintFiliere}</h2>
           </button>

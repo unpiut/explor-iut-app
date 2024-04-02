@@ -41,7 +41,7 @@ function MapView() {
           </div>
         </div>
       </div>
-      <Footer gauche={{ texte: 'Retour aux formations', lien: '' }} droite={{ texte: `Prendre contact avec les ${selectedManager.nbIutSelectionnesId} IUT`, lien: 'result' }} />
+      <Footer gauche={{ texte: 'Retour aux formations', lien: 'formation' }} droite={{ texte: `Prendre contact avec les ${selectedManager.nbIutSelectionnesId} IUT`, lien: 'result' }} />
 
     </div>
   );

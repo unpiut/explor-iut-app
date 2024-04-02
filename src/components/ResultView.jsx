@@ -10,6 +10,7 @@ import ModaleTelechargement from './ModaleTelechargement';
 function ResultView() {
   const { selectedManager } = useContext(RootStore);
   const [modaleTelechargement, setModaleTelechargement] = useState(false);
+  const courrielDestination = `3. Envoyer le courriel aux ${selectedManager.nbIutSelectionnesId} IUT sélectionnés`;
   selectedManager.miseAJour();
   const butSelect = selectedManager.butSelectionnesTab;
   document.addEventListener('keydown', (event) => {
@@ -40,9 +41,9 @@ function ResultView() {
               : <h2 className="sm:text-sm lg:text-base">Les IUT sélectionnés sur la carte apparaîtrons ici</h2>
         }
         <Footer
-          gauche={{ texte: 'Carte interactive', lien: 'map' }}
+          gauche={{ texte: 'Retour Carte Localisation', lien: 'map' }}
           droite={{
-            texte: 'Contacter ces instituts par courriel', lien: 'mail', disable: selectedManager.nbIutSelectionnesId <= 0, lienActu: 'result',
+            texte: courrielDestination, lien: 'mail', disable: selectedManager.nbIutSelectionnesId <= 0, lienActu: 'result',
           }}
         />
       </div>
