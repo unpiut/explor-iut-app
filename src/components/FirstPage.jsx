@@ -23,7 +23,7 @@ function FirstPage() {
             <p>Avec un récapitulatif sous Excel, ODS ou CSV des IUT sélectionnés</p>
           </div>
           <div className="m-auto h-full w-1/2 border-2 border-blue-900">
-            <h3 className="font-bold bg-blue-800 text-slate-50 border-b-2 border-blue-900">Contactez chaque IUT sélectionner pour déposer vos offres</h3>
+            <h3 className="font-bold bg-blue-800 text-slate-50 border-b-2 border-blue-900">Contactez chaque IUT sélectionnés pour déposer vos offres</h3>
             <p>Envoi d&apos;un courriel groupé (type ou à modifié) à tous les IUT sélectionnés</p>
           </div>
         </div>

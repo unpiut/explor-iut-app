@@ -152,7 +152,7 @@ function createDataOnlyOption(iuts, franceMap, iutSelectionnes) {
 function zoomGeoLoc({ latitude, longitude }) {
   return {
     geo: {
-      zoom: 10,
+      zoom: 4,
       center: [longitude, latitude],
     },
   };
