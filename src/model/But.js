@@ -17,8 +17,12 @@ class But {
 
   _iutsAssocié;
 
+  _urlFiche;
+
+  _urlFranceComp;
+
   constructor({
-    code, nom, filiere, parcours, description, metiers,
+    code, nom, filiere, parcours, description, metiers, urlFiche, urlFranceCompetence,
   }) {
     makeAutoObservable(this, {
       IUT_URL_BASE: false,
@@ -29,6 +33,8 @@ class But {
     this._parcours = parcours?.map((p) => [p.code, p.nom]);
     this._description = description;
     this._metiers = metiers;
+    this._urlFiche = urlFiche;
+    this._urlFranceComp = urlFranceCompetence;
   }
 
   get filiere() {
@@ -59,9 +65,12 @@ class But {
     return this._parcours;
   }
 
-  get urlIUT() {
-    const urlPath = this._nom.replaceAll(' ', '-').replaceAll("'", '').replaceAll(/[éèêë]/g, 'e');
-    return `${But.IUT_URL_BASE}/${urlPath}/`;
+  get urlFiche() {
+    return this._urlFiche;
+  }
+
+  get urlFranceCompetence() {
+    return this._urlFranceComp;
   }
 
   async getInfo() {
@@ -70,6 +79,8 @@ class But {
       but = await but.json();
       return runInAction(() => {
         this._description = but.description;
+        this._urlFiche = but.urlFiche;
+        this._urlFranceComp = but.urlFranceCompetence;
         this._metiers = but.parcours.map((parcours) => parcours.metiers);
       });
     }

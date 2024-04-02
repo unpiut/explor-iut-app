@@ -7,14 +7,15 @@ function ResultatRecherche({ iut, butSlct }) {
   return (
     <div key={iut.idIut} className="border border-blue-900 p-5">
 
-      <div className="flex justify-between px-2">
-        <h2 className="text-center font-bold">{`${iut.nom} - ${iut.site}`}</h2>
-        <button type="button" onClick={() => selectedManager.switchIutSelectionnes(iut)}>X</button>
-      </div>
+      <h2 className="text-center font-bold">{`${iut.nom} - ${iut.site}`}</h2>
       <h2>Formations présentes : </h2>
       {iut.departements.map((but) => (
         butSlct.findIndex((b) => b.code === but.codesButDispenses[0]) >= 0
-          ? <h2>{butSlct[butSlct.findIndex((b) => b.code === but.codesButDispenses[0])].nom}</h2>
+          ? (
+            <h2 key={but.codesButDispenses[0]}>
+              {butSlct[butSlct.findIndex((b) => b.code === but.codesButDispenses[0])].nom}
+            </h2>
+          )
           : null))}
       <p>
         📞 Téléphone :
@@ -24,6 +25,7 @@ function ResultatRecherche({ iut, butSlct }) {
         📧 Mail :
         {` ${iut.departements[0].mel}`}
       </p>
+      <button className="p-1 m-2 text-red-800 border border-red-800 rounded w-full text-center" type="button" onClick={() => selectedManager.switchIutSelectionnes(iut)}>Supprimer l&apos;IUT des contacts</button>
     </div>
   );
 }

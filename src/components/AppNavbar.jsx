@@ -11,7 +11,7 @@ function AppNavbar() {
   const [navOpen, setNavOpen] = useState(false);
 
   return (
-    <nav className="bg-slate-50 fixed top-0 left-0 right-0">
+    <nav className="bg-slate-50 fixed z-50 top-0 left-0 right-0">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -43,7 +43,7 @@ function AppNavbar() {
                   <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                 </Link>
                 <Link to={selectedManager.nbButSelectionnes > 0 ? '/result' : '?'} className="group hover:bg-blue-900  flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
-                  <p className={selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'group-hover:bg-blue-900 group-hover:text-white'}>Récapitulatif de vos choix</p>
+                  <p className={selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'group-hover:bg-blue-900 group-hover:text-white'}>2. Récapitulatif de vos choix</p>
                   <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                 </Link>
                 <Link to={selectedManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className={`${selectedManager.nbIutSelectionnesId < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
@@ -72,7 +72,7 @@ function AppNavbar() {
             <p className="group-hover:text-white">2. Choix de la localisation</p>
           </Link>
           <Link to="/result" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
-            <p className="group-hover:text-white">Récapitulatif de vos choix</p>
+            <p className="group-hover:text-white">2. Récapitulatif de vos choix</p>
             <img width={25} src={fleche} alt="fleche" />
           </Link>
           <Link to={selectedManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">

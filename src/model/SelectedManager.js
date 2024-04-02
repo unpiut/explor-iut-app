@@ -87,7 +87,7 @@ class SelectedManager {
     });
   }
 
-  async telecharger() {
+  async telecharger(typefile) {
     const now = dateToLocalDateTimeString(Date.now());
     const tab = this.iutSelectionnesTab
       .flatMap((iut) => iut.departements.map((dep) => [iut, dep]))
@@ -105,7 +105,7 @@ class SelectedManager {
     const worksheet = XLSX.utils.json_to_sheet(tab);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Récapitulatif');
-    XLSX.writeFile(workbook, 'Récapitulatif-IUT-alternance.xlsx', { compression: true });
+    XLSX.writeFile(workbook, `Récapitulatif-IUT-alternance.${typefile}`, { bookType: typefile, compression: true });
   }
 }
 

@@ -13,11 +13,13 @@ import MailView from './components/MailView';
 import ResultView from './components/ResultView';
 import ModifyMailView from './components/ModifyMailView';
 import MailSendView from './components/MailSendView';
+import FirstPage from './components/FirstPage';
 import RootStore from './RootStore';
 import STORE from './store';
 
 import { WithPagedTitle } from './components/utils';
 
+const nav = navigator.geolocation;
 const router = createBrowserRouter([
   {
     path: '/',
@@ -26,7 +28,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <WithPagedTitle pageTitle="formation"><FormationView /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="firstPage"><FirstPage /></WithPagedTitle>,
       },
       {
         path: 'formation',

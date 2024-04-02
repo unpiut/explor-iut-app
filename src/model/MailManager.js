@@ -66,9 +66,9 @@ class MailManager {
       return this._objet;
     }
     if (this._nomEntreprise) {
-      return `${this._nomEntreprise} - Demande d’information sur la déposition d'une offre d’alternance au sein de l’IUT`;
+      return `${this._nomEntreprise} - Demande d'information pour déposer une offre d'alternance`;
     }
-    return "nom modifiable - Demande d’information sur la déposition d'une offre d’alternance au sein de l’IUT";
+    return "nom modifiable - Demande d'information pour déposer une offre d'alternance";
   }
 
   set objet(newObjet) {

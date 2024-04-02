@@ -51,7 +51,7 @@ function FormationView() {
       </div>
 
       <Footer droite={{
-        texte: 'Choix de la localisation', lien: 'map', disable: selectedManager.nbButSelectionnes <= 0, lienActu: '',
+        texte: '2. Choix de la localisation', lien: 'map', disable: selectedManager.nbButSelectionnes <= 0, lienActu: 'formation',
       }}
       />
     </>
