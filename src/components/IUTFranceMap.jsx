@@ -12,6 +12,15 @@ import RootStore from '../RootStore';
 import Modale from './Modale';
 // import { findGeloloc } from '../../model/geolocService';
 
+function symbolDept(dept) {
+  if (dept === 0) {
+    return 'rect';
+  } if (dept === 1) {
+    return 'circle';
+  }
+  return 'triangle';
+}
+
 function iut2series(iuts, franceMap, iutSelectionnes = null, butsRecherches = null) {
   let butsCodeRecherche = [];
   const data = [];
@@ -39,7 +48,7 @@ function iut2series(iuts, franceMap, iutSelectionnes = null, butsRecherches = nu
             value: franceMap.mapRegionPoint(iut.region, iut.location),
             iutId: iut.idIut,
             itemStyle: { color: selectionne ? 'red' : 'blue' },
-            symbol: d.codesButDispenses[0] === butsCodeRecherche[0] ? 'circle' : 'rect',
+            symbol: symbolDept(butsCodeRecherche.findIndex((b) => b === d.codesButDispenses[0])),
           });
         } else {
           data.push({
@@ -48,7 +57,7 @@ function iut2series(iuts, franceMap, iutSelectionnes = null, butsRecherches = nu
             value: franceMap.mapRegionPoint(iut.region, iut.location),
             iutId: iut.idIut,
             itemStyle: { color: selectionne ? 'red' : 'blue' },
-            symbol: d.codesButDispenses[0] === butsCodeRecherche[0] ? 'circle' : 'rect',
+            symbol: symbolDept(butsCodeRecherche.findIndex((b) => b === d.codesButDispenses[0])),
           });
           edges.push({
             source: iut.site ? `${iut.nom} - ${iut.site}` : `${iut.nom}`,
