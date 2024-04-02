@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react';
-import classNames from 'classnames';
 import ResultatRecherche from './ResultatRecherche';
 import RootStore from '../RootStore';
 import fleche from '../assets/icone-les-iut.svg';

@@ -101,8 +101,9 @@ function CaseFormation({
               {!overflowJob ? <p>...</p> : null}
             </button>
 
-            <div>
-              <a className="underline" target="_blank" href={but.urlIUT} rel="noreferrer">en savoir plus avec iut.fr</a>
+            <div className="flex flex-wrap justify-between p-2">
+              <a className="underline" target="_blank" href={but.urlFiche} rel="noreferrer">en savoir plus avec iut.fr</a>
+              <a className="underline" target="_blank" href={but.urlFranceCompetence} rel="noreferrer">en savoir plus avec France Compétence</a>
             </div>
             <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? 'selectionner cette formation' : 'deselectionner cette formation'}</button>
           </div>
