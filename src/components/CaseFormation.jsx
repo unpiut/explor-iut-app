@@ -10,8 +10,6 @@ function CaseFormation({
   but, tabIndex, canOpen, isClose,
 }) {
   const [close, setClose] = useState(true);
-  const [overflowDesc, setoverflowDesc] = useState(false);
-  const [overflowJob, setoverflowJob] = useState(false);
   const { iutManager, selectedManager } = useContext(RootStore);
   const maClasse = style[`bg-${but.code}`] ?? style['bg-DEFAULT']; // On charge la classe 'version js' de nom bg-codeBUT ou bg-DEFAULT si la classe précédente n'existe pas
   function changement() {
@@ -62,19 +60,12 @@ function CaseFormation({
                 {`${but.nom} (${but.code})`}
               </p>
             </div>
-            <button type="button" className="text-left" onClick={() => setoverflowDesc(!overflowDesc)}>
-              <p className="font-bold">
-                Description formation :
-              </p>
-              <p className={classNames({
-                'max-h-16': !overflowDesc,
-                'overflow-hidden': !overflowDesc,
-              })}
-              >
-                {but.description ? ` ${but.description}` : ''}
-              </p>
-              {!overflowDesc ? <p>...</p> : null}
-            </button>
+            <p className="font-bold">
+              Description formation :
+            </p>
+            <p>
+              {but.description ? ` ${but.description}` : ''}
+            </p>
             <div>
               <p className="font-bold">
                 Les spécialités :
@@ -87,19 +78,12 @@ function CaseFormation({
                 </p>
               ))}
             </div>
-            <button type="button" className="text-left" onClick={() => setoverflowJob(!overflowJob)}>
-              <p className="font-bold">
-                Débouchés métiers :
-              </p>
-              <p className={classNames({
-                'max-h-16': !overflowJob,
-                'overflow-hidden': !overflowJob,
-              })}
-              >
-                {but.metiers ? ` ${but.metiers}` : ''}
-              </p>
-              {!overflowJob ? <p>...</p> : null}
-            </button>
+            <p className="font-bold">
+              Débouchés métiers :
+            </p>
+            <p>
+              {but.metiers ? ` ${but.metiers}` : ''}
+            </p>
 
             <div className="flex flex-wrap justify-between p-2">
               <a className="underline" target="_blank" href={but.urlFiche} rel="noreferrer">en savoir plus avec iut.fr</a>
@@ -110,7 +94,7 @@ function CaseFormation({
         )
         : (
           <button
-            type="button" // Pose problème, à changer mais le type="button" empêche les background-image
+            type="button"
             onClick={changement}
             className={`h-full max-w-full overflow-hidden break-words text-xs md:text-base align-middle text-center leading-loose hover:bg-[length:130%] transition-all duration-300 bg-center border-2 border-blue-900 ${maClasse} bg-contain`}
           >
