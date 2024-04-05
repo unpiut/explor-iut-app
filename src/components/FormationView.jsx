@@ -17,7 +17,7 @@ function FormationView() {
       <div className="mb-4">
         <h1 className="text-center text-xl font-bold">1. Choix des formations</h1>
         <h1 className="text-center sm:text-sm lg:text-base">
-          Sélectionner un maximum de 3 univers métiers qui vous intéresse. (
+          Sélectionner un maximum de 3 univers métiers qui vous intéressent. (
           { selectedManager.nbButSelectionnes > 1
             ? (
               <>

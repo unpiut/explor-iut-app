@@ -34,7 +34,7 @@ function AppNavbar() {
               <div className="flex space-x-4">
                 <Link to="https://www.iut.fr/" className=" hover:bg-blue-900 hover:text-white rounded-md px-3 py-2 text-sm font-medium">SITE LES IUT</Link>
                 <div className="border border-blue-900" />
-                <Link to="/" className="group flex gap-2 hover:bg-blue-900 rounded-md px-3 py-2 text-sm font-medium">
+                <Link to="/formation" className="group flex gap-2 hover:bg-blue-900 rounded-md px-3 py-2 text-sm font-medium">
                   <p className="group-hover:text-white">1. Choix des formations</p>
                   <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                 </Link>
