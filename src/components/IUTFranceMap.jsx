@@ -4,7 +4,10 @@ import React, {
   useContext, useEffect, useRef, useState,
 } from 'react';
 import classNames from 'classnames';
-import * as echarts from 'echarts';
+import * as echarts from 'echarts/core';
+import { EffectScatterChart } from 'echarts/charts';
+import { CanvasRenderer } from 'echarts/renderers';
+import { TooltipComponent, GraphicComponent, GeoComponent } from 'echarts/components';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { autorun } from 'mobx';
@@ -12,6 +15,8 @@ import RootStore from '../RootStore';
 import Modale from './Modale';
 // import { findGeloloc } from '../../model/geolocService';
 
+echarts.use([
+  CanvasRenderer, TooltipComponent, GraphicComponent, EffectScatterChart, GeoComponent]);
 function iut2series(iuts, franceMap) {
   return iuts.filter((iut) => {
     if (!iut.location || (iut.location.x ?? false) === false) {

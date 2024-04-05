@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import * as echarts from 'echarts';
+import * as echarts from 'echarts/core';
 
 const REMAPING_TOM = {
   Guyane: {
