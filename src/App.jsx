@@ -18,8 +18,8 @@ import RootStore from './RootStore';
 import STORE from './store';
 
 import { WithPagedTitle } from './components/utils';
+import MentionsLegales from './components/MentionsLegales';
 
-const nav = navigator.geolocation;
 const router = createBrowserRouter([
   {
     path: '/',
@@ -77,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: 'mailSend',
         element: <WithPagedTitle pageTitle="CourrielEnvoye"><MailSendView /></WithPagedTitle>,
+      },
+      {
+        path: 'mentions',
+        element: <WithPagedTitle pageTitle="MentionsLegales"><MentionsLegales /></WithPagedTitle>,
       },
     ],
   },

@@ -16,8 +16,10 @@ function Footer({
               <img width={30} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
               <Link className="text-sm sm:text-base" to={gauche.lien}>{gauche.texte}</Link>
             </div>
-
-            <img src={motif} className="w-1/2" alt="motif unpiut" />
+            <div className="grid">
+              <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
+              <Link className="text-center" to="/mentions">Mentions légales</Link>
+            </div>
             <div className={`ring rounded ${!droite.disable ? 'ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
               <Link className={`${!droite.disable ? '' : 'text-gray-400'} sm:text-base text-sm sm:font-bold`} to={!droite.disable ? droite.lien : droite.lienActu}>{droite.texte}</Link>
               <img width={30} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
@@ -28,7 +30,10 @@ function Footer({
         ? (
           <>
             <div />
-            <img src={motif} className="w-1/2" alt="motif unpiut" />
+            <div className="grid">
+              <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
+              <Link className="text-center" to="/mentions">Mentions légales</Link>
+            </div>
             <div className={`ring rounded ${!droite.disable ? 'ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
               <Link className={`${!droite.disable ? '' : 'text-gray-400'} sm:text-base text-sm sm:font-bold`} to={!droite.disable ? droite.lien : droite.lienActu}>{droite.texte}</Link>
               <img width={30} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
@@ -42,7 +47,10 @@ function Footer({
               <img width={30} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
               <Link className="text-sm sm:text-base" to={gauche.lien}>{gauche.texte}</Link>
             </div>
-            <img src={motif} className="w-1/2" alt="motif unpiut" />
+            <div className="grid">
+              <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
+              <Link className="text-center" to="/mentions">Mentions légales</Link>
+            </div>
             <div />
           </>
         ) : null}
