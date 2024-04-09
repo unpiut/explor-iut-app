@@ -40,9 +40,9 @@ function ResultView() {
               : <h2 className="sm:text-sm lg:text-base">Les IUT sélectionnés sur la carte apparaîtrons ici</h2>
         }
         <Footer
-          gauche={{ texte: 'Retour Carte Localisation', lien: 'map' }}
+          gauche={{ texte: 'Retour Carte Localisation', lien: '/map' }}
           droite={{
-            texte: courrielDestination, lien: 'mail', disable: selectedManager.nbIutSelectionnesId <= 0, lienActu: 'result',
+            texte: courrielDestination, lien: '/mail', disable: selectedManager.nbIutSelectionnesId <= 0, lienActu: '/result',
           }}
         />
       </div>

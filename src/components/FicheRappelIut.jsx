@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PropTypes } from 'mobx-react';
 import classNames from 'classnames';
+import { PropTypes as MPropTypes } from 'prop-types';
 import fleche from '../assets/icone-les-iut.svg';
 
 function FicheRappelIut({ but, index }) {
@@ -72,5 +73,6 @@ function FicheRappelIut({ but, index }) {
 }
 FicheRappelIut.propTypes = {
   but: PropTypes.objectOrObservableObject.isRequired,
+  index: MPropTypes.number.isRequired,
 };
 export default FicheRappelIut;

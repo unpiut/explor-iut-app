@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
 import logoPict from '../assets/logo-les-iut.svg';
+import logoUnpiut from '../assets/logo-unpiut.png';
 import fleche from '../assets/icone-les-iut.svg';
 import RootStore from '../RootStore';
 
@@ -28,9 +29,9 @@ function AppNavbar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
-              <img className="h-8 w-auto" src={logoPict} alt="Your Company" />
+              <img className="h-8 w-auto" src={logoPict} alt="Logo des IUT" />
             </div>
-            <div className="hidden sm:ml-6 sm:block">
+            <div className="hidden sm:ml-6 sm:block sm:py-6">
               <div className="flex space-x-4">
                 <Link to="https://www.iut.fr/" className=" hover:bg-blue-900 hover:text-white rounded-md px-3 py-2 text-sm font-medium">SITE LES IUT</Link>
                 <div className="border border-blue-900" />
@@ -50,6 +51,9 @@ function AppNavbar() {
                   3. Courriel
                 </Link>
               </div>
+            </div>
+            <div className="flex flex-shrink-0 items-center">
+              <img className="w-auto h-14" src={logoUnpiut} alt="Logo UNPIUT" />
             </div>
           </div>
         </div>

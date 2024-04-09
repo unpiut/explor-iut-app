@@ -17,23 +17,22 @@ function FormationView() {
       <div className="mb-4">
         <h1 className="text-center text-xl font-bold">1. Choix des formations</h1>
         <h1 className="text-center sm:text-sm lg:text-base">
-          Sélectionner un maximum de 3 univers métiers qui vous intéressent. (
+          Sélectionner un maximum de 3 univers métiers qui vous intéressent.
           { selectedManager.nbButSelectionnes > 1
             ? (
               <>
-                {selectedManager.nbButSelectionnes}
+                Nombre de formations sélectionnées :
                 {' '}
-                Formations sélectionnées
+                {selectedManager.nbButSelectionnes}
               </>
             )
             : (
               <>
-                {selectedManager.nbButSelectionnes}
+                Nombre de formation sélectionnée :
                 {' '}
-                Formation sélectionnée
+                {selectedManager.nbButSelectionnes}
               </>
             )}
-          )
         </h1>
       </div>
       <div className="md:mx-32 grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-8 px-3 pb-20">
@@ -50,9 +49,13 @@ function FormationView() {
           : null))}
       </div>
 
-      <Footer droite={{
-        texte: '2. Choix de la localisation', lien: 'map', disable: selectedManager.nbButSelectionnes <= 0, lienActu: 'formation',
-      }}
+      <Footer
+        gauche={{
+          texte: 'Retour accueil', lien: '/',
+        }}
+        droite={{
+          texte: '2. Choix de la localisation', lien: '/map', disable: selectedManager.nbButSelectionnes <= 0, lienActu: '/formation',
+        }}
       />
     </>
   );

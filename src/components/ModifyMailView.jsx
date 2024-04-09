@@ -4,16 +4,13 @@ import Footer from './Footer';
 import RootStore from '../RootStore';
 
 function ModifyMailView() {
-  const { selectedManager, mailManager } = useContext(RootStore);
+  const { mailManager } = useContext(RootStore);
   return (
     <>
-      <h1 className="text-center text-xl font-bold">Modification courriel</h1>
+      <h1 className="text-center text-xl font-bold">Courriel type modifiable</h1>
       <p className="text-center text-xs sm:text-base lg:px-80">
-        A partir d&apos;un courriel type (contenant planning d&apos;alternance, modalités
-        de remise de l&apos;offre d&apos;alternance) que vous pourrez aussi compléter par
-        d&apos;autres demandes, nous vous proposons un envoi groupé
-        {selectedManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${selectedManager.nbIutSelectionnesId} IUT sélectionnés.`}
-        .
+        L&apos;objet n&apos;est pas modifiable, vous pouvez modifier tout
+        le corps du courriel. Vous pouvez aussi déposer en pièces jointes vos offres.
       </p>
       <form method="GET">
         <div className="m-2">
@@ -29,7 +26,7 @@ function ModifyMailView() {
           </label>
         </div>
       </form>
-      <Footer gauche={{ texte: 'Retour aux informations du courriel', lien: 'mail' }} droite={{ texte: 'Envoyer mon courriel', lien: 'mailSend' }} />
+      <Footer gauche={{ texte: 'Retour aux informations du courriel', lien: '/mail' }} droite={{ texte: 'Envoyer mon courriel', lien: '/mailSend' }} />
     </>
   );
 }

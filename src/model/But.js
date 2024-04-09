@@ -21,8 +21,12 @@ class But {
 
   _urlFranceComp;
 
+  _universMetiers;
+
   constructor({
-    code, nom, filiere, parcours, description, metiers, urlFiche, urlFranceCompetence,
+    code, nom, filiere, parcours,
+    description, metiers, urlFiche,
+    urlFranceCompetence, universMetiers,
   }) {
     makeAutoObservable(this, {
       IUT_URL_BASE: false,
@@ -31,6 +35,7 @@ class But {
     this._nom = nom;
     this._filiere = filiere;
     this._parcours = parcours?.map((p) => [p.code, p.nom]);
+    this._universMetiers = universMetiers;
     this._description = description;
     this._metiers = metiers;
     this._urlFiche = urlFiche;
