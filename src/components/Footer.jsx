@@ -18,7 +18,7 @@ function Footer({
             </div>
             <div className="grid">
               <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
-              <Link className="text-center" to="/mentions">Mentions légales</Link>
+              <Link className="text-center underline" to="/mentions">Mentions légales</Link>
             </div>
             <div className={`ring rounded ${!droite.disable ? 'ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
               <Link className={`${!droite.disable ? '' : 'text-gray-400'} sm:text-base text-sm sm:font-bold`} to={!droite.disable ? droite.lien : droite.lienActu}>{droite.texte}</Link>
@@ -32,7 +32,7 @@ function Footer({
             <div />
             <div className="grid">
               <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
-              <Link className="text-center" to="/mentions">Mentions légales</Link>
+              <Link className="text-center underline" to="/mentions">Mentions légales</Link>
             </div>
             <div className={`ring rounded ${!droite.disable ? 'ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
               <Link className={`${!droite.disable ? '' : 'text-gray-400'} sm:text-base text-sm sm:font-bold`} to={!droite.disable ? droite.lien : droite.lienActu}>{droite.texte}</Link>
@@ -49,7 +49,7 @@ function Footer({
             </div>
             <div className="grid">
               <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
-              <Link className="text-center" to="/mentions">Mentions légales</Link>
+              <Link className="text-center underline" to="/mentions">Mentions légales</Link>
             </div>
             <div />
           </>
