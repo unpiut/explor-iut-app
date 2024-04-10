@@ -11,13 +11,13 @@ function MapView() {
   return (
     <div className="grid">
       <div className="flex gap-2 justify-center">
-        <h1 className="text-center text-xl font-bold">2. Choix de la localisation</h1>
+        <h1 className="text-center text-3xl font-bold">2. Choix de la localisation</h1>
       </div>
-      <h2 className="text-center sm:text-sm lg:text-base">
+      <h2 className="text-center sm:text-sm lg:text-xl">
         Vous retrouvez ici tous les instituts contenant la ou les formations sélectionnées.
         Sélectionner autant d&apos;instituts que vous le voulez.
       </h2>
-      <h2 className="text-center sm:text-sm lg:text-base">
+      <h2 className="text-center sm:text-sm lg:text-xl">
         {' '}
         { selectedManager.nbIutSelectionnesId > 1
           ? (
@@ -46,16 +46,22 @@ function MapView() {
               <FicheRappelIut but={b} index={index} key={b.code} />
             ))}
           </div>
-          <div>
-            <h2 className="text-lg">Interaction avec la carte</h2>
-            <h3 className="underline-offset-1">Sélection des IUT</h3>
-            <p>
-              - &quot;à l&apos;unité&quot; : cliquez sur une ville et valider ou non sa sélection
-            </p>
-            <p>
-              - &quot;groupé sur une zone&quot; : Maintenir CTRL et tracer avec la souris
-              un rectangle. Tous les IUT présents dans le rectangle seront sélectionnés.
-            </p>
+          <div className="flex justify-end">
+            <div className="w-5/6 border-2 p-2 mt-4 border-blue-800">
+              <h2 className="text-lg font-bold">Interaction avec la carte</h2>
+              <h3 className="underline-offset-1 font-bold">Déplacement sur la carte</h3>
+              <p>
+                Zoomer et dézoomer avec la molette et/ou déplacer en restant cliquer.
+              </p>
+              <h3 className="underline-offset-1 font-bold">Sélection des IUT</h3>
+              <p>
+                - &quot;à l&apos;unité&quot; : cliquez sur une ville et valider ou non sa sélection
+              </p>
+              <p>
+                - &quot;groupé sur une zone&quot; : Maintenir CTRL et tracer avec la souris
+                un rectangle. Tous les IUT présents dans le rectangle seront sélectionnés.
+              </p>
+            </div>
           </div>
         </div>
       </div>

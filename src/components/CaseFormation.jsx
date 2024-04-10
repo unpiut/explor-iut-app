@@ -35,14 +35,14 @@ function CaseFormation({
         'col-span-1': !isClose,
         'col-span-2': isClose,
         'md:col-span-3': isClose,
-        'lg:col-span-4': isClose,
+        'lg:col-span-5': isClose,
       })}
       tabIndex={tabIndex}
     >
       {isClose
         ? (
           <div
-            className="grid gap-y-2 border-2 text-xs  border-blue-900"
+            className="grid gap-y-2 border-2 text-sm  border-blue-900"
           >
             <button
               type="button"
@@ -55,7 +55,7 @@ function CaseFormation({
             </button>
             <div className="flex flex-wrap align-middle gap-2">
               <p className="align-middle">Titre académique de la formation :</p>
-              <p className="font-bold text-sm">
+              <p className="font-bold text-base">
 
                 {`${but.nom} (${but.code})`}
               </p>
@@ -86,8 +86,8 @@ function CaseFormation({
             </p>
 
             <div className="flex flex-wrap justify-between p-2">
-              <a className="underline" target="_blank" href={but.urlFiche} rel="noreferrer">en savoir plus avec iut.fr</a>
-              <a className="underline" target="_blank" href={but.urlFranceCompetence} rel="noreferrer">en savoir plus avec France Compétence</a>
+              <a className="underline font-bold text-base" target="_blank" href={but.urlFiche} rel="noreferrer">en savoir plus avec iut.fr</a>
+              <a className="underline font-bold text-base" target="_blank" href={but.urlFranceCompetence} rel="noreferrer">en savoir plus avec France Compétence</a>
             </div>
             <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? 'selectionner cette formation' : 'deselectionner cette formation'}</button>
           </div>

@@ -14,7 +14,7 @@ function AppNavbar() {
   return (
     <nav className="bg-slate-50 fixed z-50 top-0 left-0 right-0">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
+        <div className="relative flex h-20 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             <button type="button" onClick={() => setNavOpen(!navOpen)} className="group relative inline-flex items-center justify-center rounded-md p-2 hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
               <span className="absolute -inset-0.5" />
@@ -27,14 +27,12 @@ function AppNavbar() {
               </svg>
             </button>
           </div>
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div className="flex flex-1 gap-40 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
-              <img className="h-8 w-auto" src={logoPict} alt="Logo des IUT" />
+              <img className="h-12 w-auto" src={logoPict} alt="Logo des IUT" />
             </div>
             <div className="hidden sm:ml-6 sm:block sm:py-6">
               <div className="flex space-x-4">
-                <Link to="https://www.iut.fr/" className=" hover:bg-blue-900 hover:text-white rounded-md px-3 py-2 text-sm font-medium">SITE LES IUT</Link>
-                <div className="border border-blue-900" />
                 <Link to="/formation" className="group flex gap-2 hover:bg-blue-900 rounded-md px-3 py-2 text-sm font-medium">
                   <p className="group-hover:text-white">1. Choix des formations</p>
                   <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
@@ -53,7 +51,7 @@ function AppNavbar() {
               </div>
             </div>
             <div className="flex flex-shrink-0 items-center">
-              <img className="w-auto h-14" src={logoUnpiut} alt="Logo UNPIUT" />
+              <img className="w-auto h-20" src={logoUnpiut} alt="Logo UNPIUT" />
             </div>
           </div>
         </div>

@@ -1,9 +1,10 @@
 import React from 'react';
+import Footer from './Footer';
 
 function MentionsLegales() {
   return (
     <>
-      <h1>Mentions Légales</h1>
+      <h1 className="text-center text-3xl">Mentions Légales - RGPD</h1>
       <p>
         Les informations recueillies sur ce site sont enregistrées dans un fichier informatisé
         par l&apos;ADIUT (Assemblée des Directeurs d&apos;IUT) pour l&apos;envoi de mail.
@@ -37,6 +38,7 @@ function MentionsLegales() {
         Si vous estimez, après nous avoir contactés, que vos droits « Informatique
         et Libertés » ne sont pas respectés, vous pouvez adresser une réclamation à la CNIL.
       </p>
+      <Footer gauche={{ texte: 'Retour en arriere', lien: '/' }} />
     </>
   );
 }
