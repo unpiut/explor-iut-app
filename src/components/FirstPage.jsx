@@ -15,20 +15,20 @@ function FirstPage() {
         <h2 className="text-center text-xl">Une recherche simple et rapide en 3 étapes</h2>
         <div className="grid gap-5 md:grid-cols-3 text-center justify-center">
           <div className="m-auto h-full w-1/2 border-2 border-blue-900">
-            <h3 className="font-bold bg-blue-800 text-slate-50 border-b-2 border-blue-900">Quelles formations recherchez vous ?</h3>
+            <h3 className="font-bold bg-blue-800 text-slate-50 border-b-2 border-blue-900">Recherchez les formations qui vous intéressent</h3>
             <p>Avec visualisation des contenus et des débouchés de chaque formation</p>
           </div>
           <div className="m-auto h-full w-1/2 border-2 border-blue-900">
-            <h3 className="font-bold bg-blue-800 text-slate-50 border-b-2 border-blue-900">Où sont les IUT qui font ces formations ?</h3>
+            <h3 className="font-bold bg-blue-800 text-slate-50 border-b-2 border-blue-900">Localisez les IUT qui vous intéressent</h3>
             <p>Avec un récapitulatif sous Excel, ODS ou CSV des IUT sélectionnés</p>
           </div>
           <div className="m-auto h-full w-1/2 border-2 border-blue-900">
-            <h3 className="font-bold bg-blue-800 text-slate-50 border-b-2 border-blue-900">Contactez chaque IUT sélectionnés pour déposer vos offres</h3>
-            <p>Envoi d&apos;un courriel groupé (type ou à modifié) à tous les IUT sélectionnés</p>
+            <h3 className="font-bold bg-blue-800 text-slate-50 border-b-2 border-blue-900">Contactez tous les IUT sélectionnés et déposer vos offres</h3>
+            <p>Envoi d&apos;un courriel groupé (type ou à modifier) à tous les IUT sélectionnés</p>
           </div>
         </div>
       </div>
-      <Footer droite={{ texte: 'Commencez votre recherche', lien: 'formation' }} />
+      <Footer gauche={{ texte: 'Retour site iut.fr', lien: 'https://www.iut.fr/' }} droite={{ texte: 'Commencez votre recherche', lien: '/formation' }} />
     </>
   );
 }
