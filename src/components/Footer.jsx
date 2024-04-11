@@ -16,7 +16,7 @@ function Footer({
               <img width={30} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
               <Link className="text-sm sm:text-base" to={gauche.lien}>{gauche.texte}</Link>
             </div>
-            <div className="grid">
+            <div className="lg:grid hidden">
               <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
               <Link className="text-center underline" to="/mentions">Mentions légales</Link>
             </div>
@@ -30,7 +30,7 @@ function Footer({
         ? (
           <>
             <div />
-            <div className="grid">
+            <div className="lg:grid hidden">
               <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
               <Link className="text-center underline" to="/mentions">Mentions légales</Link>
             </div>
@@ -47,7 +47,7 @@ function Footer({
               <img width={30} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
               <Link className="text-sm sm:text-base" to={gauche.lien}>{gauche.texte}</Link>
             </div>
-            <div className="grid">
+            <div className="lg:grid hidden">
               <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
               <Link className="text-center underline" to="/mentions">Mentions légales</Link>
             </div>

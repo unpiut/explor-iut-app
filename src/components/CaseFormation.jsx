@@ -11,6 +11,26 @@ function CaseFormation({
 }) {
   const [close, setClose] = useState(true);
   const { iutManager, selectedManager } = useContext(RootStore);
+  function couleurBordure() {
+    switch (but.universMetiers) {
+      case "Métiers de l'infomatique": return 'border-blue-900';
+      case 'Métiers Industriels : Prod-Maintenance, Qualité-R&D': return 'border-amber-500';
+      case "Métiers support de l'Industriel": return 'border-lime-600';
+      case 'Métiers du Social, Gestion, Commerce': return 'border-purple-800';
+      default: return null;
+    }
+  }
+  const styleBordure = couleurBordure();
+  function couleurFond() {
+    switch (but.universMetiers) {
+      case "Métiers de l'infomatique": return 'bg-blue-transparent';
+      case 'Métiers Industriels : Prod-Maintenance, Qualité-R&D': return 'bg-amber-transparent';
+      case "Métiers support de l'Industriel": return 'bg-lime-transparent';
+      case 'Métiers du Social, Gestion, Commerce': return 'bg-purple-transparent';
+      default: return null;
+    }
+  }
+  const styleFond = couleurFond();
   const maClasse = style[`bg-${but.code}`] ?? style['bg-DEFAULT']; // On charge la classe 'version js' de nom bg-codeBUT ou bg-DEFAULT si la classe précédente n'existe pas
   function changement() {
     but.getInfo();
@@ -26,6 +46,7 @@ function CaseFormation({
   function selectionner() {
     selectedManager.switchButSelectionne(but);
     iutManager.switchIutRecherches(selectedManager.butSelectionnes);
+    selectedManager.switchIutSelectionnesIdByBut();
   }
 
   return (
@@ -35,14 +56,15 @@ function CaseFormation({
         'col-span-1': !isClose,
         'col-span-2': isClose,
         'md:col-span-3': isClose,
-        'lg:col-span-5': isClose,
+        'lg:col-span-3': isClose,
+        'xl:col-span-5': isClose,
       })}
       tabIndex={tabIndex}
     >
       {isClose
         ? (
           <div
-            className="grid gap-y-2 border-2 text-sm  border-blue-900"
+            className={`grid gap-y-2 border-4 text-sm  ${styleBordure}`}
           >
             <button
               type="button"
@@ -96,9 +118,9 @@ function CaseFormation({
           <button
             type="button"
             onClick={changement}
-            className={`h-full max-w-full overflow-hidden break-words text-xs md:text-base align-middle text-center leading-loose hover:bg-[length:130%] transition-all duration-300 bg-center border-2 border-blue-900 ${maClasse} bg-contain`}
+            className={`h-full max-w-full overflow-hidden break-words text-xs md:text-sm xl:text-base align-middle text-center leading-loose hover:bg-[length:130%] transition-all duration-300 bg-center border-[6px] ${maClasse} ${styleBordure} bg-contain`}
           >
-            <h2 className={`text-white px-2 font-bold py-3 ${selectedManager.butSelectionnes.has(but) ? 'bg-red-transparent' : 'bg-blue-transparent'} w-full`}>{but.prettyPrintFiliere}</h2>
+            <h2 className={`text-white px-2 font-bold py-3 ${selectedManager.butSelectionnes.has(but) ? 'bg-red-transparent' : styleFond} w-full`}>{but.prettyPrintFiliere}</h2>
           </button>
         )}
     </div>

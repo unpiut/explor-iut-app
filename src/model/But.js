@@ -78,6 +78,10 @@ class But {
     return this._urlFranceComp;
   }
 
+  get universMetiers() {
+    return this._universMetiers;
+  }
+
   async getInfo() {
     if (!this._description) {
       let but = await fetch(`${APP_ENV_API_PATH}/referentiel/but/by-code/${this._code}`);
@@ -86,7 +90,7 @@ class But {
         this._description = but.description;
         this._urlFiche = but.urlFiche;
         this._urlFranceComp = but.urlFranceCompetence;
-        this._metiers = but.parcours.map((parcours) => parcours.metiers);
+        this._metiers = but.metiers;
       });
     }
     return this;

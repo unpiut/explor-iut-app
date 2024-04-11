@@ -6,7 +6,7 @@ function Root() {
   return (
     <>
       <AppNavbar />
-      <main className="mt-20">
+      <main className="mt-20 mb-32">
         <Outlet />
       </main>
     </>

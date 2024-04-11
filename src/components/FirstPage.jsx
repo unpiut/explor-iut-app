@@ -6,8 +6,8 @@ function FirstPage() {
   return (
     <>
       <div className="grid p-10 align-middle gap-5 justify-center">
-        <h1 className="text-center text-5xl font-bold">Bienvenue sur ExplorerIUT</h1>
-        <p className="text-3xl">
+        <h1 className="text-center text-3xl lg:text-5xl font-bold">Bienvenue sur ExplorerIUT</h1>
+        <p className="text-xl lg:text-3xl text-center">
           <a className="font-bold underline underline-offset-1" href="https://www.unpiut.fr/">L&apos;Union des Présidents des IUT</a>
           {' '}
           vous accompagne
@@ -15,8 +15,8 @@ function FirstPage() {
         </p>
       </div>
       <div className="grid justify-items-center gap-10">
-        <h2 className="text-center text-3xl">Une recherche simple et rapide en 3 étapes</h2>
-        <div className="grid gap-5 md:grid-cols-3 text-center justify-center">
+        <h2 className="text-center text-xl lg:text-3xl">Une recherche simple et rapide en 3 étapes</h2>
+        <div className="grid gap-5 xl:grid-cols-3 text-center justify-center">
           <div className="relative pb-4 m-auto h-full w-1/2 border-2 border-blue-900">
             <div>
               <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">1 - Recherchez les formations qui vous intéressent</h3>

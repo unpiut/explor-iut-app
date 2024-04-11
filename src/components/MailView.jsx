@@ -8,7 +8,7 @@ function MailView() {
 
   return (
     <>
-      <h1 className="text-center text-3xl font-bold">3. Courriel</h1>
+      <h1 className="text-center text-xl lg:text-3xl font-bold">3. Courriel</h1>
       <p className="text-center text-sm sm:text-xl lg:px-80">
         Nous vous proposons un envoi groupé
         {selectedManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${selectedManager.nbIutSelectionnesId} IUT sélectionnés`}

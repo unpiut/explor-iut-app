@@ -19,6 +19,7 @@ import STORE from './store';
 
 import { WithPagedTitle } from './components/utils';
 import MentionsLegales from './components/MentionsLegales';
+import ExcelAccess from './components/excelAccess';
 
 const router = createBrowserRouter([
   {
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: 'mentions',
         element: <WithPagedTitle pageTitle="MentionsLegales"><MentionsLegales /></WithPagedTitle>,
+      },
+      {
+        path: 'excelAccess', // A changer
+        element: <WithPagedTitle pageTitle="ExcelAccess"><ExcelAccess /></WithPagedTitle>,
       },
     ],
   },

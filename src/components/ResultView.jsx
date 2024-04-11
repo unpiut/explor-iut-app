@@ -21,7 +21,7 @@ function ResultView() {
         ? <ModaleTelechargement onClose={() => setModaleTelechargement(false)} />
         : null}
       <div className="grid justify-center">
-        <h1 className="text-center text-3xl font-bold">Récapitulatif de vos choix</h1>
+        <h1 className="text-center text-xl lg:text-3xl font-bold">Récapitulatif de vos choix</h1>
         {
             selectedManager.nbIutSelectionnesId > 0 ? (
 

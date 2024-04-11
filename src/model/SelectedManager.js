@@ -91,14 +91,14 @@ class SelectedManager {
     const now = dateToLocalDateTimeString(Date.now());
     const tab = this.iutSelectionnesTab
       .flatMap((iut) => iut.departements.map((dep) => [iut, dep]))
-      .filter(([, d]) => this.butSelectionnesTab.some((b) => b.code === d.codesButDispenses[0]))
+      .filter(([, d]) => this.butSelectionnesTab.some((b) => b.code === d.butDispenses[0].codeBut))
       .map(([iut, dep]) => ({
-        'Filière métiers': this.butSelectionnesTab.find((b) => b.code === dep.codesButDispenses[0]).prettyPrintFiliere,
+        'Filière métiers': this.butSelectionnesTab.find((b) => b.code === dep.butDispenses[0].codeBut).prettyPrintFiliere,
         IUT: iut.nom,
         Site: iut.site,
-        'Nom de la formation': this.butSelectionnesTab.find((b) => b.code === dep.codesButDispenses[0]).nom,
-        Courriel: dep.mel,
-        Téléphone: dep.tel,
+        'Nom de la formation': this.butSelectionnesTab.find((b) => b.code === dep.butDispenses[0].codeBut).nom,
+        Courriel: iut.mel,
+        Téléphone: iut.tel,
         "Date de l'extraction": now,
         Suivi: '',
       }));

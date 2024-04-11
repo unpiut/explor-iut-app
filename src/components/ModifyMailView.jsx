@@ -14,7 +14,7 @@ function ModifyMailView() {
   const { mailManager } = useContext(RootStore);
   return (
     <>
-      <h1 className="text-center text-3xl font-bold">3. Courriel type modifiable</h1>
+      <h1 className="text-center text-xl lg:text-3xl font-bold">3. Courriel type modifiable</h1>
       <p className="text-center text-xs sm:text-xl lg:px-80">
         L&apos;objet n&apos;est pas modifiable, vous pouvez modifier tout
         le corps du courriel. Vous pouvez aussi déposer en pièces jointes vos offres.

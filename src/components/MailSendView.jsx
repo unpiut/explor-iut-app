@@ -8,20 +8,20 @@ function ModifyMailView() {
   const { selectedManager } = useContext(RootStore);
   return (
     <div className="grid h-screen">
-      <h1 className="text-center text-3xl">Courriel envoyé</h1>
+      <h1 className="text-center text-xl lg:text-3xl">Courriel envoyé</h1>
       <p className="text-center text-xl">
-        Votre courriel a bien été envoyé
+        Un courriel de confirmation vous a été envoyé pour valider la demande de contact
         {selectedManager.nbIutSelectionnesId < 2 ? " à l'IUT sélectionné" : ` aux ${selectedManager.nbIutSelectionnesId} IUT sélectionnés`}
         .
       </p>
       <form method="GET">
 
         <div className="grid justify-center">
-          <Link className="border-2 p-2 text-xl flex m-2 justify-center gap-4" to="/result">
+          <Link className="border-2 p-2 text-base lg:text-xl flex m-2 justify-center gap-4" to="/result">
             <img width={25} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
             <p>Revenir au récapitulatif de vos choix</p>
           </Link>
-          <Link className="border-2 p-2 text-xl flex m-2 justify-center gap-4" to="/formation">
+          <Link className="border-2 p-2 text-base lg:text-xl flex m-2 justify-center gap-4" to="/formation">
             <img width={25} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
             <p>Choisir d&apos;autres formations</p>
           </Link>
