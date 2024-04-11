@@ -9,7 +9,7 @@ const {
 const babelConfig = require('./babel.config'); // Info de config de babel
 
 const PUBLIC_PATH = '/'; // url de base de l'appli
-const API_PATH = 'http://localhost:8080/api/v1'; // 'https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1'
+const API_PATH = 'https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1';
 
 module.exports = {
   mode: 'development',
