@@ -19,7 +19,7 @@ echarts.use([
   CanvasRenderer, TooltipComponent, GraphicComponent, EffectScatterChart, GeoComponent]);
 function iut2series(iuts, franceMap) {
   return iuts.filter((iut) => {
-    if (!iut.location || (iut.location.x ?? false) === false) {
+    if (!iut.location || (iut.location[0] ?? false) === false) {
       // console.warn(`Missing location information for IUT ${iut.completeNom}`, iut);
       return false;
     }
@@ -33,7 +33,7 @@ function iut2series(iuts, franceMap) {
 
 function iutSelect2series(iutSelectionnes, franceMap) {
   return iutSelectionnes.filter((iut) => {
-    if (!iut.location || (iut.location.x ?? false) === false) {
+    if (!iut.location || (iut.location[0] ?? false) === false) {
       // console.warn(`Missing location information for IUT ${iut.completeNom}`, iut);
       return false;
     }

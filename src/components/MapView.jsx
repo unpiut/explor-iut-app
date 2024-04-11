@@ -7,7 +7,6 @@ import FicheRappelIut from './FicheRappelIut';
 
 function MapView() {
   const { selectedManager } = useContext(RootStore);
-
   return (
     <div className="grid">
       <div className="flex gap-2 justify-center">

@@ -208,27 +208,27 @@ export default class FranceMap {
     }
   }
 
-  mapRegionPoint(regionId, { x, y }) {
+  mapRegionPoint(regionId, location) {
     // Check if regionId is known
     const regionCode = ID_BY_CODE_REGION[regionId];
     if (!regionCode) {
-      return [y, x];
+      return [location[0], location[1]];
     }
     // Retrieve remapping info for region and topLeftPoint
     if (!this._topLeftPointByRegion) {
       console.warn('TopLeftPointByRegion has not been initialized !');
-      return [y, x];
+      return [location[0], location[1]];
     }
     const remappingInfo = REMAPING_TOM[regionCode];
     const topLeftPoint = this._topLeftPointByRegion[regionCode];
     if (!remappingInfo || !topLeftPoint) {
       console.warn(`Missing remappingInfo or topLeftPoint for regionCode ${regionCode}`);
-      return [y, x];
+      return [location[0], location[1]];
     }
     // Compute top shift
     const ratio = remappingInfo.width / topLeftPoint.width;
-    const newX = remappingInfo.top + (x - topLeftPoint.top) * ratio;
-    const newY = remappingInfo.left + (y - topLeftPoint.left) * ratio;
+    const newX = remappingInfo.top + (location[0] - topLeftPoint.top) * ratio;
+    const newY = remappingInfo.left + (location[1] - topLeftPoint.left) * ratio;
     return [newY, newX];
   }
 

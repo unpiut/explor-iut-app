@@ -10,10 +10,10 @@ function ResultatRecherche({ iut, butSlct }) {
       <h2 className="text-center font-bold">{`${iut.nom} - ${iut.site}`}</h2>
       <h2>Formations présentes : </h2>
       {iut.departements.map((but) => (
-        butSlct.findIndex((b) => b.code === but.codesButDispenses[0]) >= 0
+        butSlct.findIndex((b) => b.code === but.butDispenses[0].codeBut) >= 0
           ? (
-            <h2 key={but.codesButDispenses[0]}>
-              {butSlct[butSlct.findIndex((b) => b.code === but.codesButDispenses[0])].nom}
+            <h2 key={but.butDispenses[0].codeBut}>
+              {butSlct[butSlct.findIndex((b) => b.code === but.butDispenses[0].codeBut)].nom}
             </h2>
           )
           : null))}

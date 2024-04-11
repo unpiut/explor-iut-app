@@ -37,7 +37,7 @@ class IutManager {
     this._iutRecherches.clear();
     buts.forEach((but) => {
       this._iuts.forEach((i) => {
-        if (i.departements.find((d) => d.codesButDispenses[0] === but.code)) {
+        if (i.departements.find((d) => d.butDispenses[0].codeBut === but.code)) {
           this._iutRecherches.add(i);
         }
       });
@@ -48,7 +48,7 @@ class IutManager {
     if (this._allIutRetrieved) {
       return this._iuts;
     }
-    let iuts = await fetch('https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/iut');
+    let iuts = await fetch(`${APP_ENV_API_PATH}/iut`);
     iuts = await iuts.json();
     iuts = iuts.map((i) => new Iut(i));
     return runInAction(() => {

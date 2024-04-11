@@ -9,7 +9,7 @@ function Modale({
   const { iutManager, butManager, selectedManager } = useContext(RootStore);
   const iut = iutManager.iuts.find((i) => i.idIut === iutId);
   const butSelect = selectedManager.butSelectionnesTab;
-  const filtre = (b) => (butSelect.find((unBut) => unBut.code === b.codesButDispenses[0]));
+  const filtre = (b) => (butSelect.find((unBut) => unBut.code === b.butDispenses[0].codeBut));
   function selectionner() {
     selectedManager.switchIutSelectionnes(iut);
   }
@@ -25,7 +25,7 @@ function Modale({
             <p className="ml-5 ">
               {'· '}
               {
-            butManager.buts.find((b) => b.code === d.codesButDispenses[0]).prettyPrintFiliere
+            butManager.buts.find((b) => b.code === d.butDispenses[0].codeBut).prettyPrintFiliere
             }
             </p>
           </div>

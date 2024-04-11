@@ -11,7 +11,9 @@ class Iut {
 
   _departements;
 
-  _serviceAlternance;
+  _mel;
+
+  _tel;
 
   constructor(iut) {
     makeAutoObservable(this);
@@ -20,7 +22,8 @@ class Iut {
     this._site = iut.site;
     this._location = iut.location;
     this._departements = iut.departements;
-    this._serviceAlternance = iut.serviceAlternance ? iut.serviceAlternance : null;
+    this._mel = iut.mel;
+    this._tel = iut.tel;
   }
 
   get idIut() {
@@ -43,11 +46,21 @@ class Iut {
     return this._location;
   }
 
+  get mel() {
+    return this._mel;
+  }
+
+  get tel() {
+    return this._tel;
+  }
+
   async getInfo() {
-    let iut = await fetch(`https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1/iut/${this._idIut}`);
+    let iut = await fetch(`${APP_ENV_API_PATH}/iut/${this._idIut}`);
     iut = await iut.json();
     runInAction(() => {
       this._departements = iut.departements;
+      this._mel = iut.mel;
+      this._tel = iut.tel;
     });
   }
 }
