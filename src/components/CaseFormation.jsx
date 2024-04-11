@@ -13,14 +13,24 @@ function CaseFormation({
   const { iutManager, selectedManager } = useContext(RootStore);
   function couleurBordure() {
     switch (but.universMetiers) {
-      case "Métiers de l'infomatique": return 'border-blue-400';
-      case 'Métiers Industriels : Prod-Maintenance, Qualité-R&D': return 'border-yellow-400';
-      case "Métiers support de l'Industriel": return 'border-green-400';
-      case 'Métiers du Social, Gestion, Commerce': return 'border-red-400';
+      case "Métiers de l'infomatique": return 'border-blue-900';
+      case 'Métiers Industriels : Prod-Maintenance, Qualité-R&D': return 'border-amber-500';
+      case "Métiers support de l'Industriel": return 'border-lime-600';
+      case 'Métiers du Social, Gestion, Commerce': return 'border-purple-800';
       default: return null;
     }
   }
   const styleBordure = couleurBordure();
+  function couleurFond() {
+    switch (but.universMetiers) {
+      case "Métiers de l'infomatique": return 'bg-blue-transparent';
+      case 'Métiers Industriels : Prod-Maintenance, Qualité-R&D': return 'bg-amber-transparent';
+      case "Métiers support de l'Industriel": return 'bg-lime-transparent';
+      case 'Métiers du Social, Gestion, Commerce': return 'bg-purple-transparent';
+      default: return null;
+    }
+  }
+  const styleFond = couleurFond();
   const maClasse = style[`bg-${but.code}`] ?? style['bg-DEFAULT']; // On charge la classe 'version js' de nom bg-codeBUT ou bg-DEFAULT si la classe précédente n'existe pas
   function changement() {
     but.getInfo();
@@ -108,9 +118,9 @@ function CaseFormation({
           <button
             type="button"
             onClick={changement}
-            className={`h-full max-w-full overflow-hidden break-words text-xs md:text-sm xl:text-base align-middle text-center leading-loose hover:bg-[length:130%] transition-all duration-300 bg-center border-4 ${maClasse} ${styleBordure} bg-contain`}
+            className={`h-full max-w-full overflow-hidden break-words text-xs md:text-sm xl:text-base align-middle text-center leading-loose hover:bg-[length:130%] transition-all duration-300 bg-center border-[6px] ${maClasse} ${styleBordure} bg-contain`}
           >
-            <h2 className={`text-white px-2 font-bold py-3 ${selectedManager.butSelectionnes.has(but) ? 'bg-red-transparent' : 'bg-blue-transparent'} w-full`}>{but.prettyPrintFiliere}</h2>
+            <h2 className={`text-white px-2 font-bold py-3 ${selectedManager.butSelectionnes.has(but) ? 'bg-red-transparent' : styleFond} w-full`}>{but.prettyPrintFiliere}</h2>
           </button>
         )}
     </div>

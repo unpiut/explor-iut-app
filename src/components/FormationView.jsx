@@ -40,19 +40,19 @@ function FormationView() {
         </h1>
         <div className="justify-center gap-10 flex">
           <div className="flex gap-2">
-            <div className="border-2 border-blue-900 bg-blue-400 w-10 h-5" />
+            <div className="border-2 border-blue-900 bg-blue-900 w-10 h-5" />
             <p>Métiers de l&apos;informatique</p>
           </div>
           <div className="flex gap-2">
-            <div className="border-2 border-blue-900 bg-red-400 w-10 h-5" />
+            <div className="border-2 border-blue-900 bg-purple-800 w-10 h-5" />
             <p>Métiers du social</p>
           </div>
           <div className="flex gap-2">
-            <div className="border-2 border-blue-900 bg-yellow-400 w-10 h-5" />
+            <div className="border-2 border-blue-900 bg-amber-500 w-10 h-5" />
             <p>Métiers de supports industriel</p>
           </div>
           <div className="flex gap-2">
-            <div className="border-2 border-blue-900 bg-green-400 w-10 h-5" />
+            <div className="border-2 border-blue-900 bg-lime-600 w-10 h-5" />
             <p>Métiers industriels</p>
           </div>
         </div>

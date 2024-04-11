@@ -19,11 +19,11 @@ function ResultatRecherche({ iut, butSlct }) {
           : null))}
       <p>
         📞 Téléphone :
-        {` ${iut.departements[0].tel}`}
+        {` ${iut.tel}`}
       </p>
       <p>
         📧 Mail :
-        {` ${iut.departements[0].mel}`}
+        {` ${iut.mel}`}
       </p>
       <button className="p-1 m-2 text-red-800 border border-red-800 rounded w-full text-center" type="button" onClick={() => selectedManager.switchIutSelectionnes(iut)}>Supprimer l&apos;IUT des contacts</button>
     </div>
