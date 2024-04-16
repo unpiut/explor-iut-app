@@ -99,7 +99,7 @@ module.exports = {
       ],
     }, {
       // Gestion des fichiers images
-      test: /\.(png|svg|jpg|jpeg|gif)$/i,
+      test: /\.(png|svg|jpg|jpeg|webp|gif)$/i,
       type: 'asset/resource', // le module asset émet un fichier séparé du bundle et exporte son url
     }, {
       // Gestion des polices d'écriture
