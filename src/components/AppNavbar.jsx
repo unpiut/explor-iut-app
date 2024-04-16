@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
 import logoPict from '../assets/logo-les-iut.svg';
-import logoUnpiut from '../assets/logo-unpiut.png';
+import logoUnpiut from '../assets/logo-unpiut.webp';
 import fleche from '../assets/icone-les-iut.svg';
 import RootStore from '../RootStore';
 

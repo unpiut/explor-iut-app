@@ -3,14 +3,12 @@ import { observer } from 'mobx-react';
 import CaseFormation from './CaseFormation';
 import RootStore from '../RootStore';
 import Footer from './Footer';
-// import TC from '../assets/TC.png';
-// import MMI from '../assets/MMI.png';
-// import GCCD from '../assets/GCCD.png';
 
 function FormationView() {
   const [openIndex, setOpenIndex] = useState(null);
   const { butManager, selectedManager } = useContext(RootStore);
   const { butRecherches } = butManager;
+  const tabUnivers = ['Métiers Industriels : Prod-Maintenance, Qualité-R&D', "Métiers support de l'Industriel", 'Métiers du Social, Gestion, Commerce', "Métiers de l'infomatique"];
 
   return (
     <>
@@ -40,25 +38,34 @@ function FormationView() {
         </h1>
         <div className="justify-center gap-10 flex">
           <div className="flex gap-2">
-            <div className="border-2 border-blue-900 bg-blue-900 w-10 h-5" />
-            <p>Métiers de l&apos;informatique</p>
-          </div>
-          <div className="flex gap-2">
-            <div className="border-2 border-blue-900 bg-purple-800 w-10 h-5" />
-            <p>Métiers du social</p>
-          </div>
-          <div className="flex gap-2">
-            <div className="border-2 border-blue-900 bg-amber-500 w-10 h-5" />
-            <p>Métiers de supports industriel</p>
+            <div className="border-2 border-blue-900 bg-orange-500 w-10 h-5" />
+            <p>Métiers industriels</p>
           </div>
           <div className="flex gap-2">
             <div className="border-2 border-blue-900 bg-lime-600 w-10 h-5" />
-            <p>Métiers industriels</p>
+            <p>Métiers  de supports industriel</p>
+          </div>
+          <div className="flex gap-2">
+            <div className="border-2 border-blue-900 bg-purple-800 w-10 h-5" />
+            <p>Métiers du social / gestion / commerce</p>
+          </div>
+          <div className="flex gap-2">
+            <div className="border-2 border-blue-900 bg-blue-900 w-10 h-5" />
+            <p>Métiers de l&apos;informatique</p>
           </div>
         </div>
       </div>
       <div className="md:mx-32 grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 px-3 pb-20">
-        {[...butRecherches].sort((a, b) => a.universMetiers.localeCompare(b.universMetiers))
+        {[...butRecherches].sort((a, b) => {
+          const indexA = tabUnivers.findIndex((e) => e === a.universMetiers);
+          const indexB = tabUnivers.findIndex((e) => e === b.universMetiers);
+          if (indexA < indexB) {
+            return -1;
+          } if (indexA === indexB) {
+            return 0;
+          }
+          return 1;
+        })
           .map((but, index) => (but !== null
             ? (
               <CaseFormation
