@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import fleche from '../assets/icone-les-iut.svg';
-import motif from '../assets/motif_unpiut.png';
+import motif from '../assets/motif_unpiut.webp';
 
 function Footer({
   droite, gauche,

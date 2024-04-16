@@ -85,7 +85,6 @@ class MailManager {
       - Quelles années sont concernés par l’alternance?
       - Quelles sont les plannings d’alternance pour la rentrée prochaine?
       - Quelles sont les modalités pour déposer mon offre d’alternance?
-      Merci de transmettre cette demande au service compétent au sein de votre IUT et dans l’attente d’un retour rapide,
       Bien cordialement`;
   }
 

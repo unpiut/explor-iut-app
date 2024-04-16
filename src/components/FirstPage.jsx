@@ -1,6 +1,6 @@
 import React from 'react';
 import Footer from './Footer';
-import motif from '../assets/motif_unpiut.png';
+import motif from '../assets/motif_unpiut.webp';
 
 function FirstPage() {
   return (

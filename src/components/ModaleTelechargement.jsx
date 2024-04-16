@@ -14,9 +14,9 @@ function Modale({ onClose }) {
           <button className="text-slate-50" type="button" onClick={onClose}>X</button>
         </div>
         <div className="p-4 flex text-xl justify-items-center justify-between flex-wrap">
-          <button className="border-2 p-2 rounded-md border-blue-900" type="button" onClick={() => { selectedManager.telecharger('csv'); onClose(); }}>CSV</button>
-          <button className="border-2 p-2 rounded-md border-blue-900" type="button" onClick={() => { selectedManager.telecharger('ods'); onClose(); }}>ODS</button>
           <button className="border-2 p-2 rounded-md border-blue-900" type="button" onClick={() => { selectedManager.telecharger('xlsx'); onClose(); }}>Excel</button>
+          <button className="border-2 p-2 rounded-md border-blue-900" type="button" onClick={() => { selectedManager.telecharger('ods'); onClose(); }}>ODS</button>
+          <button className="border-2 p-2 rounded-md border-blue-900" type="button" onClick={() => { selectedManager.telecharger('csv'); onClose(); }}>CSV</button>
         </div>
       </div>
     </div>

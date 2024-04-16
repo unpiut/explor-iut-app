@@ -47,18 +47,18 @@ function MapView() {
           </div>
           <div className="flex justify-end">
             <div className="w-5/6 border-2 p-2 mt-4 border-blue-800">
-              <h2 className="text-lg font-bold">Interaction avec la carte</h2>
+              <h2 className="text-2xl font-bold">La carte : mode d&apos;emploi</h2>
               <h3 className="underline-offset-1 font-bold">Déplacement sur la carte</h3>
               <p>
                 Zoomer et dézoomer avec la molette et/ou déplacer en restant cliquer.
               </p>
-              <h3 className="underline-offset-1 font-bold">Sélection des IUT</h3>
+              <h3 className="underline-offset-1 font-bold">Sélections des IUT</h3>
               <p>
                 - &quot;à l&apos;unité&quot; : cliquez sur une ville et valider ou non sa sélection
               </p>
               <p>
-                - &quot;groupé sur une zone&quot; : Maintenir CTRL et tracer avec la souris
-                un rectangle. Tous les IUT présents dans le rectangle seront sélectionnés.
+                - &quot;par groupe d&apos;IUT sur une zone&quot; : Maintenir CTRL et tracer avec
+                la souris un rectangle. Tous les IUT présents dans le rectangle seront sélectionnés.
               </p>
             </div>
           </div>
