@@ -18,7 +18,7 @@ function MailView() {
         <div className="m-2">
           <label htmlFor="name" className="block text-sm sm:text-xl font-medium leading-6">
             Nom et prénom
-            <input type="text" maxLength={20} name="name" id="name" autoComplete="name" value={mailManager.nom} onChange={(evt) => { mailManager.nom = evt.target.value; }} placeholder="Dupont" className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
+            <input type="text" maxLength={20} name="name" id="name" autoComplete="name" value={mailManager.nom} onChange={(evt) => { mailManager.nom = evt.target.value; }} placeholder="Jean Dupont" className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
           </label>
         </div>
         <div className="m-2">

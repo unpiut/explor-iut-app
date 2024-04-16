@@ -50,14 +50,14 @@ function MapView() {
               <h2 className="text-2xl font-bold">La carte : mode d&apos;emploi</h2>
               <h3 className="underline-offset-1 font-bold">Déplacement sur la carte</h3>
               <p>
-                Zoomer et dézoomer avec la molette et/ou déplacer en restant cliquer.
+                Zoomez et dézoomez avec la molette et/ou déplacer en restant cliquer.
               </p>
               <h3 className="underline-offset-1 font-bold">Sélections des IUT</h3>
               <p>
-                - &quot;à l&apos;unité&quot; : cliquez sur une ville et valider ou non sa sélection
+                - &quot;à l&apos;unité&quot; : cliquez sur une ville et validez ou non sa sélection
               </p>
               <p>
-                - &quot;par groupe d&apos;IUT sur une zone&quot; : Maintenir CTRL et tracer avec
+                - &quot;par groupe d&apos;IUT sur une zone&quot; : Maintenez CTRL et tracez avec
                 la souris un rectangle. Tous les IUT présents dans le rectangle seront sélectionnés.
               </p>
             </div>

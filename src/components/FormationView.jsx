@@ -38,7 +38,7 @@ function FormationView() {
         </h1>
         <div className="justify-center gap-10 flex">
           <div className="flex gap-2">
-            <div className="border-2 border-blue-900 bg-amber-500 w-10 h-5" />
+            <div className="border-2 border-blue-900 bg-orange-500 w-10 h-5" />
             <p>Métiers industriels</p>
           </div>
           <div className="flex gap-2">

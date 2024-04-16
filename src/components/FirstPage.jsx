@@ -33,7 +33,7 @@ function FirstPage() {
           </div>
           <div className="relative pb-4 m-auto h-full w-1/2 border-2 border-blue-900">
             <div>
-              <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">3 - Contactez tous les IUT sélectionnés et déposer vos offres</h3>
+              <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">3 - Contactez tous les IUT sélectionnés et déposez vos offres</h3>
               <p className="lg:text-xl">Envoi d&apos;un courriel groupé (type ou à modifier) à tous les IUT sélectionnés</p>
             </div>
             <img className="absolute bottom-0" src={motif} alt="liseré IUT" />
