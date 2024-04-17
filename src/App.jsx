@@ -19,7 +19,7 @@ import STORE from './store';
 
 import { WithPagedTitle } from './components/utils';
 import MentionsLegales from './components/MentionsLegales';
-import ExcelAccess from './components/excelAccess';
+import ExcelAccess from './components/ExcelAccess';
 
 const router = createBrowserRouter([
   {

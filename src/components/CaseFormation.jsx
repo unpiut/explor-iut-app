@@ -69,7 +69,7 @@ function CaseFormation({
             <button
               type="button"
               onClick={changement}
-              className={`align-middle font-bold grid grid-cols-3 text-base text-center ${selectedManager.butSelectionnes.has(but) ? 'bg-red-700' : 'bg-blue-900'} border-blue-900`}
+              className={`align-middle font-bold grid grid-cols-3 text-base text-center ${selectedManager.butSelectionnes.has(but) ? 'bg-red-700' : styleFond} border-blue-900`}
             >
               <div />
               <p className="text-slate-50">{but.prettyPrintFiliere}</p>
