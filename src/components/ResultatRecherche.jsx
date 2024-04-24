@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
 import { observer, PropTypes as MPropTypes } from 'mobx-react';
+import { useTranslation } from 'react-i18next';
 import RootStore from '../RootStore';
 
 function ResultatRecherche({ iut, butSlct }) {
+  const { t } = useTranslation();
   const { selectedManager } = useContext(RootStore);
   return (
     <div key={iut.idIut} className="border border-blue-900 p-5">
 
       <h2 className="text-center font-bold">{`${iut.nom} - ${iut.site}`}</h2>
-      <h2>Formations présentes : </h2>
+      <h2>{t('recapCaseFormation')}</h2>
       {iut.departements.map((but) => (
         butSlct.findIndex((b) => b.code === but.butDispenses[0].codeBut) >= 0
           ? (
@@ -25,7 +27,7 @@ function ResultatRecherche({ iut, butSlct }) {
         📧 Mail :
         {` ${iut.mel}`}
       </p>
-      <button className="p-1 m-2 text-red-800 border border-red-800 rounded w-full text-center" type="button" onClick={() => selectedManager.switchIutSelectionnes(iut)}>Supprimer l&apos;IUT des contacts</button>
+      <button className="p-1 m-2 text-red-800 border border-red-800 rounded w-full text-center" type="button" onClick={() => selectedManager.switchIutSelectionnes(iut)}>{t('recapCaseSupp')}</button>
     </div>
   );
 }

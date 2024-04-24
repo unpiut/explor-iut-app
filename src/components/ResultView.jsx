@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react';
+import { useTranslation } from 'react-i18next';
 import ResultatRecherche from './ResultatRecherche';
 import RootStore from '../RootStore';
 import fleche from '../assets/icone-les-iut.svg';
@@ -7,9 +8,9 @@ import Footer from './Footer';
 import ModaleTelechargement from './ModaleTelechargement';
 
 function ResultView() {
+  const { t } = useTranslation();
   const { selectedManager } = useContext(RootStore);
   const [modaleTelechargement, setModaleTelechargement] = useState(false);
-  const courrielDestination = `3. Envoyer le courriel aux ${selectedManager.nbIutSelectionnesId} IUT sélectionnés`;
   selectedManager.miseAJour();
   const butSelect = selectedManager.butSelectionnesTab;
   document.addEventListener('keydown', (event) => {
@@ -21,7 +22,7 @@ function ResultView() {
         ? <ModaleTelechargement onClose={() => setModaleTelechargement(false)} />
         : null}
       <div className="grid justify-center">
-        <h1 className="text-center text-xl lg:text-3xl font-bold">Récapitulatif de vos choix</h1>
+        <h1 className="text-center text-xl lg:text-3xl font-bold">{t('recapTitre')}</h1>
         {
             selectedManager.nbIutSelectionnesId > 0 ? (
 
@@ -32,17 +33,17 @@ function ResultView() {
                   ))}
                 </div>
                 <button type="button" className="border-2 border-blue-900 p-2 w-3/4 mt-2 flex justify-center gap-4" onClick={() => setModaleTelechargement(true)}>
-                  <p>Télécharger le récapitulatif</p>
+                  <p>{t('recapTelecharger')}</p>
                   <img width={25} src={fleche} alt="fleche" />
                 </button>
               </div>
             )
-              : <h2 className="sm:text-sm lg:text-base">Les IUT sélectionnés sur la carte apparaîtrons ici</h2>
+              : <h2 className="sm:text-sm lg:text-base">{t('recapSansChoix')}</h2>
         }
         <Footer
-          gauche={{ texte: 'Retour Carte Localisation', lien: '/map' }}
+          gauche={{ texte: t('recapRetour'), lien: '/map' }}
           droite={{
-            texte: courrielDestination, lien: '/mail', disable: selectedManager.nbIutSelectionnesId <= 0, lienActu: '/result',
+            texte: t('recapAvance'), lien: '/mail', disable: selectedManager.nbIutSelectionnesId <= 0, lienActu: '/result',
           }}
         />
       </div>
