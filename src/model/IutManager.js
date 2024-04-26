@@ -65,13 +65,6 @@ class IutManager {
     return this._fetchAction;
   }
 
-  async load() {
-    if (!this._fetchAction) {
-      this._fetchAction = await this._getAllIut();
-    }
-    return this._fetchAction;
-  }
-
   getIutById(idIut) {
     const iut = this._iuts.find((i) => i.idIut === idIut);
     if (iut) {

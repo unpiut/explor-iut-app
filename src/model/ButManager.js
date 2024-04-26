@@ -4,8 +4,6 @@ import But from './But';
 class ButManager {
   _buts;
 
-  _butRecherches;
-
   _fetchAction;
 
   _allButRetrieved;
@@ -13,7 +11,6 @@ class ButManager {
   constructor() {
     makeAutoObservable(this);
     this._buts = [];
-    this._butRecherches = [];
     this._allButRetrieved = false;
   }
 
@@ -21,20 +18,15 @@ class ButManager {
     return this._buts;
   }
 
-  get butRecherches() {
-    return this._butRecherches.length ? this._butRecherches : this._buts;
-  }
-
   get nbbuts() {
     return this._buts.length;
   }
 
-  get nbButRecherches() {
-    let compte = 0;
-    this._butRecherches.forEach((but) => { if (but !== null)compte += 1; });
-    return compte;
-  }
-
+  /**
+   * Get all the BUT from the API, and put them in the buts attribute
+   * the first time it's called, then return buts.
+   * @returns buts
+   */
   async _getAllBut() {
     if (this._allButRetrieved) {
       return this._buts;
@@ -49,6 +41,10 @@ class ButManager {
     return this._buts;
   }
 
+  /**
+   * Public function of getAllBut, stop possibility of repeated ask to the private function
+   * @returns the private function getAllBut
+   */
   async getAllBut() {
     if (!this._fetchAction) {
       this._fetchAction = this._getAllBut();
@@ -56,7 +52,13 @@ class ButManager {
     return this._fetchAction;
   }
 
+  /**
+   * Search method with the unique code of a BUT.
+   * @param {String} code : unique code of a BUT
+   * @returns the BUT associated to the code, or an error if it wasn't found.
+   */
   getButByCode(code) {
+    // find the BUT
     const butIdx = this._buts.findIndex((b) => b.code === code);
     if (butIdx >= 0) {
       return this._buts[butIdx];
@@ -64,22 +66,20 @@ class ButManager {
     throw new Error("Ce but n'existe pas.");
   }
 
+  /**
+   * Search method with the unique code of a BUT then develop it with more information.
+   * @param {String} code : unique code of a BUT
+   * @returns the BUT developped associated to the code, or an error if it wasn't found.
+   */
   async getButByCodeWithInfo(code) {
+    // find the BUT
     const butIdx = this._buts.findIndex((b) => b.code === code);
     if (butIdx >= 0) {
+      // add more informations
       await this._buts[butIdx].getInfo();
       return runInAction(() => this._buts[butIdx]);
     }
     throw new Error("Ce but n'existe pas.");
-  }
-
-  rechercheBut(mots) {
-    if (mots === '') {
-      this._butRecherches.length = 0;
-    } else {
-      const motCle = mots.toUpperCase();
-      this._butRecherches = this._buts.map((but) => (motCle === but.code ? but : null));
-    }
   }
 }
 

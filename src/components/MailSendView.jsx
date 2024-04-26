@@ -8,10 +8,15 @@ function ModifyMailView() {
   const { t } = useTranslation();
   return (
     <div className="grid h-screen">
-      <h1 className="text-center text-xl lg:text-3xl">{t('courrielEnvoyeTitre')}</h1>
-      <p className="text-center text-xl">
-        {t('courrielEnvoyeTexte')}
+      <h1 className="text-center text-xl lg:text-4xl">{t('courrielEnvoyeTitre')}</h1>
+      <p className="text-center text-3xl">
+        {t('courrielEnvoyeTexte1')}
+        <br />
+        {t('courrielEnvoyeTexte2')}
+        <br />
+        {t('courrielEnvoyeTexte3')}
       </p>
+
       <form method="GET">
 
         <div className="grid justify-center">

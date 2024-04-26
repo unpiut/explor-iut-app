@@ -46,7 +46,7 @@ function CaseFormation({
   }
 
   function selectionner() {
-    selectedManager.switchButSelectionne(but);
+    selectedManager.switchButSelectionnes(but);
     iutManager.switchIutRecherches(selectedManager.butSelectionnes);
     selectedManager.switchIutSelectionnesIdByBut();
   }

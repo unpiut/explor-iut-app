@@ -9,36 +9,19 @@ function FormationView() {
   const { t } = useTranslation();
   const [openIndex, setOpenIndex] = useState(null);
   const { butManager, selectedManager } = useContext(RootStore);
-  const { butRecherches } = butManager;
+  const { buts } = butManager;
   const tabUnivers = ['Métiers Industriels : Prod-Maintenance, Qualité-R&D', "Métiers support de l'Industriel", 'Métiers du Social, Gestion, Commerce', "Métiers de l'infomatique"];
 
   return (
     <>
       <div className="mb-4">
         <h1 className="text-center text-xl lg:text-3xl font-bold">{t('formationTitre')}</h1>
-        <h1 className="text-center sm:text-sm lg:text-xl">
-          {t('formationSousTitre')}
+        <h1 className="text-center sm:text-sm lg:text-2xl">
+          <b>{t('formationSousTitre')}</b>
           {'  '}
+          {t('formationSousSousTitre')}
         </h1>
-        <h1 className="text-center sm:text-sm lg:text-xl">
-          { selectedManager.nbButSelectionnes > 1
-            ? (
-              <>
-                {t('formationNbFormPlur')}
-                {' '}
-                {selectedManager.nbButSelectionnes}
-              </>
-            )
-            : (
-              <>
-                {t('formationNbForm')}
-                {' '}
-                {selectedManager.nbButSelectionnes}
-              </>
-            )}
-          /3
-        </h1>
-        <div className="justify-center gap-10 flex">
+        <div className=" mt-2 justify-center gap-10 flex">
           <div className="flex gap-2">
             <div className="border-2 border-blue-900 bg-orange-500 w-10 h-5" />
             <p>{t('formationLegende1')}</p>
@@ -58,7 +41,7 @@ function FormationView() {
         </div>
       </div>
       <div className="md:mx-32 grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 px-3 pb-20">
-        {[...butRecherches].sort((a, b) => {
+        {[...buts].sort((a, b) => {
           const indexA = tabUnivers.findIndex((e) => e === a.universMetiers);
           const indexB = tabUnivers.findIndex((e) => e === b.universMetiers);
           if (indexA < indexB) {

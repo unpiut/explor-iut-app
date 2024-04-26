@@ -82,6 +82,10 @@ class But {
     return this._universMetiers;
   }
 
+  /**
+   * Get more informations about a BUT in the API.
+   * @returns the BUT with his new informations
+   */
   async getInfo() {
     if (!this._description) {
       let but = await fetch(`${APP_ENV_API_PATH}/referentiel/but/by-code/${this._code}`);

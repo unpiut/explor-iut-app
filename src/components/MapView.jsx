@@ -51,22 +51,26 @@ function MapView() {
                 <FicheRappelIut but={b} index={index} key={b.code} />
               ))}
             </div>
-            <div className="flex justify-end">
-              <div className="w-5/6 border-2 p-2 mt-4 border-blue-800">
-                <h2 className="text-2xl font-bold">{t('carteMETitre')}</h2>
-                <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre1')}</h3>
-                <p>
-                  {t('carteMETexte1')}
-                </p>
-                <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre1')}</h3>
-                <p>
-                  {t('carteMETexte2')}
-                </p>
-                <p>
-                  {t('carteMETexte3')}
-                </p>
-              </div>
-            </div>
+            {!modaleOpen
+              ? (
+                <div className="flex justify-end">
+                  <div className="w-5/6 border-2 p-2 mt-4 border-blue-800">
+                    <h2 className="text-2xl font-bold">{t('carteMETitre')}</h2>
+                    <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre2')}</h3>
+                    <p>
+                      {t('carteMETexte2')}
+                    </p>
+                    <p>
+                      {t('carteMETexte3')}
+                    </p>
+                    <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre1')}</h3>
+                    <p>
+                      {t('carteMETexte1')}
+                    </p>
+                  </div>
+                </div>
+              )
+              : null}
           </div>
         </div>
         <Footer gauche={{ texte: t('carteRetour'), lien: '/formation' }} droite={{ texte: t('carteAvance'), lien: '/result' }} />

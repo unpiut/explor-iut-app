@@ -49,7 +49,7 @@ class SelectedManager {
     return this._iutSelectionnesId.size;
   }
 
-  switchButSelectionne(but) {
+  switchButSelectionnes(but) {
     if (this._butSelectionnes.has(but)) {
       this._butSelectionnes.delete(but);
     } else if (this._butSelectionnes.size < 3) {

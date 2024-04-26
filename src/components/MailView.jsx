@@ -6,17 +6,15 @@ import RootStore from '../RootStore';
 
 function MailView() {
   const { t } = useTranslation();
-  const { mailManager, selectedManager } = useContext(RootStore);
+  const { mailManager } = useContext(RootStore);
 
   return (
     <>
       <h1 className="text-center text-xl lg:text-3xl font-bold">{t('courrielTitre')}</h1>
-      <p className="text-center text-sm sm:text-xl lg:px-80">
-        {t('courrielSousTitre1')}
-        {selectedManager.nbIutSelectionnesId < 2 ? t('courrielSousTitre2') : ` ${t('courrielSousTitre2Plur1')} ${selectedManager.nbIutSelectionnesId} ${t('courrielSousTitre2Plur2')}`}
-        .
+      <p className="text-center text-sm sm:text-2xl lg:px-80">
+        {t('courrielSousTitre')}
       </p>
-      <form method="GET" className="justify-center grid w-full">
+      <form method="GET" className="mt-5 justify-center grid w-full">
         <div className="m-2">
           <label htmlFor="name" className="block text-sm sm:text-xl font-medium leading-6">
             {t('courrielNom')}
