@@ -227,8 +227,8 @@ export default class FranceMap {
     }
     // Compute top shift
     const ratio = remappingInfo.width / topLeftPoint.width;
-    const newX = remappingInfo.top + (location[0] - topLeftPoint.top) * ratio;
-    const newY = remappingInfo.left + (location[1] - topLeftPoint.left) * ratio;
+    const newX = remappingInfo.left + (location[0] - topLeftPoint.left) * ratio;
+    const newY = remappingInfo.top + (location[1] - topLeftPoint.top) * ratio;
     return [newX, newY];
   }
 
