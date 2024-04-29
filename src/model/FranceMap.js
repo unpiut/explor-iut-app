@@ -4,7 +4,7 @@ import * as echarts from 'echarts/core';
 const REMAPING_TOM = {
   Guyane: {
     left: -7.834939110760255,
-    top: 48.1885808164957,
+    top: 48,
     width: 1,
   },
   Guadeloupe: {
@@ -19,12 +19,17 @@ const REMAPING_TOM = {
   },
   Mayotte: {
     left: -7.834939110760255,
-    top: 42,
+    top: 40,
     width: 1,
   },
   'La R\u00e9union': {
     left: -7.834939110760255,
-    top: 40,
+    top: 42,
+    width: 1,
+  },
+  'Nouvelle-Cal\u00e9donie': {
+    left: -7.834939110760255,
+    top: 50,
     width: 1,
   },
 };
@@ -33,8 +38,9 @@ const ID_BY_CODE_REGION = {
   GUYANE: 'Guyane',
   GUADELOUPE: 'Guadeloupe',
   MARTINIQUE: 'Martinique',
-  'NOUVELLE-CALEDONIE': 'Mayotte',
+  'NOUVELLE-CALEDONIE': 'Nouvelle-Cal\u00e9donie',
   'LA REUNION': 'La R\u00e9union',
+  MAYOTTE: 'Mayotte',
 };
 
 function recursiveCoorFlatMap(coors) {
