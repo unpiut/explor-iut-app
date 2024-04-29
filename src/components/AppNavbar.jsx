@@ -2,12 +2,14 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import logoPict from '../assets/logo-les-iut.svg';
 import logoUnpiut from '../assets/logo-unpiut.webp';
 import fleche from '../assets/icone-les-iut.svg';
 import RootStore from '../RootStore';
 
 function AppNavbar() {
+  const { t } = useTranslation();
   const { selectedManager } = useContext(RootStore);
   const [navOpen, setNavOpen] = useState(false);
 
@@ -18,7 +20,7 @@ function AppNavbar() {
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             <button type="button" onClick={() => setNavOpen(!navOpen)} className="group relative inline-flex items-center justify-center rounded-md p-2 hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
               <span className="absolute -inset-0.5" />
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">Ouvrir le menu</span>
               <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
                 <path className="group-hover:text-white" strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
               </svg>
@@ -37,19 +39,19 @@ function AppNavbar() {
               <div className="flex space-x-4 gap-10">
                 <div className="flex">
                   <Link to="/formation" className="group flex gap-2 hover:bg-blue-900 rounded-md px-3 py-2 text-sm font-medium">
-                    <p className="group-hover:text-white">1. Choix des formations</p>
+                    <p className="group-hover:text-white">{t('navigation1')}</p>
                     <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                   </Link>
                   <Link to={selectedManager.nbButSelectionnes > 0 ? '/map' : '?'} className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
-                    <p className={selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'group-hover:bg-blue-900 group-hover:text-white'}>2. Choix de la localisation</p>
+                    <p className={selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'group-hover:bg-blue-900 group-hover:text-white'}>{t('navigation2')}</p>
                     <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                   </Link>
                   <Link to={selectedManager.nbButSelectionnes > 0 ? '/result' : '?'} className="group hover:bg-blue-900  flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
-                    <p className={selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'group-hover:bg-blue-900 group-hover:text-white'}>2. Récapitulatif de vos choix</p>
+                    <p className={selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'group-hover:bg-blue-900 group-hover:text-white'}>{t('navigation3')}</p>
                     <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                   </Link>
                   <Link to={selectedManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className={`${selectedManager.nbIutSelectionnesId < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
-                    3. Courriel
+                    {t('navigation4')}
                   </Link>
                 </div>
               </div>
@@ -70,24 +72,24 @@ function AppNavbar() {
       >
         <div className="space-y-1 px-2 pb-3 pt-2">
           <Link to="/" className=" group flex gap-2  hover:bg-blue-900 rounded-md px-3 py-2 text-lg font-medium">
-            <p className="group-hover:text-white">1. Choix des formations</p>
+            <p className="group-hover:text-white">{t('navigation1')}</p>
             <img width={25} src={fleche} alt="fleche" />
           </Link>
           <Link to="/map" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
             <img width={25} src={fleche} alt="fleche" />
-            <p className="group-hover:text-white">2. Choix de la localisation</p>
+            <p className="group-hover:text-white">{t('navigation2')}</p>
           </Link>
           <Link to="/result" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
-            <p className="group-hover:text-white">2. Récapitulatif de vos choix</p>
+            <p className="group-hover:text-white">{t('navigation3')}</p>
             <img width={25} src={fleche} alt="fleche" />
           </Link>
           <Link to={selectedManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
             <img width={25} src={fleche} alt="fleche" />
-            <p className="group-hover:text-white">3. Courriel</p>
+            <p className="group-hover:text-white">{t('navigation4')}</p>
           </Link>
           <div className="w-full h-0.5 bg-blue-900" />
           <Link to="/mentions" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
-            <p className="group-hover:text-white">Mentions légales</p>
+            <p className="group-hover:text-white">{t('navigation5')}</p>
           </Link>
         </div>
       </div>

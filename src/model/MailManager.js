@@ -9,8 +9,6 @@ class MailManager {
 
   _fonctionDansEntreprise;
 
-  _personnalizeObjet;
-
   _objet;
 
   _personnalizeCorps;
@@ -19,7 +17,6 @@ class MailManager {
 
   constructor() {
     makeAutoObservable(this);
-    this._personnalizeObjet = false;
     this._personnalizeCorps = false;
     this._adresseMail = '';
     this._nom = '';
@@ -62,17 +59,15 @@ class MailManager {
   }
 
   get objet() {
-    if (this._personnalizeObjet) {
-      return this._objet;
-    }
     if (this._nomEntreprise) {
-      return `${this._nomEntreprise} - Demande d'information pour déposer une offre d'alternance`;
+      this._objet = `${this._nomEntreprise} - Demande d'information pour déposer une offre d'alternance`;
+    } else {
+      this._objet = "nom modifiable - Demande d'information pour déposer une offre d'alternance";
     }
-    return "nom modifiable - Demande d'information pour déposer une offre d'alternance";
+    return this._objet;
   }
 
   set objet(newObjet) {
-    this._personnalizeObjet = true;
     this._objet = newObjet;
   }
 
@@ -81,11 +76,12 @@ class MailManager {
       return this._corpsMail;
     }
     return `Bonjour,
-      Suite à ma consultation et ma recherche sur le site iut.fr, j’ai identifié des formations qui correspondent à mes recherches d’apprentis. Afin de préciser ma demande et de vous communiquer pourriez vous me communiquer pour chacune des formations :
-      - Quelles années sont concernés par l’alternance?
-      - Quelles sont les plannings d’alternance pour la rentrée prochaine?
-      - Quelles sont les modalités pour déposer mon offre d’alternance?
-      Bien cordialement`;
+      Suite à ma consultation et ma recherche sur le site iut.fr, j'ai identifié des formations qui correspondent à mes recherches d'alternants. Pourriez vous me communiquer pour chacune des formations :
+      - Quelles années sont concernés par l'alternance?
+      - Quelles sont les plannings d'alternance pour la rentrée prochaine?
+      - Quelles sont les modalités pour gérer et suivre mon offre d'alternance?
+      dans l'attente de votre retour,
+    Bien cordialement`;
   }
 
   set corpsMail(nouveauCorps) {

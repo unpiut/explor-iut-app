@@ -1,46 +1,48 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Footer from './Footer';
 import motif from '../assets/motif_unpiut.webp';
 
 function FirstPage() {
+  const { t } = useTranslation();
   return (
     <>
       <div className="grid p-10 align-middle gap-5 justify-center">
-        <h1 className="text-center text-3xl lg:text-5xl font-bold">Bienvenue sur ExplorerIUT</h1>
+        <h1 className="text-center text-3xl lg:text-5xl font-bold">{t('accueilTitre')}</h1>
         <p className="text-xl lg:text-3xl text-center">
           <a className="font-bold underline underline-offset-1" href="https://www.unpiut.fr/">L&apos;Union des Présidents des IUT</a>
           {' '}
-          vous accompagne
-          pour faciliter votre recherche de futurs apprentis.
+          {t('accueilSousTitre')}
         </p>
       </div>
       <div className="grid justify-items-center gap-10">
-        <h2 className="text-center text-xl lg:text-3xl">Une recherche simple et rapide en 3 étapes</h2>
+        <h2 className="text-center text-xl lg:text-3xl">{t('accueilTitreRecherche')}</h2>
         <div className="grid gap-5 xl:grid-cols-3 text-center justify-center">
           <div className="relative pb-4 m-auto h-full w-1/2 border-2 border-blue-900">
             <div>
-              <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">1 - Recherchez les formations qui vous intéressent</h3>
-              <p className="lg:text-xl">Avec visualisation des contenus et des débouchés de chaque formation</p>
+              <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">{t('case1Titre')}</h3>
+              <p className="lg:text-xl">{t('case1Texte')}</p>
             </div>
             <img className="absolute bottom-0" src={motif} alt="liseré IUT" />
           </div>
           <div className="relative pb-4 m-auto h-full w-1/2 border-2 border-blue-900">
             <div>
-              <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">2 - Localisez les IUT qui vous intéressent</h3>
-              <p className="lg:text-xl">Avec un récapitulatif sous Excel, ODS ou CSV des IUT sélectionnés</p>
+              <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">{t('case2Titre')}</h3>
+              <p className="lg:text-xl">{t('case2Texte')}</p>
             </div>
             <img className="absolute bottom-0" src={motif} alt="liseré IUT" />
           </div>
           <div className="relative pb-4 m-auto h-full w-1/2 border-2 border-blue-900">
             <div>
-              <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">3 - Contactez tous les IUT sélectionnés et déposez vos offres</h3>
-              <p className="lg:text-xl">Envoi d&apos;un courriel groupé (type ou à modifier) à tous les IUT sélectionnés</p>
+              <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">{t('case3Titre')}</h3>
+              <p className="lg:text-xl">{t('case3Texte')}</p>
             </div>
             <img className="absolute bottom-0" src={motif} alt="liseré IUT" />
           </div>
         </div>
+        <a className="border-2 rounded p-2 text-xl border-blue-900" target="_blank" href="/iut-fiche-pratique.pdf">Fiche pratique des IUT</a>
       </div>
-      <Footer gauche={{ texte: 'Retour site iut.fr', lien: 'https://www.iut.fr/' }} droite={{ texte: 'Commencez votre recherche', lien: '/formation' }} />
+      <Footer gauche={{ texte: t('accueilRetour'), lien: 'https://www.iut.fr/' }} droite={{ texte: t('accueilAvance'), lien: '/formation' }} />
     </>
   );
 }

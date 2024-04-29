@@ -33,7 +33,7 @@ const ID_BY_CODE_REGION = {
   GUYANE: 'Guyane',
   GUADELOUPE: 'Guadeloupe',
   MARTINIQUE: 'Martinique',
-  MAYOTTE: 'Mayotte',
+  'NOUVELLE-CALEDONIE': 'Mayotte',
   'LA REUNION': 'La R\u00e9union',
 };
 
@@ -227,9 +227,9 @@ export default class FranceMap {
     }
     // Compute top shift
     const ratio = remappingInfo.width / topLeftPoint.width;
-    const newX = remappingInfo.top + (location[0] - topLeftPoint.top) * ratio;
-    const newY = remappingInfo.left + (location[1] - topLeftPoint.left) * ratio;
-    return [newY, newX];
+    const newX = remappingInfo.left + (location[0] - topLeftPoint.left) * ratio;
+    const newY = remappingInfo.top + (location[1] - topLeftPoint.top) * ratio;
+    return [newX, newY];
   }
 
   getCenterAndZoomRatioForRegionCode(regionCode) {

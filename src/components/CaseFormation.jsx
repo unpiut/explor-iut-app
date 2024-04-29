@@ -3,12 +3,14 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { observer, PropTypes as MPropTypes } from 'mobx-react';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import RootStore from '../RootStore';
 import style from './CaseFormationjsx.css';
 
 function CaseFormation({
   but, tabIndex, canOpen, isClose,
 }) {
+  const { t } = useTranslation();
   const [close, setClose] = useState(true);
   const { iutManager, selectedManager } = useContext(RootStore);
   function couleurBordure() {
@@ -44,7 +46,7 @@ function CaseFormation({
   }
 
   function selectionner() {
-    selectedManager.switchButSelectionne(but);
+    selectedManager.switchButSelectionnes(but);
     iutManager.switchIutRecherches(selectedManager.butSelectionnes);
     selectedManager.switchIutSelectionnesIdByBut();
   }
@@ -72,25 +74,28 @@ function CaseFormation({
               className={`align-middle font-bold grid grid-cols-3 text-base text-center ${selectedManager.butSelectionnes.has(but) ? 'bg-red-700' : styleFond} border-blue-900`}
             >
               <div />
-              <p className="text-slate-50">{but.prettyPrintFiliere}</p>
+              <p className="text-slate-50">
+                {selectedManager.butSelectionnes.has(but)
+                  ? `${but.prettyPrintFiliere} ✅` : but.prettyPrintFiliere}
+              </p>
               <p className="text-slate-50 justify-self-end pr-3">X</p>
             </button>
             <div className="flex flex-wrap align-middle gap-2">
-              <p className="align-middle">Titre académique de la formation :</p>
+              <p className="align-middle">{t('caseFormTitre')}</p>
               <p className="font-bold text-base">
 
                 {`${but.nom} (${but.code})`}
               </p>
             </div>
             <p className="font-bold">
-              Description formation :
+              {t('caseFormDesc')}
             </p>
             <p>
               {but.description ? ` ${but.description}` : ''}
             </p>
             <div>
               <p className="font-bold">
-                Les spécialités :
+                {t('caseFormSpe')}
               </p>
               {but.parcours.map((parcours) => (
                 <p key={parcours[0]}>
@@ -101,17 +106,17 @@ function CaseFormation({
               ))}
             </div>
             <p className="font-bold">
-              Débouchés métiers :
+              {t('caseFormDebouch')}
             </p>
             <p>
               {but.metiers ? ` ${but.metiers}` : ''}
             </p>
 
             <div className="flex flex-wrap justify-between p-2">
-              <a className="underline font-bold text-base" target="_blank" href={but.urlFiche} rel="noreferrer">en savoir plus avec iut.fr</a>
-              <a className="underline font-bold text-base" target="_blank" href={but.urlFranceCompetence} rel="noreferrer">en savoir plus avec France Compétence</a>
+              <a className="underline font-bold text-base" target="_blank" href={but.urlFiche} rel="noreferrer">{t('caseFormIutfr')}</a>
+              <a className="underline font-bold text-base" target="_blank" href={but.urlFranceCompetence} rel="noreferrer">{t('caseFormFrComp')}</a>
             </div>
-            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? 'selectionner cette formation' : 'deselectionner cette formation'}</button>
+            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? t('caseFormSelect') : t('caseFormDeselect')}</button>
           </div>
         )
         : (
@@ -120,7 +125,10 @@ function CaseFormation({
             onClick={changement}
             className={`h-full max-w-full overflow-hidden break-words text-xs md:text-sm xl:text-base align-middle text-center leading-loose hover:bg-[length:130%] transition-all duration-300 bg-center border-4 ${maClasse} ${styleBordure} bg-contain`}
           >
-            <h2 className={`text-white px-2 font-bold py-3 ${selectedManager.butSelectionnes.has(but) ? 'bg-red-transparent' : styleFond} w-full`}>{but.prettyPrintFiliere}</h2>
+            <h2 className={`text-white px-2 font-bold py-3 ${selectedManager.butSelectionnes.has(but) ? 'bg-red-transparent' : styleFond} w-full`}>
+              {selectedManager.butSelectionnes.has(but)
+                ? `${but.prettyPrintFiliere} ✅` : but.prettyPrintFiliere}
+            </h2>
           </button>
         )}
     </div>

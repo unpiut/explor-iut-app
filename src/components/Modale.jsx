@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
+import { useTranslation } from 'react-i18next';
 import RootStore from '../RootStore';
 
 function Modale({
   iutId, onClose, X, Y,
 }) {
+  const { t } = useTranslation();
   const { iutManager, butManager, selectedManager } = useContext(RootStore);
   const iut = iutManager.iuts.find((i) => i.idIut === iutId);
   const butSelect = selectedManager.butSelectionnesTab;
@@ -35,7 +37,7 @@ function Modale({
           type="button"
           className="max-w-full break-words text-xs p-1 m-2 md:text-base align-middle text-center border-2 border-blue-900 bg-contain font-bold"
         >
-          {!selectedManager.iutSelectionnesId.has(iut.idIut) ? 'Ajouter cet IUT pour la prise de contact' : 'Retirer cet IUT de la liste de contact'}
+          {!selectedManager.iutSelectionnesId.has(iut.idIut) ? t('carteModaleBouttonSelect') : t('carteModaleBouttonDeselect')}
         </button>
       </div>
     </div>
