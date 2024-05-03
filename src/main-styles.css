@@ -3,5 +3,9 @@
 @tailwind utilities;
 
 *{
+    color: #282828
+}
+
+a{
     color: #1C2D86
 }

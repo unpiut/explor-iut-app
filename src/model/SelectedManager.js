@@ -1,6 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 import XLSX from 'xlsx';
 import { dateToLocalDateTimeString } from '../services/timeService';
+import localStorageMgr from '../services/LocalStorageManager';
+
+const BUT_STORAGE_KEY = 'listeBut';
+const IUT_STORAGE_KEY = 'listeIut';
 
 class SelectedManager {
   _butSelectionnes;
@@ -10,15 +14,59 @@ class SelectedManager {
   _iutSelectionnesId;
   // On enregistre les id à la place car lors de la comparaison, on compare l'iut et son wrapper
 
+  _ready;
+
+  _initializationResolver;
+
+  _dateEnvoi;
+
+  _alreadySend;
+
   constructor() {
     makeAutoObservable(this);
     this._butSelectionnes = new Set();
     this._iutSelectionnes = new Set();
     this._iutSelectionnesId = new Set();
+    this._dateEnvoi = null;
+    this._alreadySend = false;
+    this._ready = new Promise((resolve) => {
+      this._initializationResolver = resolve;
+    });
+  }
+
+  initFromStorage(buts, iuts) {
+    const storedButIds = localStorageMgr.getItem(BUT_STORAGE_KEY);
+    if (storedButIds) {
+      const idButSet = new Set(storedButIds);
+      this._butSelectionnes.clear();
+      buts.filter((b) => idButSet.has(b.id))
+        .forEach((b) => this._butSelectionnes.add(b));
+      const storedIutIds = JSON.parse(localStorageMgr.getItem(IUT_STORAGE_KEY));
+      if (storedIutIds) {
+        const idIutSet = new Set(storedIutIds);
+        this._butSelectionnes.clear();
+        iuts.filter((b) => idIutSet.has(b.id))
+          .forEach((b) => {
+            this._iutSelectionnes.add(b);
+            this._iutSelectionnesId.add(b.id);
+          });
+      }
+    }
+    this._initializationResolver();
   }
 
   get butSelectionnes() {
     return this._butSelectionnes;
+  }
+
+  set butSelectionnes(butSelectionnes) {
+    this._butSelectionnes = butSelectionnes;
+  }
+
+  get butSelectionnesId() {
+    const tabBut = Array.from(this._butSelectionnes);
+    tabBut.map((b) => b.id);
+    return tabBut;
   }
 
   get butSelectionnesTab() {
@@ -33,12 +81,20 @@ class SelectedManager {
     return this._iutSelectionnes;
   }
 
+  set iutSelectionnes(iutSelectionnes) {
+    this._iutSelectionnes = iutSelectionnes;
+  }
+
   get iutSelectionnesTab() {
     return Array.from(this._iutSelectionnes);
   }
 
   get iutSelectionnesId() {
     return this._iutSelectionnesId;
+  }
+
+  set iutSelectionnesId(iutSelectionnesId) {
+    this._iutSelectionnesId = iutSelectionnesId;
   }
 
   get iutSelectionnesIdTab() {
@@ -49,7 +105,24 @@ class SelectedManager {
     return this._iutSelectionnesId.size;
   }
 
+  get dateEnvoi() {
+    return this._dateEnvoi;
+  }
+
+  set dateEnvoi(dateEnvoi) {
+    this._dateEnvoi = dateEnvoi;
+  }
+
+  get ready() {
+    return this._ready;
+  }
+
+  set ready(ready) {
+    this._ready = ready;
+  }
+
   switchButSelectionnes(but) {
+    this._alreadySend = false;
     if (this._butSelectionnes.has(but)) {
       this._butSelectionnes.delete(but);
     } else if (this._butSelectionnes.size < 3) {
@@ -58,6 +131,7 @@ class SelectedManager {
   }
 
   switchIutSelectionnes(iut) {
+    this._alreadySend = false;
     if (this._iutSelectionnesId.has(iut.idIut)) {
       this._iutSelectionnes.delete(iut);
       this._iutSelectionnesId.delete(iut.idIut);

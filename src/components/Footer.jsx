@@ -9,7 +9,25 @@ function Footer({
 }) {
   return (
     <div className="items-center justify-items-end justify-between fixed flex bottom-0 right-0 left-0 bg-slate-50 mt-5">
-      {gauche && droite
+      {onClick
+        ? (
+          <>
+            <div className="flex justify-self-start h-3/5 m-4 ">
+              <img width={30} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
+              <Link className="px-2 text-sm sm:text-base" to={gauche.lien}>{gauche.texte}</Link>
+            </div>
+            <div className="lg:grid hidden">
+              <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
+              <Link className="text-center underline" to="/mentions">Mentions légales</Link>
+            </div>
+            <div className={`ring rounded ${!droite.disable ? 'ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
+              <button type="button" onClick={onClick} className="sm:text-base px-2 text-sm sm:font-bold">{droite.texte}</button>
+              <img width={30} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
+            </div>
+          </>
+        )
+        : null}
+      {gauche && droite && !onClick
         ? (
           <>
             <div className="flex justify-self-start h-3/5 m-4 ">
@@ -26,7 +44,7 @@ function Footer({
             </div>
           </>
         ) : null}
-      {!gauche && droite
+      {!gauche && droite && !onClick
         ? (
           <>
             <div />
@@ -40,7 +58,7 @@ function Footer({
             </div>
           </>
         ) : null}
-      {gauche && !droite
+      {gauche && !droite && !onClick
         ? (
           <>
             <div className="flex justify-self-start h-3/5 m-4 ">

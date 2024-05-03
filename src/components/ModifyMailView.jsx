@@ -1,15 +1,21 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import RootStore from '../RootStore';
 
 function ModifyMailView() {
-  const { mailManager, selectedManager } = useContext(RootStore);
+  const { mailManager, selectedManager, butManager } = useContext(RootStore);
   const [fileNumberState, setfileNumberState] = useState(0);
-  const allFiles = useRef([]);
+  const [allFiles, setAllFiles] = useState([null, null, null]);
+  const navigate = useNavigate();
   const { t } = useTranslation();
-  async function sendMail() {
+
+  function sendMail() {
+    if (selectedManager.alreadySend) {
+      navigate('/mailSend');
+    }
     const myFormData = new FormData();
     myFormData.append('contactIdentity', mailManager.nom);
     myFormData.append('contactCompany', mailManager.nomEntreprise);
@@ -17,19 +23,30 @@ function ModifyMailView() {
     myFormData.append('contactMail', mailManager.adresseMail);
     myFormData.append('mailSubject', mailManager.objet);
     myFormData.append('mailBody', mailManager.corpsMail);
-    myFormData.append('files', allFiles);
+    allFiles.filter((f) => !!f).forEach((f) => {
+      myFormData.append('files', f);
+    });
     selectedManager.iutSelectionnes.forEach((iut) => {
-      iut.departements.forEach((dep) => {
-        myFormData.append('deptIds', dep.id);
-      });
+      iut.departements.filter(
+        (dep) => selectedManager.butSelectionnes.has(
+          butManager.getButByCode(dep.butDispenses[0].codeBut),
+        ),
+      )
+        .forEach((dep) => {
+          myFormData.append('deptIds', dep.id);
+        });
     });
-    const res = await fetch(`${APP_ENV_API_PATH}/mail/request`, {
-      method: 'PUT',
+    fetch(`${APP_ENV_API_PATH}/mail/request`, {
+      method: 'POST',
       body: myFormData,
-    });
-    if (!res.ok) {
-      throw new Error("Le traitement ne s'est pas bien effectué");
-    }
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error("Le traitement ne s'est pas bien effectué");
+      }
+      return res.json();
+    }).then(({ creationDateTime }) => { selectedManager.dateEnvoi = creationDateTime; });
+    selectedManager.alreadySend = true;
+    navigate('/mailSend');
   }
 
   return (
@@ -59,7 +76,7 @@ function ModifyMailView() {
             <input
               type="file"
               onChange={(e) => {
-                allFiles.current.push(e.target.files);
+                setAllFiles(([, f2, f3]) => [e.target.files[0], f2, f3]);
                 if (fileNumberState === 0) setfileNumberState(fileNumberState + 1);
               }}
               accept=".pdf"
@@ -75,7 +92,7 @@ function ModifyMailView() {
                 <input
                   type="file"
                   onChange={(e) => {
-                    allFiles.current.push(e.target.files);
+                    setAllFiles(([f1,, f3]) => [f1, e.target.files[0], f3]);
                     if (fileNumberState === 1) setfileNumberState(fileNumberState + 1);
                   }}
                   accept=".pdf"
@@ -93,7 +110,7 @@ function ModifyMailView() {
                 <input
                   type="file"
                   onChange={(e) => {
-                    allFiles.current.push(e.target.files);
+                    setAllFiles(([f1, f2]) => [f1, f2, e.target.files[0]]);
                   }}
                   accept=".pdf"
                   name="offre3"
@@ -105,7 +122,7 @@ function ModifyMailView() {
             : null}
         </div>
       </form>
-      <Footer onClick={sendMail()} gauche={{ texte: t('courrielRetour'), lien: '/mail' }} droite={{ texte: t('courrielAvance'), lien: '/mailSend' }} />
+      <Footer onClick={() => sendMail()} gauche={{ texte: t('courrielModifRetour'), lien: '/mail' }} droite={{ texte: t('courrielModifAvance'), lien: '/mailSend' }} />
     </>
   );
 }

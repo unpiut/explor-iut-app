@@ -11,7 +11,6 @@ function FormationView() {
   const { butManager, selectedManager } = useContext(RootStore);
   const { buts } = butManager;
   const tabUnivers = ['Métiers Industriels : Prod-Maintenance, Qualité-R&D', "Métiers support de l'Industriel", 'Métiers du Social, Gestion, Commerce', "Métiers de l'infomatique"];
-
   return (
     <>
       <div className="mb-4">

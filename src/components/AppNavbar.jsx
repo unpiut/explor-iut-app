@@ -38,16 +38,16 @@ function AppNavbar() {
             <div className="hidden sm:ml-6 sm:block sm:py-6">
               <div className="flex space-x-4 gap-10">
                 <div className="flex">
-                  <Link to="/formation" className="group flex gap-2 hover:bg-blue-900 rounded-md px-3 py-2 text-sm font-medium">
-                    <p className="group-hover:text-white">{t('navigation1')}</p>
+                  <Link to="/formation" className="group flex gap-2 hover:bg-blue-900 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                    {t('navigation1')}
                     <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                   </Link>
-                  <Link to={selectedManager.nbButSelectionnes > 0 ? '/map' : '?'} className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
-                    <p className={selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'group-hover:bg-blue-900 group-hover:text-white'}>{t('navigation2')}</p>
+                  <Link to={selectedManager.nbButSelectionnes > 0 ? '/map' : '?'} className={`${selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
+                    {t('navigation2')}
                     <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                   </Link>
-                  <Link to={selectedManager.nbButSelectionnes > 0 ? '/result' : '?'} className="group hover:bg-blue-900  flex gap-2 rounded-md px-3 py-2 text-sm font-medium">
-                    <p className={selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'group-hover:bg-blue-900 group-hover:text-white'}>{t('navigation3')}</p>
+                  <Link to={selectedManager.nbButSelectionnes > 0 ? '/result' : '?'} className={`${selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
+                    {t('navigation3')}
                     <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                   </Link>
                   <Link to={selectedManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className={`${selectedManager.nbIutSelectionnesId < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
@@ -75,11 +75,11 @@ function AppNavbar() {
             <p className="group-hover:text-white">{t('navigation1')}</p>
             <img width={25} src={fleche} alt="fleche" />
           </Link>
-          <Link to="/map" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
+          <Link to={selectedManager.nbButSelectionnes > 0 ? '/map' : '?'} className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
             <img width={25} src={fleche} alt="fleche" />
             <p className="group-hover:text-white">{t('navigation2')}</p>
           </Link>
-          <Link to="/result" className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
+          <Link to={selectedManager.nbButSelectionnes > 0 ? '/result' : '?'} className="group hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
             <p className="group-hover:text-white">{t('navigation3')}</p>
             <img width={25} src={fleche} alt="fleche" />
           </Link>
