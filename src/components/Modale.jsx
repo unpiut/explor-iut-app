@@ -10,6 +10,7 @@ function Modale({
   const { t } = useTranslation();
   const { iutManager, butManager, selectedManager } = useContext(RootStore);
   const iut = iutManager.iuts.find((i) => i.idIut === iutId);
+  iut.getInfo();
   const butSelect = selectedManager.butSelectionnesTab;
   const filtre = (b) => (butSelect.find((unBut) => unBut.code === b.butDispenses[0].codeBut));
   function selectionner() {
@@ -18,7 +19,7 @@ function Modale({
   return (
     <div style={X && Y ? { top: `${Y}px`, left: `${X}px` } : null} className={`absolute px-5 grid justify-center bg-slate-50 z-10 gap-y-2 border-2 text-xs md:text-base border-blue-900 ${!(X && Y) ? 'left-10 right-10 top-[60%]' : ''}`}>
       <div className="flex justify-between gap-5">
-        <h2 className="align-middle">{iut.site ? `${iut.nom} - ${iut.site}` : iut.nom}</h2>
+        <a href={iut.urlWeb} className="align-middle">{iut.site ? `${iut.nom} - ${iut.site}` : iut.nom}</a>
         <button className="font-bold" type="button" onClick={onClose}>X</button>
       </div>
       <div>
