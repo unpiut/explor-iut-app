@@ -14,11 +14,11 @@ function Footer({
           <>
             <div className="flex justify-self-start h-3/5 m-4 ">
               <img width={30} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
-              <Link className="px-2 text-sm sm:text-base" to={gauche.lien}>{gauche.texte}</Link>
+              <Link className="px-2 text-sm sm:text-base no-underline" to={gauche.lien}>{gauche.texte}</Link>
             </div>
             <div className="lg:grid hidden">
               <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
-              <Link className="text-center underline" to="/mentions">Mentions légales</Link>
+              <Link className="text-center" to="/mentions">Mentions légales</Link>
             </div>
             <div className={`ring rounded ${!droite.disable ? 'ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
               <button type="button" onClick={onClick} className="sm:text-base px-2 text-sm sm:font-bold">{droite.texte}</button>
@@ -32,14 +32,14 @@ function Footer({
           <>
             <div className="flex justify-self-start h-3/5 m-4 ">
               <img width={30} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
-              <Link className="px-2 text-sm sm:text-base" to={gauche.lien}>{gauche.texte}</Link>
+              <Link className="px-2 text-sm sm:text-base no-underline" to={gauche.lien}>{gauche.texte}</Link>
             </div>
             <div className="lg:grid hidden">
               <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
-              <Link className="text-center underline" to="/mentions">Mentions légales</Link>
+              <Link className="text-center" to="/mentions">Mentions légales</Link>
             </div>
             <div className={`ring rounded ${!droite.disable ? 'ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
-              <Link onClick={onClick} className={`${!droite.disable ? '' : 'text-gray-400'} sm:text-base px-2 text-sm sm:font-bold`} to={!droite.disable ? droite.lien : droite.lienActu}>{droite.texte}</Link>
+              <Link onClick={onClick} className={`${!droite.disable ? '' : 'text-gray-400'} sm:text-base px-2 text-sm sm:font-bold no-underline`} to={!droite.disable ? droite.lien : droite.lienActu}>{droite.texte}</Link>
               <img width={30} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
             </div>
           </>
@@ -50,10 +50,10 @@ function Footer({
             <div />
             <div className="lg:grid hidden">
               <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
-              <Link className="text-center underline" to="/mentions">Mentions légales</Link>
+              <Link className="text-center" to="/mentions">Mentions légales</Link>
             </div>
             <div className={`ring rounded ${!droite.disable ? 'ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
-              <Link onClick={onClick} className={`${!droite.disable ? '' : 'text-gray-400'} sm:text-base px-2 text-sm sm:font-bold`} to={!droite.disable ? droite.lien : droite.lienActu}>{droite.texte}</Link>
+              <Link onClick={onClick} className={`${!droite.disable ? '' : 'text-gray-400'} sm:text-base px-2 text-sm sm:font-bold no-underline`} to={!droite.disable ? droite.lien : droite.lienActu}>{droite.texte}</Link>
               <img width={30} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
             </div>
           </>
@@ -63,11 +63,11 @@ function Footer({
           <>
             <div className="flex justify-self-start h-3/5 m-4 ">
               <img width={30} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
-              <Link className="px-2 text-sm sm:text-base" to={gauche.lien}>{gauche.texte}</Link>
+              <Link className="px-2 text-sm sm:text-base no-underline" to={gauche.lien}>{gauche.texte}</Link>
             </div>
             <div className="lg:grid hidden">
               <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
-              <Link className="text-center underline" to="/mentions">Mentions légales</Link>
+              <Link className="text-center" to="/mentions">Mentions légales</Link>
             </div>
             <div />
           </>

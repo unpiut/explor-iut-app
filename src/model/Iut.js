@@ -17,6 +17,8 @@ class Iut {
 
   _region;
 
+  _urlWeb;
+
   constructor(iut) {
     makeAutoObservable(this);
     this._idIut = iut.id;
@@ -27,6 +29,7 @@ class Iut {
     this._departements = iut.departements;
     this._mel = iut.mel;
     this._tel = iut.tel;
+    this._urlWeb = iut.urlWeb;
   }
 
   get idIut() {
@@ -61,6 +64,10 @@ class Iut {
     return this._region;
   }
 
+  get urlWeb() {
+    return this._urlWeb;
+  }
+
   /**
    * Get more informations about an IUT in the API.
    */
@@ -71,6 +78,7 @@ class Iut {
       this._departements = iut.departements;
       this._mel = iut.mel;
       this._tel = iut.tel;
+      this._urlWeb = iut.urlWeb;
     });
   }
 }

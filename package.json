@@ -1,6 +1,6 @@
 {
   "name": "explor-iut-app",
-  "appTitle": "Explor'IUT",
+  "appTitle": "ExplorerIUT",
   "version": "0.0.1",
   "description": "Explorateur d'IUT.",
   "main": "index.jsx",
