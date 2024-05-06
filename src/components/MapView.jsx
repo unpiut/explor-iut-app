@@ -58,7 +58,7 @@ function MapView() {
             {!modaleOpen
               ? (
                 <div className="flex justify-end">
-                  <div className="w-5/6 border-2 p-2 mt-4 border-blue-800">
+                  <div className="lg:w-5/6 border-2 p-2 mt-4 border-blue-800">
                     <h2 className="text-2xl font-bold">{t('carteMETitre')}</h2>
                     <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre2')}</h3>
                     <p>
