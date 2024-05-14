@@ -18,29 +18,28 @@ function FirstPage() {
       <div className="grid justify-items-center gap-10">
         <h2 className="text-center text-xl lg:text-3xl">{t('accueilTitreRecherche')}</h2>
         <div className="grid gap-5 xl:grid-cols-3 text-center justify-center">
-          <div className="relative pb-4 m-auto h-full w-1/2 border-2 border-blue-900">
+          <div className="relative pb-4 m-auto h-full w-2/3 border-2 border-blue-900">
             <div>
-              <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">{t('case1Titre')}</h3>
-              <p className="lg:text-xl">{t('case1Texte')}</p>
+              <h3 className="p-2 xl:text-lg font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">{t('case1Titre')}</h3>
+              <p className="p-2 xl:text-lg">{t('case1Texte')}</p>
             </div>
             <img className="absolute bottom-0" src={motif} alt="liseré IUT" />
           </div>
-          <div className="relative pb-4 m-auto h-full w-1/2 border-2 border-blue-900">
+          <div className="relative pb-4 m-auto h-full w-2/3 border-2 border-blue-900">
             <div>
-              <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">{t('case2Titre')}</h3>
-              <p className="lg:text-xl">{t('case2Texte')}</p>
+              <h3 className="p-2 xl:text-lg font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">{t('case2Titre')}</h3>
+              <p className="p-2 xl:text-lg">{t('case2Texte')}</p>
             </div>
             <img className="absolute bottom-0" src={motif} alt="liseré IUT" />
           </div>
-          <div className="relative pb-4 m-auto h-full w-1/2 border-2 border-blue-900">
+          <div className="relative pb-4 m-auto h-full w-2/3 border-2 border-blue-900">
             <div>
-              <h3 className="p-2 lg:text-xl font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">{t('case3Titre')}</h3>
-              <p className="lg:text-xl">{t('case3Texte')}</p>
+              <h3 className="p-2 xl:text-lg  font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">{t('case3Titre')}</h3>
+              <p className="p-2 xl:text-lg ">{t('case3Texte')}</p>
             </div>
             <img className="absolute bottom-0" src={motif} alt="liseré IUT" />
           </div>
         </div>
-        <a className="border-2 rounded p-2 text-xl border-blue-900" target="_blank" href="/iut-fiche-pratique.pdf">Fiche pratique des IUT</a>
       </div>
       <Footer gauche={{ texte: t('accueilRetour'), lien: 'https://www.iut.fr/' }} droite={{ texte: t('accueilAvance'), lien: '/formation' }} />
     </>

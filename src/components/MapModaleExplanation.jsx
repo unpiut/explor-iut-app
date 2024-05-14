@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 function MapModaleExplanation({ onClose }) {
   const { t } = useTranslation();
   return (
-    <div className="absolute left-1/2 top-1/3 z-50 ">
-      <div className="relative left-[-50%] bg-slate-50 border-2 border-blue-900 text-center justify-center grid">
+    <div className="absolute lg:left-1/2 top-1/3 z-50 ">
+      <div className="relative lg:left-[-50%] bg-slate-50 border-2 border-blue-900 text-center justify-center grid">
         <div className="flex gap-2 justify-between p-2">
           <h1 className="text-xl font-bold">{t('carteMETitre')}</h1>
           <button className="text-xl font-bold" type="button" onClick={onClose}>X</button>

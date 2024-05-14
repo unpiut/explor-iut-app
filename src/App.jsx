@@ -20,6 +20,7 @@ import STORE from './store';
 import { WithPagedTitle } from './components/utils';
 import MentionsLegales from './components/MentionsLegales';
 import ExcelAccess from './components/ExcelAccess';
+import ValidateView from './components/ValidateView';
 
 const router = createBrowserRouter([
   {
@@ -29,11 +30,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <WithPagedTitle pageTitle="firstPage"><FirstPage /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="Accueil"><FirstPage /></WithPagedTitle>,
       },
       {
         path: 'formation',
-        element: <WithPagedTitle pageTitle="formation"><FormationView /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="Formation"><FormationView /></WithPagedTitle>,
       },
       {
         path: 'map',
@@ -47,7 +48,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'result',
-        element: <WithPagedTitle pageTitle="Resultat"><ResultView /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="Récapitulatif"><ResultView /></WithPagedTitle>,
         loader: async () => {
           if (!STORE.selectedManager.nbButSelectionnes) {
             throw redirect('/');
@@ -57,7 +58,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'mail',
-        element: <WithPagedTitle pageTitle="Courriel"><MailView /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="Formulaire de contact"><MailView /></WithPagedTitle>,
         loader: async () => {
           if (!STORE.selectedManager.nbIutSelectionnesId) {
             throw redirect('/');
@@ -67,7 +68,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'modifyMail',
-        element: <WithPagedTitle pageTitle="ModifierCourriel"><ModifyMailView /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="Édition du courriel"><ModifyMailView /></WithPagedTitle>,
         loader: async () => {
           if (!STORE.selectedManager.nbIutSelectionnesId) {
             throw redirect('/');
@@ -77,15 +78,19 @@ const router = createBrowserRouter([
       },
       {
         path: 'mailSend',
-        element: <WithPagedTitle pageTitle="CourrielEnvoye"><MailSendView /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="Courriel envoyé"><MailSendView /></WithPagedTitle>,
+      },
+      {
+        path: 'validate',
+        element: <WithPagedTitle pageTitle="Validation"><ValidateView /></WithPagedTitle>,
       },
       {
         path: 'mentions',
-        element: <WithPagedTitle pageTitle="MentionsLegales"><MentionsLegales /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="Mentions légales"><MentionsLegales /></WithPagedTitle>,
       },
       {
-        path: 'excelAccess', // A changer
-        element: <WithPagedTitle pageTitle="ExcelAccess"><ExcelAccess /></WithPagedTitle>,
+        path: 'admin',
+        element: <WithPagedTitle pageTitle="Administration"><ExcelAccess /></WithPagedTitle>,
       },
     ],
   },

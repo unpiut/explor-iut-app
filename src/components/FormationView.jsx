@@ -11,7 +11,6 @@ function FormationView() {
   const { butManager, selectedManager } = useContext(RootStore);
   const { buts } = butManager;
   const tabUnivers = ['Métiers Industriels : Prod-Maintenance, Qualité-R&D', "Métiers support de l'Industriel", 'Métiers du Social, Gestion, Commerce', "Métiers de l'infomatique"];
-
   return (
     <>
       <div className="mb-4">
@@ -21,7 +20,7 @@ function FormationView() {
           {'  '}
           {t('formationSousSousTitre')}
         </h1>
-        <div className=" mt-2 justify-center gap-10 flex">
+        <div className=" mt-2 justify-center gap-0 flex flex-wrap md:gap-10">
           <div className="flex gap-2">
             <div className="border-2 border-blue-900 bg-orange-500 w-10 h-5" />
             <p>{t('formationLegende1')}</p>

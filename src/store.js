@@ -10,7 +10,10 @@ const STORE = {
   iutManager: new IutManager(),
   mailManager: new MailManager(),
   selectedManager: new SelectedManager(),
+  dateEnvoi: null,
 };
+// Promise.all([STORE.butManager.getAllBut(), STORE.iutManager.getAllIut()])
+//   .then(([buts, iuts]) => STORE.selectedManager.initFromStorage(buts, iuts));
 STORE.butManager.getAllBut();
 STORE.iutManager.getAllIut();
 export default STORE;

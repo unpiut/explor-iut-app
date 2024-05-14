@@ -10,11 +10,15 @@ import MapModaleExplanation from './MapModaleExplanation';
 function MapView() {
   const { t } = useTranslation();
   const { selectedManager } = useContext(RootStore);
-  const [modaleOpen, setModaleOpen] = useState(true);
+  const [modaleOpen, setModaleOpen] = useState(selectedManager.firstVisitMap);
 
   return (
     <>
-      {modaleOpen ? <MapModaleExplanation onClose={() => setModaleOpen(false)} /> : null}
+      {modaleOpen ? (
+        <MapModaleExplanation
+          onClose={() => { setModaleOpen(false); selectedManager.firstVisitMap = false; }}
+        />
+      ) : null}
       <div className="grid">
         <div className="flex gap-2 justify-center">
           <h1 className="text-center text-3xl font-bold">{t('carteTitre')}</h1>
@@ -54,7 +58,7 @@ function MapView() {
             {!modaleOpen
               ? (
                 <div className="flex justify-end">
-                  <div className="w-5/6 border-2 p-2 mt-4 border-blue-800">
+                  <div className="lg:w-5/6 border-2 p-2 mt-4 border-blue-800">
                     <h2 className="text-2xl font-bold">{t('carteMETitre')}</h2>
                     <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre2')}</h3>
                     <p>
