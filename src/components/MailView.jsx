@@ -18,25 +18,25 @@ function MailView() {
         <div className="m-2">
           <label htmlFor="name" className="block text-sm sm:text-xl font-medium leading-6">
             {t('courrielNom')}
-            <input type="text" maxLength={20} name="name" id="name" autoComplete="name" value={mailManager.nom} onChange={(evt) => { mailManager.nom = evt.target.value; }} placeholder={t('courrielNomProp')} className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
+            <input type="text" maxLength={100} name="name" id="name" autoComplete="name" value={mailManager.nom} onChange={(evt) => { mailManager.nom = evt.target.value; }} placeholder={t('courrielNomProp')} className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
           </label>
         </div>
         <div className="m-2">
           <label htmlFor="entrepriseName" className="block text-sm sm:text-xl font-medium leading-6">
             {t('courrielEntreprise')}
-            <input type="text" maxLength={20} name="entrepriseName" id="entrepriseName" value={mailManager.nomEntreprise} onChange={(evt) => { mailManager.nomEntreprise = evt.target.value; }} placeholder={t('courrielEntrepriseProp')} className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
+            <input type="text" maxLength={100} name="entrepriseName" id="entrepriseName" value={mailManager.nomEntreprise} onChange={(evt) => { mailManager.nomEntreprise = evt.target.value; }} placeholder={t('courrielEntrepriseProp')} className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
           </label>
         </div>
         <div className="m-2">
           <label htmlFor="function" className="block text-sm sm:text-xl font-medium leading-6">
             {t('courrielFonc')}
-            <input type="text" maxLength={20} name="function" id="function" value={mailManager.fonctionDansEntreprise} onChange={(evt) => { mailManager.fonctionDansEntreprise = evt.target.value; }} placeholder={t('courrielFoncProp')} className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
+            <input type="text" maxLength={100} name="function" id="function" value={mailManager.fonctionDansEntreprise} onChange={(evt) => { mailManager.fonctionDansEntreprise = evt.target.value; }} placeholder={t('courrielFoncProp')} className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
           </label>
         </div>
         <div className="m-2">
           <label htmlFor="mail" className="block text-sm sm:text-xl font-medium leading-6">
             {t('courrielMail')}
-            <input type="mail" maxLength={20} name="mail" id="mail" autoComplete="mail" value={mailManager.adresseMail} onChange={(evt) => { mailManager.adresseMail = evt.target.value; }} placeholder={t('courrielMailProp')} className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
+            <input type="mail" maxLength={100} name="mail" id="mail" autoComplete="mail" value={mailManager.adresseMail} onChange={(evt) => { mailManager.adresseMail = evt.target.value; }} placeholder={t('courrielMailProp')} className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
           </label>
         </div>
       </form>
