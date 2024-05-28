@@ -64,7 +64,7 @@ function ModifyMailView() {
         </div>
         <div className="m-2">
           <label htmlFor="contenu" className="block text-sm sm:text-lg font-medium leading-6">
-            {t('courrielModifContenu')}
+            {t('courrielModifCorps')}
             <textarea id="contenu" value={mailManager.corpsMail} onChange={(evt) => { mailManager.corpsMail = evt.target.value; }} name="contenu" rows="8" className="block w-full p-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
           </label>
         </div>
@@ -73,6 +73,8 @@ function ModifyMailView() {
           <h2 className="block text-sm sm:text-lg font-medium leading-6">{t('courrielModifOffre')}</h2>
           <label htmlFor="offre1">
             {t('courrielModifPropOffre1')}
+            <br />
+            <span className="italic">{t('courrielModifPropOffreWarning')}</span>
             <input
               type="file"
               onChange={(e) => {

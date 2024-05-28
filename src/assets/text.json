@@ -70,6 +70,7 @@
     "courrielModifPropOffre1": "Mettez votre première offre ici",
     "courrielModifPropOffre2": "Mettez votre seconde offre ici",
     "courrielModifPropOffre3": "Mettez votre troisième offre ici",
+    "courrielModifPropOffreWarning": "Merci de nommer votre fichier avec le  titre du poste recherché.",
     "courrielModifRetour":"Retour aux informations du courriel",
     "courrielModifAvance":"Envoyer mon courriel",
     "courrielEnvoyeTitre":"Validation du courriel",

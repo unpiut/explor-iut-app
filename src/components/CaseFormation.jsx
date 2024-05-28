@@ -15,7 +15,7 @@ function CaseFormation({
   const { iutManager, selectedManager } = useContext(RootStore);
   function couleurBordure() {
     switch (but.universMetiers) {
-      case "Métiers de l'infomatique": return 'border-blue-900';
+      case "Métiers de l'infomatique": return 'border-cyan-500';
       case 'Métiers Industriels : Prod-Maintenance, Qualité-R&D': return 'border-orange-600';
       case "Métiers support de l'Industriel": return 'border-lime-600';
       case 'Métiers du Social, Gestion, Commerce': return 'border-purple-800';
@@ -25,7 +25,7 @@ function CaseFormation({
   const styleBordure = couleurBordure();
   function couleurFond() {
     switch (but.universMetiers) {
-      case "Métiers de l'infomatique": return 'bg-blue-transparent';
+      case "Métiers de l'infomatique": return 'bg-cyan-500/90';
       case 'Métiers Industriels : Prod-Maintenance, Qualité-R&D': return 'bg-amber-transparent';
       case "Métiers support de l'Industriel": return 'bg-lime-transparent';
       case 'Métiers du Social, Gestion, Commerce': return 'bg-purple-transparent';
