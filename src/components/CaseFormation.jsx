@@ -15,7 +15,7 @@ function CaseFormation({
   const { iutManager, selectedManager } = useContext(RootStore);
   function couleurBordure() {
     switch (but.universMetiers) {
-      case "Métiers de l'infomatique": return 'border-blue-900';
+      case "Métiers de l'infomatique": return 'border-cyan-500';
       case 'Métiers Industriels : Prod-Maintenance, Qualité-R&D': return 'border-orange-600';
       case "Métiers support de l'Industriel": return 'border-lime-600';
       case 'Métiers du Social, Gestion, Commerce': return 'border-purple-800';
@@ -25,7 +25,7 @@ function CaseFormation({
   const styleBordure = couleurBordure();
   function couleurFond() {
     switch (but.universMetiers) {
-      case "Métiers de l'infomatique": return 'bg-blue-transparent';
+      case "Métiers de l'infomatique": return 'bg-cyan-500/90';
       case 'Métiers Industriels : Prod-Maintenance, Qualité-R&D': return 'bg-amber-transparent';
       case "Métiers support de l'Industriel": return 'bg-lime-transparent';
       case 'Métiers du Social, Gestion, Commerce': return 'bg-purple-transparent';
@@ -49,6 +49,8 @@ function CaseFormation({
     selectedManager.switchButSelectionnes(but);
     iutManager.switchIutRecherches(selectedManager.butSelectionnes);
     selectedManager.switchIutSelectionnesIdByBut();
+    canOpen();
+    setClose(true);
   }
 
   return (
@@ -80,6 +82,9 @@ function CaseFormation({
               </p>
               <p className="text-slate-50 justify-self-end pr-3">X</p>
             </button>
+
+            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? t('caseFormSelect') : t('caseFormDeselect')}</button>
+
             <div className="flex flex-wrap align-middle gap-2">
               <p className="align-middle">{t('caseFormTitre')}</p>
               <p className="font-bold text-base">
@@ -116,7 +121,6 @@ function CaseFormation({
               <a className="underline font-bold text-base" target="_blank" href={but.urlFiche} rel="noreferrer">{t('caseFormIutfr')}</a>
               <a className="underline font-bold text-base" target="_blank" href={but.urlFranceCompetence} rel="noreferrer">{t('caseFormFrComp')}</a>
             </div>
-            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? t('caseFormSelect') : t('caseFormDeselect')}</button>
           </div>
         )
         : (
