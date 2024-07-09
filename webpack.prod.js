@@ -99,12 +99,15 @@ module.exports = {
       ],
     }, {
       // Gestion des fichiers images
-      test: /\.(png|svg|jpg|jpeg|gif)$/i,
+      test: /\.(png|svg|jpg|jpeg|webp|gif)$/i,
       type: 'asset/resource', // le module asset émet un fichier séparé du bundle et exporte son url
     }, {
       // Gestion des polices d'écriture
       test: /\.(woff|woff2|eot|ttf|otf)$/i,
       type: 'asset/resource', // le module asset émet un fichier séparé du bundle et exporte son url
+    }, {
+      test: /\.geojson$/,
+      loader: 'json-loader',
     }, {
       // Gestion du code-source js et jsx en utilisant babel pour
       // la transpilation

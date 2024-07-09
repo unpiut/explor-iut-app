@@ -82,12 +82,15 @@ module.exports = {
       ],
     }, {
       // Gestion des fichiers images
-      test: /\.(png|svg|jpg|jpeg|gif)$/i,
+      test: /\.(png|svg|jpg|jpeg|webp|gif)$/i,
       type: 'asset/resource', // le module asset émet un fichier séparé du bundle et exporte son url
     }, {
       // Gestion des polices d'écriture
       test: /\.(woff|woff2|eot|ttf|otf)$/i,
       type: 'asset/resource', // le module asset émet un fichier séparé du bundle et exporte son url
+    }, {
+      test: /\.geojson$/,
+      loader: 'json-loader',
     }, {
       // Gestion du code-source js et jsx en utilisant babel pour
       // la transpilation
@@ -106,9 +109,13 @@ module.exports = {
     host: '127.0.0.1', // Accessible uniquement d'une ip localhost (4 ou 6)
     historyApiFallback: true, // Evite d'afficher une page 404 plutot que la page index.html
     // quand on utilie HTML5 History API
-    static: {
+    static: [{
       directory: path.resolve(__dirname, 'build'),
+
     },
+    {
+      directory: path.join(__dirname, 'data-sample'),
+    }],
     open: true, // tente d'ouvre une page navigateur une fois le serveur lancé
     hot: true, // active le remplacement à chaud des modules
     client: { // n'affiche sur le navigateur en overlay que les erreurs
