@@ -46,10 +46,6 @@ function AppNavbar() {
                     {t('navigation2')}
                     <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
                   </Link>
-                  <Link to={selectedManager.nbButSelectionnes > 0 ? '/result' : '?'} className={`${selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  no-underline flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
-                    {t('navigation3')}
-                    <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
-                  </Link>
                   <Link to={selectedManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className={`${selectedManager.nbIutSelectionnesId < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  no-underline flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
                     {t('navigation4')}
                   </Link>
@@ -78,10 +74,6 @@ function AppNavbar() {
           <Link to={selectedManager.nbButSelectionnes > 0 ? '/map' : '?'} className="group no-underline hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
             <img width={25} src={fleche} alt="fleche" />
             <p className="group-hover:text-white">{t('navigation2')}</p>
-          </Link>
-          <Link to={selectedManager.nbButSelectionnes > 0 ? '/result' : '?'} className="group no-underline hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
-            <p className="group-hover:text-white">{t('navigation3')}</p>
-            <img width={25} src={fleche} alt="fleche" />
           </Link>
           <Link to={selectedManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className="group no-underline hover:bg-blue-900 flex gap-2 rounded-md px-3 py-2 text-lg font-medium">
             <img width={25} src={fleche} alt="fleche" />

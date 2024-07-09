@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import motif from '../assets/motif_unpiut.webp';
 
@@ -19,10 +20,12 @@ function FirstPage() {
         <h2 className="text-center text-xl lg:text-3xl">{t('accueilTitreRecherche')}</h2>
         <div className="grid gap-5 xl:grid-cols-3 text-center justify-center">
           <div className="relative pb-4 m-auto h-full w-2/3 border-2 border-blue-900">
-            <div>
-              <h3 className="p-2 xl:text-lg font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">{t('case1Titre')}</h3>
-              <p className="p-2 xl:text-lg">{t('case1Texte')}</p>
-            </div>
+            <Link to="/formation" className="no-underline">
+              <div>
+                <h3 className="p-2 xl:text-lg font-bold bg-blue-900 text-slate-50 border-b-2 border-blue-900">{t('case1Titre')}</h3>
+                <p className="p-2 xl:text-lg">{t('case1Texte')}</p>
+              </div>
+            </Link>
             <img className="absolute bottom-0" src={motif} alt="liseré IUT" />
           </div>
           <div className="relative pb-4 m-auto h-full w-2/3 border-2 border-blue-900">

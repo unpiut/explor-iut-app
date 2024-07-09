@@ -49,6 +49,8 @@ function CaseFormation({
     selectedManager.switchButSelectionnes(but);
     iutManager.switchIutRecherches(selectedManager.butSelectionnes);
     selectedManager.switchIutSelectionnesIdByBut();
+    canOpen();
+    setClose(true);
   }
 
   return (
@@ -80,6 +82,9 @@ function CaseFormation({
               </p>
               <p className="text-slate-50 justify-self-end pr-3">X</p>
             </button>
+
+            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? t('caseFormSelect') : t('caseFormDeselect')}</button>
+
             <div className="flex flex-wrap align-middle gap-2">
               <p className="align-middle">{t('caseFormTitre')}</p>
               <p className="font-bold text-base">
@@ -116,7 +121,6 @@ function CaseFormation({
               <a className="underline font-bold text-base" target="_blank" href={but.urlFiche} rel="noreferrer">{t('caseFormIutfr')}</a>
               <a className="underline font-bold text-base" target="_blank" href={but.urlFranceCompetence} rel="noreferrer">{t('caseFormFrComp')}</a>
             </div>
-            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? t('caseFormSelect') : t('caseFormDeselect')}</button>
           </div>
         )
         : (
