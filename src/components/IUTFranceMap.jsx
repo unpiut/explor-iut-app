@@ -154,15 +154,6 @@ function createDataOnlyOption(iuts, franceMap, iutSelectionnes) {
   };
 }
 
-function zoomGeoLoc({ latitude, longitude }) {
-  return {
-    geo: {
-      zoom: 4,
-      center: [longitude, latitude],
-    },
-  };
-}
-
 function IUTFranceMap({ className }) {
   const { franceMap, iutManager, selectedManager } = useContext(RootStore);
   const [echartState, setEchartState] = useState(null);
@@ -298,25 +289,13 @@ function IUTFranceMap({ className }) {
       });
 
       // Récupération des données de la france uniquement
-      Promise.all([franceMap.load(),
-        navigator.geolocation.getCurrentPosition((geoPosition) => {
-          geoLocal.current.latitude = geoPosition.coords.latitude;
-          geoLocal.current.longitude = geoPosition.coords.longitude;
-        })])
+      Promise.all([franceMap.load()])
         .then(() => {
-          console.log(geoLocal.current);
           // Création des options initiale avec la carte de france et un tableau d'IUTs vide
           theChart.hideLoading();
           theChart.setOption(
             createInitalEchartOption(franceMap.mapName, [], franceMap, geoLocal.current),
-
           );
-          if (!(geoLocal.current.latitude === null && geoLocal.current.longitude === null)) {
-            setTimeout(() => {
-              theChart.setOption(zoomGeoLoc(geoLocal.current));
-              setEchartState(theChart);
-            }, 600);
-          }
           // mise en place du state
           // A pour effet de déclencher un useEffect suivant
           setEchartState(theChart);
