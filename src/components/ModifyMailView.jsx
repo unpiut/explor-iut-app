@@ -54,13 +54,13 @@ function ModifyMailView() {
   function changeBodyMail(item) {
     let totalText = '';
     if (textCheck[0]) {
-      totalText += '- Quelles années sont concernés par l&apos;alternance? \r\n';
+      totalText += "- Quelles années sont concernés par l'alternance? \r\n";
     }
     if (textCheck[1]) {
-      totalText += '- Quelles sont les plannings d&apos;alternance pour la rentrée prochaine? \r\n';
+      totalText += "- Quelles sont les plannings d'alternance pour la rentrée prochaine? \r\n";
     }
     if (textCheck[2]) {
-      totalText += '- Quelles sont les modalités pour gérer et suivre mon offre d&apos;alternance? \r\n';
+      totalText += "- Quelles sont les modalités pour gérer et suivre mon offre d'alternance? \r\n";
     }
     if (textCheck[3]) {
       totalText += '- quelles sont les modalités administratives pour gérer ou suivre mon offre? \r\n';
@@ -69,6 +69,13 @@ function ModifyMailView() {
       totalText += item.value;
     }
     mailManager.corpsMail = totalText;
+  }
+
+  function handleCheckboxChange(index) {
+    const newTextCheck = [...textCheck];
+    newTextCheck[index] = !newTextCheck[index];
+    setTextCheck(newTextCheck);
+    changeBodyMail();
   }
 
   return (
@@ -87,19 +94,19 @@ function ModifyMailView() {
           </h3>
           <div className="grid">
             <label>
-              <input type="checkbox" id="yearsAlt" name="yearsAlt" checked={textCheck[0]} onChange={() => { textCheck[0] = !textCheck[0]; changeBodyMail(); }} />
+              <input type="checkbox" id="yearsAlt" name="yearsAlt" checked={textCheck[0]} onChange={() => handleCheckboxChange(0)} />
               - Quelles années sont concernés par l&apos;alternance?
             </label>
             <label>
-              <input type="checkbox" id="planningAlt" name="planningAlt" checked={textCheck[1]} onChange={() => { textCheck[1] = !textCheck[1]; changeBodyMail(); }} />
+              <input type="checkbox" id="planningAlt" name="planningAlt" checked={textCheck[1]} onChange={() => handleCheckboxChange(1)} />
               - Quelles sont les plannings d&apos;alternance pour la rentrée prochaine?
             </label>
             <label>
-              <input type="checkbox" id="modalAlt" name="modalAlt" checked={textCheck[2]} onChange={() => { textCheck[2] = !textCheck[2]; changeBodyMail(); }} />
+              <input type="checkbox" id="modalAlt" name="modalAlt" checked={textCheck[2]} onChange={() => handleCheckboxChange(2)} />
               - Quelles sont les modalités pour gérer et suivre mon offre d&apos;alternance?
             </label>
             <label>
-              <input type="checkbox" id="adminAlt" name="adminAlt" checked={textCheck[3]} onChange={() => { textCheck[3] = !textCheck[3]; changeBodyMail(); }} />
+              <input type="checkbox" id="adminAlt" name="adminAlt" checked={textCheck[3]} onChange={() => handleCheckboxChange(3)} />
               - quelles sont les modalités administratives pour gérer ou suivre mon offre?
             </label>
           </div>
