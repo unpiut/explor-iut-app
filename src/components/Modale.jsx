@@ -15,11 +15,12 @@ function Modale({
   const filtre = (b) => (butSelect.find((unBut) => unBut.code === b.butDispenses[0].codeBut));
   function selectionner() {
     selectedManager.switchIutSelectionnes(iut);
+    onClose();
   }
   return (
     <div style={X && Y ? { top: `${Y}px`, left: `${X}px` } : null} className={`absolute px-5 grid justify-center bg-slate-50 z-10 gap-y-2 border-2 text-xs md:text-base border-blue-900 ${!(X && Y) ? 'left-10 right-10 top-[60%]' : ''}`}>
       <div className="flex justify-between gap-5">
-        <a href={iut.urlWeb} className="align-middle">{iut.site ? `${iut.nom} - ${iut.site}` : iut.nom}</a>
+        <a href={iut.urlWeb} target="_blank" className="align-middle" rel="noreferrer">{iut.site ? `${iut.nom} - ${iut.site}` : iut.nom}</a>
         <button className="font-bold" type="button" onClick={onClose}>X</button>
       </div>
       <div>
