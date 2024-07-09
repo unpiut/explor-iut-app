@@ -34,7 +34,7 @@ function FormationView() {
             <p>{t('formationLegende3')}</p>
           </div>
           <div className="flex gap-2">
-            <div className="border-2 border-blue-900 bg-blue-900 w-10 h-5" />
+            <div className="border-2 border-blue-900 bg-cyan-500 w-10 h-5" />
             <p>{t('formationLegende4')}</p>
           </div>
         </div>
