@@ -39,14 +39,10 @@ function ModifyMailView() {
         {selectedManager.iutSelectionnes.size > 1 ? t('courrielEnvoyeTexte3Plur') : t('courrielEnvoyeTexte3')}
       </p>
 
-      <div>
+      <div className="grid gap-2 justify-center">
         <button className="border-2 px text-base lg:text-xl p-2" type="button" onClick={renvoiMail}>{t('renvoiMail')}</button>
       </div>
       <div className="grid gap-2 justify-center">
-        <Link className="border-2 px-2 text-base lg:text-xl flex justify-center p-2 gap-4" to="/result">
-          <img width={25} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
-          <p>{t('courrielEnvoyeRetour1')}</p>
-        </Link>
         <Link onClick={() => reset()} className="border-2 px-2 text-base lg:text-xl flex justify-center p-2 gap-4" to="/formation">
           <img width={25} style={{ transform: 'rotate(0.25turn)' }} src={fleche} alt="fleche" />
           <p>{t('courrielEnvoyeRetour2')}</p>
