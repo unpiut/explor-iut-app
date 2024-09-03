@@ -27,7 +27,10 @@ function ValidateView() {
   }, []);
   return (
     <h1>
-      Votre mail a bien été envoyé !
+      L&apos;ensemble des courriels a bien été transmis aux IUT que vous avez sélectionnés.
+      Chacun de ces IUT reprendra contact avec vous pour vous proposer des candidatures
+      d&apos;apprentis répondant à vos attentes. Nous vous remercions de votre confiance
+      et de l&apos;intérêt que vous porter aux jeunes issus de nos formations. Sincères salutations.
       {processing.processing}
       {' '}
       {processing.error}
