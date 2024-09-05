@@ -1,8 +1,10 @@
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 
 function ValidateView() {
+  const { t } = useTranslation();
   const [queryParam] = useSearchParams();
   const [processing, setProcessing] = useState({ processing: true, error: null });
   useEffect(() => {
@@ -26,15 +28,17 @@ function ValidateView() {
       });
   }, []);
   return (
-    <h1>
-      L&apos;ensemble des courriels a bien été transmis aux IUT que vous avez sélectionnés.
-      Chacun de ces IUT reprendra contact avec vous pour vous proposer des candidatures
-      d&apos;apprentis répondant à vos attentes. Nous vous remercions de votre confiance
-      et de l&apos;intérêt que vous porter aux jeunes issus de nos formations. Sincères salutations.
-      {processing.processing}
-      {' '}
-      {processing.error}
-    </h1>
+    <div className="grid gap-24 justify-center">
+      <h1 className="text-center text-xl lg:text-4xl mt-5">{t('titleMailValidate')}</h1>
+      <p className="text-center text-base lg:text-3xl">
+        {t('textMailValidate')}
+      </p>
+      <p className="text-center text-base">
+        {processing.processing}
+        {' '}
+        {processing.error}
+      </p>
+    </div>
   );
 }
 

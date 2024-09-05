@@ -31,12 +31,12 @@ function MailSendView() {
   return (
     <div className="grid gap-24 justify-center">
       <h1 className="text-center text-xl lg:text-4xl">{t('courrielEnvoyeTitre')}</h1>
-      <p className="text-center text-3xl">
+      <p className="text-center text-base lg:text-3xl">
         {t('courrielEnvoyeTexte1')}
         <br />
         {t('courrielEnvoyeTexte2')}
         <br />
-        {selectedManager.iutSelectionnes.size > 1 ? t('courrielEnvoyeTexte3Plur') : t('courrielEnvoyeTexte3')}
+        {t('courrielEnvoyeTexte3')}
       </p>
 
       <div className="grid gap-2 justify-center">
