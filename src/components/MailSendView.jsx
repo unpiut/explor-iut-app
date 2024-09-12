@@ -8,17 +8,9 @@ import RootStore from '../RootStore';
 function MailSendView() {
   const { t } = useTranslation();
   const { selectedManager, mailManager } = useContext(RootStore);
-  async function renvoiMail() {
-    const myFormData = new FormData();
-    myFormData.append('c', mailManager.adresseMail);
-    myFormData.append('cdt', selectedManager.dateEnvoi);
-    const res = await fetch(`${APP_ENV_API_PATH}/mail/resend-confirmation`, {
-      method: 'POST',
-      body: myFormData,
-    });
-    if (!res.ok) {
-      throw new Error("Le traitement ne s'est pas bien effectué");
-    }
+
+  function renvoiMail() {
+    mailManager.resendMail(selectedManager.dateEnvoi);
   }
 
   function reset() {

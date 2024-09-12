@@ -18,37 +18,19 @@ function ModifyMailView() {
     if (selectedManager.alreadySend) {
       navigate('/mailSend');
     }
-    const myFormData = new FormData();
-    myFormData.append('contactIdentity', mailManager.nom);
-    myFormData.append('contactCompany', mailManager.nomEntreprise);
-    myFormData.append('contactFunction', mailManager.fonctionDansEntreprise);
-    myFormData.append('contactMail', mailManager.adresseMail);
-    myFormData.append('mailSubject', mailManager.objet);
-    myFormData.append('mailBody', mailManager.corpsMail);
-    allFiles.filter((f) => !!f).forEach((f) => {
-      myFormData.append('files', f);
+    const filesToSend = allFiles.filter((f) => !!f);
+    const selectedDepts = [...selectedManager.iutSelectionnes]
+      .flatMap((iut) => iut.departements)
+      .filter((dept) => dept.butDispenses
+        .some((b) => selectedManager.butSelectionnes.has(butManager.getButByCode(b.codeBut))));
+    mailManager.sendMail({
+      files: filesToSend,
+      selectedDepartments: selectedDepts,
+    }).then(({ creationDateTime }) => {
+      selectedManager.dateEnvoi = creationDateTime;
+      navigate('/mailSend');
     });
-    selectedManager.iutSelectionnes.forEach((iut) => {
-      iut.departements.filter(
-        (dep) => selectedManager.butSelectionnes.has(
-          butManager.getButByCode(dep.butDispenses[0].codeBut),
-        ),
-      )
-        .forEach((dep) => {
-          myFormData.append('deptIds', dep.id);
-        });
-    });
-    fetch(`${APP_ENV_API_PATH}/mail/request`, {
-      method: 'POST',
-      body: myFormData,
-    }).then((res) => {
-      if (!res.ok) {
-        throw new Error("Le traitement ne s'est pas bien effectué");
-      }
-      return res.json();
-    }).then(({ creationDateTime }) => { selectedManager.dateEnvoi = creationDateTime; });
     selectedManager.alreadySend = true;
-    navigate('/mailSend');
   }
 
   function changeBodyMail(item) {

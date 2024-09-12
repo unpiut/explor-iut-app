@@ -92,6 +92,45 @@ class MailManager {
   isUpdatedInfo() {
     return this._adresseMail === '' || this._nom === '' || this._fonctionDansEntreprise === '' || this._nomEntreprise === '';
   }
+
+  async sendMail({ files, selectedDepartments }) {
+    if (!selectedDepartments?.length) {
+      throw new Error('Cannot send mail without selected departments');
+    }
+    const myFormData = new FormData();
+    myFormData.append('contactIdentity', this.nom);
+    myFormData.append('contactCompany', this.nomEntreprise);
+    myFormData.append('contactFunction', this._fonctionDansEntreprise);
+    myFormData.append('contactMail', this.adresseMail);
+    myFormData.append('mailSubject', this.objet);
+    myFormData.append('mailBody', this.corpsMail);
+    files?.forEach((f) => myFormData.append('files', f));
+    selectedDepartments.forEach((dep) => {
+      myFormData.append('deptIds', dep.id);
+    });
+
+    const res = await fetch(`${APP_ENV_API_PATH}/mail/request`, {
+      method: 'POST',
+      body: myFormData,
+    });
+    if (!res.ok) {
+      throw new Error("Le traitement ne s'est pas bien effectué");
+    }
+    return res.json();
+  }
+
+  async resendMail(originalMailSendingDate) {
+    const myFormData = new FormData();
+    myFormData.append('c', this.adresseMail);
+    myFormData.append('cdt', originalMailSendingDate);
+    const res = await fetch(`${APP_ENV_API_PATH}/mail/resend-confirmation`, {
+      method: 'POST',
+      body: myFormData,
+    });
+    if (!res.ok) {
+      throw new Error("Le traitement ne s'est pas bien effectué");
+    }
+  }
 }
 
 export default MailManager;
