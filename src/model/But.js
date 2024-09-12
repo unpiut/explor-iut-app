@@ -1,8 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 
 class But {
-  static IUT_URL_BASE = 'https://www.iut.fr/bachelor-universitaire-de-technologie';
-
   _code;
 
   _nom;
@@ -28,9 +26,7 @@ class But {
     description, metiers, urlFiche,
     urlFranceCompetence, universMetiers,
   }) {
-    makeAutoObservable(this, {
-      IUT_URL_BASE: false,
-    });
+    makeAutoObservable(this);
     this._code = code;
     this._nom = nom;
     this._filiere = filiere;
