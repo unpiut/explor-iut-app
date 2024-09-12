@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
@@ -9,8 +9,14 @@ function ModaleSelectionIUT({
 }) {
   const { t } = useTranslation();
   const { iutManager, butManager, selectedManager } = useContext(RootStore);
+
+  // Get full info of the iut
+  useEffect(() => {
+    const iut = iutManager.iuts.find((i) => i.idIut === iutId);
+    iut.getInfo();
+  }, [iutManager, iutId]);
+
   const iut = iutManager.iuts.find((i) => i.idIut === iutId);
-  iut.getInfo();
   const butSelect = selectedManager.butSelectionnesTab;
   const filtre = (b) => (butSelect.find((unBut) => unBut.code === b.butDispenses[0].codeBut));
   function selectionner() {

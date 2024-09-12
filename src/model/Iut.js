@@ -68,10 +68,18 @@ class Iut {
     return this._urlWeb;
   }
 
+  get hasInformationDetails() {
+    // as mel or tel might be null, we only look at departements and urlWeb
+    return !!(this.departements && this.urlWeb && this.mel && this.tel);
+  }
+
   /**
    * Get more informations about an IUT in the API.
    */
   async getInfo() {
+    if (this.hasInformationDetails) {
+      return this;
+    }
     let iut = await fetch(`${APP_ENV_API_PATH}/iut/${this._idIut}`);
     iut = await iut.json();
     runInAction(() => {
@@ -80,6 +88,7 @@ class Iut {
       this._tel = iut.tel;
       this._urlWeb = iut.urlWeb;
     });
+    return this;
   }
 }
 

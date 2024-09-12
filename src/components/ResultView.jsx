@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import SearchResult from './SearchResult';
@@ -11,7 +11,11 @@ function ResultView() {
   const { t } = useTranslation();
   const { selectedManager } = useContext(RootStore);
   const [modaleTelechargement, setModaleTelechargement] = useState(false);
-  selectedManager.miseAJour();
+
+  useEffect(() => {
+    selectedManager.miseAJour();
+  }, [selectedManager, selectedManager.iutSelectionnes]);
+
   const butSelect = selectedManager.butSelectionnesTab;
   document.addEventListener('keydown', (event) => {
     if (event.code === 'Backspace') { setModaleTelechargement(false); }
