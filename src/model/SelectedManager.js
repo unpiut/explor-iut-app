@@ -5,6 +5,7 @@ import localStorageMgr from '../services/LocalStorageManager';
 
 const BUT_STORAGE_KEY = 'listeBut';
 const IUT_STORAGE_KEY = 'listeIut';
+const ALREADY_VISIT_STORAGE_KEY = 'hasAlreadyVisit';
 
 class SelectedManager {
   _butSelectionnes;
@@ -35,6 +36,7 @@ class SelectedManager {
     this._ready = new Promise((resolve) => {
       this._initializationResolver = resolve;
     });
+    this._loadAlreadyVisit();
   }
 
   initFromStorage(buts, iuts) {
@@ -130,6 +132,9 @@ class SelectedManager {
 
   set firstVisitMap(newVisit) {
     this._firstVisitMap = newVisit;
+    if (!newVisit) {
+      this._saveAlreadyVisit();
+    }
   }
 
   switchButSelectionnes(but) {
@@ -191,6 +196,21 @@ class SelectedManager {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Récapitulatif');
     XLSX.writeFile(workbook, `Récapitulatif-IUT-alternance.${typefile}`, { bookType: typefile, compression: true });
+  }
+
+  // Hot fix since initFromStorage has been disabled
+  async _loadAlreadyVisit() {
+    const hasAlreadyVisit = await localStorageMgr.getItem(ALREADY_VISIT_STORAGE_KEY);
+    if (hasAlreadyVisit) {
+      this._firstVisitMap = false;
+    } else {
+      this._firstVisitMap = true;
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async _saveAlreadyVisit() {
+    return localStorageMgr.setItem(ALREADY_VISIT_STORAGE_KEY, true);
   }
 }
 
