@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import React, {
   useContext, useEffect, useRef, useState,
 } from 'react';
@@ -48,13 +46,11 @@ function iutSelect2series(iutSelectionnes, franceMap) {
 function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
   const userZoomInfo = { zoom: 1, center: null };
   if (userCoors) {
-    console.log('Find region code for user');
     const userRegionCode = franceMap.locateRegionCodeForCoordinates(userCoors);
     if (!userRegionCode) {
       console.warn('No region code found for user');
     } else {
       const zoomInfo = franceMap.getCenterAndZoomRatioForRegionCode(userRegionCode);
-      console.log(zoomInfo);
       userZoomInfo.zoom = zoomInfo.zoomRatio;
       userZoomInfo.center = zoomInfo.correctedCenter;
     }
@@ -166,12 +162,9 @@ function IUTFranceMap({ className }) {
   });
   const enDeplacement = useRef(true);
 
-  console.log('IUTFranceMap: redraw');
-
   // Initial Map créator
   useEffect(() => {
     if (refContainer.current && !echartState) {
-      console.log('CREATE IUTFranceMap chart');
       const theChart = echarts.init(refContainer.current);
 
       theChart.showLoading();
@@ -306,7 +299,6 @@ function IUTFranceMap({ className }) {
   useEffect(() => autorun(() => {
     // Mise à jour de la carte uniquement si la carte a bien été crée et si l'on a des iuts
     if (echartState && iutManager.nbIuts) {
-      console.log('re-set data');
       // choix des iuts : ceux selectionnés si l'on a une selection sinon tous les iuts
       const iuts = iutManager.iutRecherchesTab.length
         ? iutManager.iutRecherchesTab
