@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
+import { observer } from 'mobx-react';
+import RootStore from '../RootStore';
 
 function AdminTools() {
+  const { adminManager } = useContext(RootStore);
   const [fileState, setFileState] = useState(null);
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const linkRef = useRef();
@@ -14,63 +15,28 @@ function AdminTools() {
     }
     setError(null);
     setLoading(true);
-    const myFormData = new FormData();
-    myFormData.append('file', fileState);
-    myFormData.append('fileName', fileState.name);
-    const pass = btoa(`${username}:${password}`);
-    const headers = new Headers();
-    headers.set('Authorization', `Basic ${pass}`);
-    fetch(`${APP_ENV_API_PATH}/admin/data-sheets`, {
-      method: 'PUT',
-      headers,
-      body: myFormData,
-    }).then((res) => {
-      if (!res.ok) {
-        throw new Error("Le traitement ne s'est pas bien effectué");
-      }
+    adminManager.uploadData({
+      file: fileState,
+      filename: fileState.name,
     }).catch((err) => {
       setError(err.message);
-    })
-      .finally(() => {
-        setLoading(false);
-      });
+    }).finally(() => {
+      setLoading(false);
+    });
   }
 
   function telecharger() {
     setError(null);
     setLoading(true);
-    const pass = btoa(`${username}:${password}`);
-    const headers = new Headers();
-    headers.set('Authorization', `Basic ${pass}`);
-    fetch(`${APP_ENV_API_PATH}/admin/data-sheets`, {
-      method: 'GET',
-      headers,
-    }).then((res) => {
-      if (!res.ok) {
-        throw new Error("Le traitement ne s'est pas bien effectué");
-      }
-      const cd = res.headers.get('Content-Disposition');
-      let filename;
-      if (cd) {
-        const m = cd.match('filename="([^"]+)"');
-        if (m.length === 2) {
-          [, filename] = m;
-        }
-      }
-      if (!filename) {
-        filename = 'exploriut_data.xlsx';
-      }
-      return res.blob().then((blob) => [filename, blob]);
-    }).then(([filename, blob]) => {
-      const objectUrl = URL.createObjectURL(blob);
-      const link = linkRef.current;
-      link.href = objectUrl;
-      link.download = filename;
-      link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-    }).catch((err) => {
-      setError(err.message);
-    })
-      .finally(() => {
+    adminManager.downloadLastData()
+      .then(({ objectUrl, filename }) => {
+        const link = linkRef.current;
+        link.href = objectUrl;
+        link.download = filename;
+        link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+      }).catch((err) => {
+        setError(err.message);
+      }).finally(() => {
         setLoading(false);
       });
   }
@@ -84,11 +50,25 @@ function AdminTools() {
             <form className="mt-4 grid justify-center gap-2">
               <label htmlFor="username">
                 Nom d&apos;utilisateur :
-                <input className="w-full rounded border-2 border-blue-900 px-2" type="text" name="username" id="username" onChange={(e) => setUsername(e.target.value)} />
+                <input
+                  className="w-full rounded border-2 border-blue-900 px-2"
+                  type="text"
+                  name="username"
+                  id="username"
+                  value={adminManager.username}
+                  onChange={(e) => { adminManager.username = e.target.value; }}
+                />
               </label>
               <label htmlFor="mdp">
                 Mot de passe :
-                <input className="w-full  rounded border-2 border-blue-900 px-2" type="password" name="mdp" id="mdp" onChange={(e) => setPassword(e.target.value)} />
+                <input
+                  className="w-full  rounded border-2 border-blue-900 px-2"
+                  type="password"
+                  name="mdp"
+                  id="mdp"
+                  value={adminManager.password}
+                  onChange={(e) => { adminManager.password = e.target.value; }}
+                />
               </label>
               <div className="mt-4 flex gap-10">
                 <button className="rounded border-2 border-blue-900 px-2" type="button" onClick={telecharger} name="download" value="download">Télécharger le document</button>
@@ -106,4 +86,4 @@ function AdminTools() {
     </>
   );
 }
-export default AdminTools;
+export default observer(AdminTools);

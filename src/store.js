@@ -1,3 +1,4 @@
+import AdminManager from './model/AdminManager';
 import ButManager from './model/ButManager';
 import FranceMap from './model/FranceMap';
 import IutManager from './model/IutManager';
@@ -11,6 +12,7 @@ const STORE = {
   mailManager: new MailManager(),
   selectedManager: new SelectedManager(),
   dateEnvoi: null,
+  adminManager: new AdminManager(),
 };
 // Promise.all([STORE.butManager.getAllBut(), STORE.iutManager.getAllIut()])
 //   .then(([buts, iuts]) => STORE.selectedManager.initFromStorage(buts, iuts));
