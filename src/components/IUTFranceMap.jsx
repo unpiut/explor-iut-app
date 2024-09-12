@@ -12,7 +12,7 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { autorun } from 'mobx';
 import RootStore from '../RootStore';
-import Modale from './Modale';
+import ModaleSelectionIUT from './ModaleSelectionIUT';
 // import { findGeloloc } from '../../model/geolocService';
 
 echarts.use([
@@ -178,7 +178,7 @@ function IUTFranceMap({ className }) {
 
       theChart.on('click', { seriesId: 'iut' }, (event) => { // Création de la modale sur un IUT
         setAfficheModale(true);
-        setModale(<Modale
+        setModale(<ModaleSelectionIUT
           iutId={event.data.iutId}
           onClose={() => setAfficheModale(false)}
           X={event.event.event.pageX}
@@ -188,7 +188,7 @@ function IUTFranceMap({ className }) {
 
       theChart.on('click', { seriesId: 'selectedIut' }, (event) => { // Création de la modale sur un IUT déjà sélectionné
         setAfficheModale(true);
-        setModale(<Modale
+        setModale(<ModaleSelectionIUT
           iutId={event.data.iutId}
           onClose={() => setAfficheModale(false)}
           X={event.event.event.pageX}

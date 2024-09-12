@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import RootStore from '../RootStore';
 
-function Modale({ onClose }) {
+function ModaleDownload({ onClose }) {
   const { t } = useTranslation();
   const { selectedManager } = useContext(RootStore);
 
@@ -24,7 +24,7 @@ function Modale({ onClose }) {
     </div>
   );
 }
-Modale.propTypes = ({
+ModaleDownload.propTypes = ({
   onClose: PropTypes.func.isRequired,
 });
-export default observer(Modale);
+export default observer(ModaleDownload);

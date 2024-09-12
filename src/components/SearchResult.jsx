@@ -3,7 +3,7 @@ import { observer, PropTypes as MPropTypes } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import RootStore from '../RootStore';
 
-function ResultatRecherche({ iut, butSlct }) {
+function SearchResult({ iut, butSlct }) {
   const { t } = useTranslation();
   const { selectedManager } = useContext(RootStore);
   return (
@@ -31,12 +31,12 @@ function ResultatRecherche({ iut, butSlct }) {
     </div>
   );
 }
-ResultatRecherche.propTypes = ({
+SearchResult.propTypes = ({
   iut: MPropTypes.objectOrObservableObject,
   butSlct: MPropTypes.arrayOrObservableArray.isRequired,
 });
-ResultatRecherche.defaultProps = ({
+SearchResult.defaultProps = ({
   iut: null,
 });
 
-export default observer(ResultatRecherche);
+export default observer(SearchResult);

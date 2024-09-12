@@ -1,7 +1,7 @@
 import React from 'react';
 import Footer from './Footer';
 
-function MentionsLegales() {
+function LegalNotice() {
   return (
     <>
       <h1 className="text-center text-3xl">Mentions Légales - RGPD</h1>
@@ -43,4 +43,4 @@ function MentionsLegales() {
   );
 }
 
-export default MentionsLegales;
+export default LegalNotice;

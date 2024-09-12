@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { PropTypes as MPropTypes } from 'prop-types';
 import fleche from '../assets/icone-les-iut.svg';
 
-function FicheRappelIut({ but, index }) {
+function IUTRememberCard({ but, index }) {
   const [developpement, setDeveloppement] = useState(false);
   return (
     <div key={index}>
@@ -51,8 +51,8 @@ function FicheRappelIut({ but, index }) {
     </div>
   );
 }
-FicheRappelIut.propTypes = {
+IUTRememberCard.propTypes = {
   but: PropTypes.objectOrObservableObject.isRequired,
   index: MPropTypes.number.isRequired,
 };
-export default FicheRappelIut;
+export default IUTRememberCard;

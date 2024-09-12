@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-function ExcelAccess() {
+function AdminTools() {
   const [fileState, setFileState] = useState(null);
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -106,4 +106,4 @@ function ExcelAccess() {
     </>
   );
 }
-export default ExcelAccess;
+export default AdminTools;

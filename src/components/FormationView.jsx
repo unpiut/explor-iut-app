@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
-import CaseFormation from './CaseFormation';
+import FormationBrick from './FormationBrick';
 import RootStore from '../RootStore';
 import Footer from './Footer';
 
@@ -52,7 +52,7 @@ function FormationView() {
         })
           .map((but, index) => (but !== null
             ? (
-              <CaseFormation
+              <FormationBrick
                 key={but.code}
                 but={but}
                 tabIndex={index}

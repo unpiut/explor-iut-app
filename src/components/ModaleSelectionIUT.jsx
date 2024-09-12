@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import RootStore from '../RootStore';
 
-function Modale({
+function ModaleSelectionIUT({
   iutId, onClose, X, Y,
 }) {
   const { t } = useTranslation();
@@ -45,15 +45,15 @@ function Modale({
     </div>
   );
 }
-Modale.propTypes = ({
+ModaleSelectionIUT.propTypes = ({
   iutId: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   X: PropTypes.number,
   Y: PropTypes.number,
 });
-Modale.defaultProps = ({
+ModaleSelectionIUT.defaultProps = ({
   X: null,
   Y: null,
 });
 
-export default observer(Modale);
+export default observer(ModaleSelectionIUT);

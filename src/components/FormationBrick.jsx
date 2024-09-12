@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import RootStore from '../RootStore';
 import style from './CaseFormationjsx.css';
 
-function CaseFormation({
+function FormationBrick({
   but, tabIndex, canOpen, isClose,
 }) {
   const { t } = useTranslation();
@@ -138,10 +138,10 @@ function CaseFormation({
     </div>
   );
 }
-CaseFormation.propTypes = ({
+FormationBrick.propTypes = ({
   but: MPropTypes.objectOrObservableObject.isRequired,
   tabIndex: PropTypes.number.isRequired,
   canOpen: PropTypes.func.isRequired,
   isClose: PropTypes.bool.isRequired,
 });
-export default observer(CaseFormation);
+export default observer(FormationBrick);

@@ -18,8 +18,8 @@ import RootStore from './RootStore';
 import STORE from './store';
 
 import { WithPagedTitle } from './components/utils';
-import MentionsLegales from './components/MentionsLegales';
-import ExcelAccess from './components/ExcelAccess';
+import LegalNotice from './components/LegalNotice';
+import AdminTools from './components/AdminTools';
 import ValidateView from './components/ValidateView';
 
 const router = createBrowserRouter([
@@ -86,11 +86,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'mentions',
-        element: <WithPagedTitle pageTitle="Mentions légales"><MentionsLegales /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="Mentions légales"><LegalNotice /></WithPagedTitle>,
       },
       {
         path: 'admin',
-        element: <WithPagedTitle pageTitle="Administration"><ExcelAccess /></WithPagedTitle>,
+        element: <WithPagedTitle pageTitle="Administration"><AdminTools /></WithPagedTitle>,
       },
     ],
   },

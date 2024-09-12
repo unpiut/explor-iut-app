@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Footer from './Footer';
 import IUTFranceMap from './IUTFranceMap';
 import RootStore from '../RootStore';
-import FicheRappelIut from './FicheRappelIut';
+import IUTRememberCard from './IUTRememberCard';
 import MapModaleExplanation from './MapModaleExplanation';
 
 function MapView() {
@@ -52,7 +52,7 @@ function MapView() {
             <h2 className="text-lg">Formations sélectionnées</h2>
             <div className="border-x-2 border-b-2 border-blue-900">
               {selectedManager.butSelectionnesTab.map((b, index) => (
-                <FicheRappelIut but={b} index={index} key={b.code} />
+                <IUTRememberCard but={b} index={index} key={b.code} />
               ))}
             </div>
             {!modaleOpen
