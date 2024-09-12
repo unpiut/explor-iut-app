@@ -1,6 +1,44 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 
 class But {
+  static UNIVERSES_INFO = {
+    'Métiers Industriels : Prod-Maintenance, Qualité-R&D': {
+      order: 4,
+      colors: {
+        border: 'border-orange-600',
+        background: 'bg-amber-transparent',
+      },
+    },
+    "Métiers support de l'Industriel": {
+      order: 3,
+      colors: {
+        border: 'border-lime-600',
+        background: 'bg-lime-transparent',
+      },
+    },
+    'Métiers du Social, Gestion, Commerce': {
+      order: 2,
+      colors: {
+        border: 'border-purple-800',
+        background: 'bg-purple-transparent',
+      },
+    },
+    "Métiers de l'informatique": {
+      order: 1,
+      colors: {
+        border: 'border-cyan-500',
+        background: 'bg-cyan-500/90',
+      },
+    },
+    default: {
+      order: 1000,
+      colors: {
+        border: 'border-black',
+        background: null,
+      },
+    },
+  };
+
   _code;
 
   _nom;
@@ -76,6 +114,10 @@ class But {
 
   get universMetiers() {
     return this._universMetiers;
+  }
+
+  get universMetiersInfo() {
+    return But.UNIVERSES_INFO[this._universMetiers] ?? But.UNIVERSES_INFO.default;
   }
 
   /**

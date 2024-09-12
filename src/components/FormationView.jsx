@@ -10,7 +10,6 @@ function FormationView() {
   const [openIndex, setOpenIndex] = useState(null);
   const { butManager, selectedManager } = useContext(RootStore);
   const { buts } = butManager;
-  const tabUnivers = ['Métiers Industriels : Prod-Maintenance, Qualité-R&D', "Métiers support de l'Industriel", 'Métiers du Social, Gestion, Commerce', "Métiers de l'informatique"];
   return (
     <>
       <div className="mb-4">
@@ -40,16 +39,7 @@ function FormationView() {
         </div>
       </div>
       <div className="md:mx-32 grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-8 px-3 pb-20">
-        {[...buts].sort((a, b) => {
-          const indexA = tabUnivers.findIndex((e) => e === a.universMetiers);
-          const indexB = tabUnivers.findIndex((e) => e === b.universMetiers);
-          if (indexA < indexB) {
-            return -1;
-          } if (indexA === indexB) {
-            return 0;
-          }
-          return 1;
-        })
+        {[...buts].sort((a, b) => b.universMetiersInfo.order - a.universMetiersInfo.order)
           .map((but, index) => (but !== null
             ? (
               <FormationBrick
