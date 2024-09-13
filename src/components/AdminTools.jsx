@@ -1,34 +1,58 @@
 import React, { useContext, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 import RootStore from '../RootStore';
+import { dateToLocalDateTimeString } from '../services/timeService';
+
+function getHistoryDataTitle(datum) {
+  let title = dateToLocalDateTimeString(datum.version);
+  if (datum.used) {
+    title += ' (actuellement utilisé)';
+  }
+  return title;
+}
 
 function AdminTools() {
   const { adminManager } = useContext(RootStore);
   const [fileState, setFileState] = useState(null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const linkRef = useRef();
 
-  function televerser() {
+  function checkCreds(evt) {
+    evt.preventDefault();
+    adminManager.verifyCredential();
+  }
+
+  function televerser(evt) {
+    evt.preventDefault();
+    if (uploading) {
+      return;
+    }
     if (!fileState) {
       return;
     }
     setError(null);
-    setLoading(true);
+    setUploading(true);
     adminManager.uploadData({
       file: fileState,
       filename: fileState.name,
     }).catch((err) => {
       setError(err.message);
     }).finally(() => {
-      setLoading(false);
+      setUploading(false);
     });
   }
 
-  function telecharger() {
+  function telecharger(evt, id) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    if (downloading) {
+      return;
+    }
     setError(null);
-    setLoading(true);
-    adminManager.downloadLastData()
+    setDownloading(true);
+    adminManager.downloadData(id)
       .then(({ objectUrl, filename }) => {
         const link = linkRef.current;
         link.href = objectUrl;
@@ -37,17 +61,19 @@ function AdminTools() {
       }).catch((err) => {
         setError(err.message);
       }).finally(() => {
-        setLoading(false);
+        setDownloading(false);
       });
   }
 
   return (
     <>
-      <div className="grid justify-center">
-        {loading
-          ? <h1>Veuillez patentier, votre téléversement a lieu.</h1>
-          : (
-            <form className="mt-4 grid justify-center gap-2">
+      {/* eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */}
+      <a ref={linkRef} style={{ display: 'none' }} />
+      <div className="grid gap-4 grid-cols-3 mt-4">
+        <div className="basis-1/3">
+          <h1 className="text-xl font-semibold mb-3">Authentification</h1>
+          <form onSubmit={checkCreds} method="POST" action="#">
+            <fieldset disabled={adminManager.credentialVerified}>
               <label htmlFor="username">
                 Nom d&apos;utilisateur :
                 <input
@@ -55,6 +81,7 @@ function AdminTools() {
                   type="text"
                   name="username"
                   id="username"
+                  required
                   value={adminManager.username}
                   onChange={(e) => { adminManager.username = e.target.value; }}
                 />
@@ -62,27 +89,101 @@ function AdminTools() {
               <label htmlFor="mdp">
                 Mot de passe :
                 <input
-                  className="w-full  rounded border-2 border-blue-900 px-2"
+                  className="w-full rounded border-2 border-blue-900 px-2"
                   type="password"
                   name="mdp"
                   id="mdp"
+                  required
                   value={adminManager.password}
                   onChange={(e) => { adminManager.password = e.target.value; }}
                 />
               </label>
-              <div className="mt-4 flex gap-10">
-                <button className="rounded border-2 border-blue-900 px-2" type="button" onClick={telecharger} name="download" value="download">Télécharger le document</button>
-                <div className="grid">
-                  <input onChange={(e) => setFileState(e.target.files[0])} type="file" accept=".xlsx" />
-                  <button className="rounded border-2 border-blue-900 px-2" type="button" onClick={televerser} name="televerser" value="televerser">Téléverser le document</button>
-                </div>
+              <div className="mt-4">
+                <button className="rounded border-2 border-blue-900 px-2" type="submit">Charger les fonctionnalités administrative</button>
               </div>
-            </form>
+            </fieldset>
+          </form>
+          {adminManager.lastError && (
+          <div className="mt-4 pl-2 w-full rounded border-red-700 border-4 bg-red-200 font-bold">
+            <p>
+              Erreur :&nbsp;
+              {adminManager.lastError?.message ?? 'Erreur inconnue'}
+            </p>
+          </div>
           )}
+          {error && (
+          <div className="mt-4 pl-2 w-full rounded border-red-700 border-4 bg-red-200 font-bold">
+            <p>
+              Erreur :&nbsp;
+              {error?.message ?? 'Erreur inconnue'}
+            </p>
+          </div>
+          )}
+          {adminManager.credentialVerified && (
+            <div className="mt-4 pl-2 w-full rounded border-green-700 border-4 bg-green-200 font-bold">
+              <p>
+                Authentification réussie
+              </p>
+            </div>
+          )}
+        </div>
+        {adminManager.credentialVerified && (
+        <>
+          <div className="basis-1/3">
+            <h1 className="text-xl font-semibold mb-3">Historique des bases de données</h1>
+            {adminManager.loadingDataHistory ? (
+              <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
+                <p>Chargement en cours</p>
+              </div>
+            ) : (
+              <div className="w-full">
+                {
+                    adminManager.dataHistory?.map((datum) => (
+                      <div className="mb-1 pl-2 border-stone-800 border-2" key={datum.id}>
+                        {getHistoryDataTitle(datum)}
+                        &nbsp;
+                        <button
+                          type="button"
+                          className="text-sky-700 hover:text-red-600 hover:underline"
+                          onClick={(evt) => telecharger(evt, datum.id)}
+                        >
+                          Télécharger
+                        </button>
+                      </div>
+                    ))
+                  }
+              </div>
+            )}
+            {downloading && (
+              <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
+                <p>Téléchargement en cours</p>
+              </div>
+            )}
+          </div>
+          <div className="basis-1/3">
+            <h1 className="text-xl font-semibold mb-3">Téléverser une nouvelle version et mettre à jour la base de données</h1>
+            <form onSubmit={televerser} method="POST" action="#">
+              <fieldset disabled={uploading}>
+                <div className="mb-2">
+                  <input
+                    onChange={(e) => setFileState(e.target.files[0])}
+                    type="file"
+                    accept=".xlsx"
+                    required
+                  />
+                </div>
+                <button className="rounded border-2 border-blue-900 px-2" type="submit">Téléverser le document</button>
+              </fieldset>
+            </form>
+            {uploading && (
+              <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
+                <p>Téléversement en cours</p>
+              </div>
+            )}
+          </div>
+        </>
+        )}
       </div>
-      {error && <div><p>Erreur : la commande s&apos;est mal passée</p></div>}
-      {/* eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */}
-      <a ref={linkRef} style={{ display: 'none' }} />
     </>
   );
 }
