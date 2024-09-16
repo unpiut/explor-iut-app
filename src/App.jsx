@@ -27,6 +27,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <Root />,
     errorElement: <FatalError />,
+    loader: async () => {
+      await STORE.bootstraping;
+      return true;
+    },
     children: [
       {
         index: true,

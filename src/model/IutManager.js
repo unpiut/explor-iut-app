@@ -82,6 +82,10 @@ class IutManager {
     }
     return iutsBon;
   }
+
+  loadState(buts) {
+    this.switchIutRecherches(buts);
+  }
 }
 
 export default IutManager;

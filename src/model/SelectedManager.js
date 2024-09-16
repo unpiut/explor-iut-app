@@ -1,11 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import XLSX from 'xlsx';
 import { dateToLocalDateTimeString } from '../services/timeService';
-import localStorageMgr from '../services/LocalStorageManager';
-
-const BUT_STORAGE_KEY = 'listeBut';
-const IUT_STORAGE_KEY = 'listeIut';
-const ALREADY_VISIT_STORAGE_KEY = 'hasAlreadyVisit';
 
 class SelectedManager {
   _butSelectionnes;
@@ -23,7 +18,7 @@ class SelectedManager {
 
   _alreadySend;
 
-  _firstVisitMap;
+  _mapVisited;
 
   constructor() {
     makeAutoObservable(this);
@@ -31,33 +26,11 @@ class SelectedManager {
     this._iutSelectionnes = new Set();
     this._iutSelectionnesId = new Set();
     this._dateEnvoi = null;
-    this._firstVisitMap = true;
+    this._mapVisited = false;
     this._alreadySend = false;
     this._ready = new Promise((resolve) => {
       this._initializationResolver = resolve;
     });
-    this._loadAlreadyVisit();
-  }
-
-  initFromStorage(buts, iuts) {
-    const storedButIds = localStorageMgr.getItem(BUT_STORAGE_KEY);
-    if (storedButIds) {
-      const idButSet = new Set(storedButIds);
-      this._butSelectionnes.clear();
-      buts.filter((b) => idButSet.has(b.id))
-        .forEach((b) => this._butSelectionnes.add(b));
-      const storedIutIds = JSON.parse(localStorageMgr.getItem(IUT_STORAGE_KEY));
-      if (storedIutIds) {
-        const idIutSet = new Set(storedIutIds);
-        this._butSelectionnes.clear();
-        iuts.filter((b) => idIutSet.has(b.id))
-          .forEach((b) => {
-            this._iutSelectionnes.add(b);
-            this._iutSelectionnesId.add(b.id);
-          });
-      }
-    }
-    this._initializationResolver();
   }
 
   get butSelectionnes() {
@@ -98,10 +71,6 @@ class SelectedManager {
     return this._iutSelectionnesId;
   }
 
-  set iutSelectionnesId(iutSelectionnesId) {
-    this._iutSelectionnesId = iutSelectionnesId;
-  }
-
   get iutSelectionnesIdTab() {
     return Array.from(this._iutSelectionnesId);
   }
@@ -126,15 +95,12 @@ class SelectedManager {
     this._ready = ready;
   }
 
-  get firstVisitMap() {
-    return this._firstVisitMap;
+  get mapVisited() {
+    return this._mapVisited;
   }
 
-  set firstVisitMap(newVisit) {
-    this._firstVisitMap = newVisit;
-    if (!newVisit) {
-      this._saveAlreadyVisit();
-    }
+  set mapVisited(visited) {
+    this._mapVisited = visited;
   }
 
   switchButSelectionnes(but) {
@@ -198,19 +164,11 @@ class SelectedManager {
     XLSX.writeFile(workbook, `Récapitulatif-IUT-alternance.${typefile}`, { bookType: typefile, compression: true });
   }
 
-  // Hot fix since initFromStorage has been disabled
-  async _loadAlreadyVisit() {
-    const hasAlreadyVisit = await localStorageMgr.getItem(ALREADY_VISIT_STORAGE_KEY);
-    if (hasAlreadyVisit) {
-      this._firstVisitMap = false;
-    } else {
-      this._firstVisitMap = true;
-    }
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  async _saveAlreadyVisit() {
-    return localStorageMgr.setItem(ALREADY_VISIT_STORAGE_KEY, true);
+  loadState(buts, iuts, hasAlreadyVisit) {
+    this._butSelectionnes = buts;
+    this._iutSelectionnes = iuts;
+    this._iutSelectionnesId = iuts.map((iut) => iut.idIut);
+    this._firstVisitMap = !hasAlreadyVisit;
   }
 }
 

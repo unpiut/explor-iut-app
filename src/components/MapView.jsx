@@ -10,13 +10,13 @@ import MapModaleExplanation from './MapModaleExplanation';
 function MapView() {
   const { t } = useTranslation();
   const { selectedManager } = useContext(RootStore);
-  const [modaleOpen, setModaleOpen] = useState(selectedManager.firstVisitMap);
+  const [modaleOpen, setModaleOpen] = useState(!selectedManager.mapVisited);
 
   return (
     <>
       {modaleOpen ? (
         <MapModaleExplanation
-          onClose={() => { setModaleOpen(false); selectedManager.firstVisitMap = false; }}
+          onClose={() => { setModaleOpen(false); selectedManager.mapVisited = true; }}
         />
       ) : null}
       <div className="grid">

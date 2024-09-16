@@ -27,22 +27,24 @@ async function fetchTextOrFallback(url, option) {
     });
 }
 
-i18n
-  .use(initReactI18next) // react integration for i18n
-  .use(Fetch) // fetch api integration for i18n to load remote texts
-  .init({
-    fallbackLng: 'fr',
-    backend: {
-      loadPath: `${APP_ENV_API_PATH}/textes?lang={{lng}}`,
-      requestOptions: {
-        mode: 'cors',
-        credentials: 'omit',
-        cache: 'default',
+export default async function initI18n() {
+  return i18n
+    .use(initReactI18next) // react integration for i18n
+    .use(Fetch) // fetch api integration for i18n to load remote texts
+    .init({
+      fallbackLng: 'fr',
+      backend: {
+        loadPath: `${APP_ENV_API_PATH}/textes?lang={{lng}}`,
+        requestOptions: {
+          mode: 'cors',
+          credentials: 'omit',
+          cache: 'default',
+        },
+        fetch: fetchTextOrFallback, // custom fetch call to go to fallback texts if error
       },
-      fetch: fetchTextOrFallback, // custom fetch call to go to fallback texts if error
-    },
-  }, (error) => {
-    if (error) {
-      console.warn('Error while initiating i18n', error);
-    }
-  });
+    }, (error) => {
+      if (error) {
+        console.warn('Error while initiating i18n', error);
+      }
+    });
+}
