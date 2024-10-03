@@ -9,7 +9,8 @@ const {
 const babelConfig = require('./babel.config'); // Info de config de babel
 
 const PUBLIC_PATH = '/'; // url de base de l'appli
-const API_PATH = 'https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1';
+const API_PATH = 'http://localhost:8080/api/v1';
+const TEST_APP = false;
 
 module.exports = {
   mode: 'development',
@@ -32,6 +33,7 @@ module.exports = {
       APP_ENV_APP_PUBLIC_PATH: JSON.stringify(PUBLIC_PATH),
       APP_ENV_APP_TITLE: JSON.stringify(appTitle),
       APP_ENV_API_PATH: JSON.stringify(API_PATH),
+      APP_ENV_TEST_APP: JSON.stringify(TEST_APP),
     }),
     // Copie directe de fichiers
     // new CopyWebpackPlugin({

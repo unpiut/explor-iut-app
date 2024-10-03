@@ -498,5 +498,6 @@ $RECYCLE.BIN/
 # Custom: jest snapshot
 *.snap
 
-# Custom: public dir
+# Custom: public dir et buildInfos dir
 build/
+buildInfos/

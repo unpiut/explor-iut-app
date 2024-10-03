@@ -13,7 +13,8 @@ const {
 const babelConfig = require('./babel.config'); // Info de config de babel
 
 const PUBLIC_PATH = process.env.PUBLIC_PATH ?? '/'; // url de base de l'appli
-const API_PATH = 'https://la-lab4ce.univ-lemans.fr/explor-iut/api/v1';
+const API_PATH = process.env.API_PATH ?? '/api/v1';
+const TEST_APP = !!process.env.TEST_APP;
 
 module.exports = {
   mode: 'production',
@@ -36,6 +37,7 @@ module.exports = {
       APP_ENV_APP_PUBLIC_PATH: JSON.stringify(PUBLIC_PATH),
       APP_ENV_APP_TITLE: JSON.stringify(appTitle),
       APP_ENV_API_PATH: JSON.stringify(API_PATH),
+      APP_ENV_TEST_APP: JSON.stringify(TEST_APP),
     }),
     // Copie directe de fichiers
     // new CopyWebpackPlugin({
@@ -63,9 +65,9 @@ module.exports = {
     // Creation de rapports statistiques sur la taille des bundles
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
-      reportFilename: 'buildInfos/report.html',
+      reportFilename: '../buildInfos/report.html',
       generateStatsFile: true,
-      statsFilename: 'buildInfos/stats.json',
+      statsFilename: '../buildInfos/stats.json',
     }),
   ],
   // définit comment les modules vont être chargés
