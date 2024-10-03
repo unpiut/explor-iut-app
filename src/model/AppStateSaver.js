@@ -108,7 +108,8 @@ class AppStateSaver {
     // Rehydrate iuts if any
     if (this._pendingRehydrationData.iuts) {
       // set selected iuts
-      this._selectedManager.iutSelectionnes = this._pendingRehydrationData.iuts;
+      this._pendingRehydrationData.iuts
+        .forEach((iut) => this._selectedManager.switchIutSelectionnes(iut));
       // Invoke iut refresh for those selected
       // console.log('IUT rehydrated', iutIds);
       await this._selectedManager.miseAJour();
