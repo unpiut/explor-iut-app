@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import AppNavbar from './AppNavbar';
 import RootStore from '../RootStore';
 import ModaleRehydrateState from './ModaleRehydrateState';
+import TestModeFrame from './TestModeFrame';
 
 function Root() {
   const navigate = useNavigate();
@@ -48,7 +49,9 @@ function Root() {
       )}
       <AppNavbar />
       <main className="mt-20 mb-32">
-        <Outlet />
+        <TestModeFrame>
+          <Outlet />
+        </TestModeFrame>
       </main>
     </>
   );
