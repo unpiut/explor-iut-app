@@ -1,4 +1,6 @@
-import { reaction } from 'mobx';
+import {
+  computed, makeObservable, observable, reaction, runInAction,
+} from 'mobx';
 import localStorageMgr from '../services/LocalStorageManager';
 
 class AppStateSaver {
@@ -18,10 +20,19 @@ class AppStateSaver {
 
   _pendingRehydrationData = null;
 
+  _rehydrationPromptHidden = false;
+
   constructor(selectedManager, iutManager, butManager) {
+    makeObservable(this, {
+      _pendingRehydrationData: observable,
+      _rehydrationPromptHidden: observable,
+      canRehydrate: computed,
+      rehydrationPromptHidden: computed,
+    });
     this._selectedManager = selectedManager;
     this._iutManager = iutManager;
     this._butManager = butManager;
+    this._hideRehydrationPrompt = false;
     this._selectedManager.cacheSaver = this;
     this._iutManager.cacheSaver = this;
   }
@@ -29,11 +40,21 @@ class AppStateSaver {
   get canRehydrate() {
     return this._pendingRehydrationData && (
       this._pendingRehydrationData.buts || this._pendingRehydrationData.iuts
-    );
+    ) && !this._rehydrationPromptHidden;
+  }
+
+  get rehydrationPromptHidden() {
+    return this._rehydrationPromptHidden;
+  }
+
+  set rehydrationPromptHidden(rehydrationPromptHidden) {
+    this._rehydrationPromptHidden = rehydrationPromptHidden;
   }
 
   async init() {
-    this._pendingRehydrationData = { buts: null, iuts: null };
+    runInAction(() => {
+      this._pendingRehydrationData = { buts: null, iuts: null };
+    });
 
     const [butCodes, iutIds, mapVisited] = await Promise.all([
       localStorageMgr.getItem(AppStateSaver.BUT_STORAGE_KEY),
@@ -53,7 +74,9 @@ class AppStateSaver {
       }).filter((b) => !!b);
 
       if (buts.length) {
-        this._pendingRehydrationData.buts = new Set(buts);
+        runInAction(() => {
+          this._pendingRehydrationData.buts = new Set(buts);
+        });
       }
     }
 
@@ -70,7 +93,9 @@ class AppStateSaver {
       }).filter((i) => !!i);
 
       if (iuts.length) {
-        this._pendingRehydrationData.iuts = new Set(iuts);
+        runInAction(() => {
+          this._pendingRehydrationData.iuts = new Set(iuts);
+        });
       }
     }
     // HANDLE AlreadyVisit indicator
@@ -116,7 +141,9 @@ class AppStateSaver {
       res.hasIuts = true;
     }
     // remove pending rehydration data
-    this._pendingRehydrationData = null;
+    runInAction(() => {
+      this._pendingRehydrationData = null;
+    });
     return res;
   }
 
@@ -124,7 +151,19 @@ class AppStateSaver {
     if (!this.canRehydrate) {
       throw new Error('Cannot cancel rehydratation if we cannot rehydrate!');
     }
-    this._pendingRehydrationData = null;
+    runInAction(() => {
+      this._pendingRehydrationData = null;
+    });
+    return Promise.all([
+      localStorageMgr.deleteItem(AppStateSaver.BUT_STORAGE_KEY),
+      localStorageMgr.deleteItem(AppStateSaver.IUT_STORAGE_KEY),
+    ]);
+  }
+
+  async clearSavedState() {
+    runInAction(() => {
+      this._pendingRehydrationData = null;
+    });
     return Promise.all([
       localStorageMgr.deleteItem(AppStateSaver.BUT_STORAGE_KEY),
       localStorageMgr.deleteItem(AppStateSaver.IUT_STORAGE_KEY),

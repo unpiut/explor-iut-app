@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import Footer from './Footer';
+import RootStore from '../RootStore';
 
 function LegalNotice() {
+  const { stateSaver } = useContext(RootStore);
+
+  useEffect(() => {
+    // Hide rehydratation prompt
+    stateSaver.rehydrationPromptHidden = true;
+    return () => {
+      // Unhide rehydratation prompt if any
+      stateSaver.rehydrationPromptHidden = false;
+    };
+  }, []);
+
   return (
     <>
       <h1 className="text-center text-3xl">Mentions Légales - RGPD</h1>
@@ -43,4 +56,4 @@ function LegalNotice() {
   );
 }
 
-export default LegalNotice;
+export default observer(LegalNotice);

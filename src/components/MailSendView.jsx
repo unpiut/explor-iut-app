@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,16 @@ import RootStore from '../RootStore';
 
 function MailSendView() {
   const { t } = useTranslation();
-  const { selectedManager, mailManager } = useContext(RootStore);
+  const { selectedManager, mailManager, stateSaver } = useContext(RootStore);
+
+  useEffect(() => {
+    // Hide rehydratation prompt
+    stateSaver.rehydrationPromptHidden = true;
+    return () => {
+      // Unhide rehydratation prompt if any
+      stateSaver.rehydrationPromptHidden = false;
+    };
+  }, []);
 
   function renvoiMail() {
     mailManager.resendMail(selectedManager.dateEnvoi);

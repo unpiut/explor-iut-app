@@ -1,4 +1,6 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, {
+  useContext, useEffect, useRef, useState,
+} from 'react';
 import { observer } from 'mobx-react';
 import RootStore from '../RootStore';
 import { dateToLocalDateTimeString } from '../services/timeService';
@@ -12,12 +14,21 @@ function getHistoryDataTitle(datum) {
 }
 
 function AdminTools() {
-  const { adminManager } = useContext(RootStore);
+  const { adminManager, stateSaver } = useContext(RootStore);
   const [fileState, setFileState] = useState(null);
   const [error, setError] = useState(null);
   const [downloading, setDownloading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const linkRef = useRef();
+
+  useEffect(() => {
+    // Hide rehydratation prompt
+    stateSaver.rehydrationPromptHidden = true;
+    return () => {
+      // Unhide rehydratation prompt if any
+      stateSaver.rehydrationPromptHidden = false;
+    };
+  }, []);
 
   function checkCreds(evt) {
     evt.preventDefault();
