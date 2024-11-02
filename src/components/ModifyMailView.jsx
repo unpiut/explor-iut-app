@@ -10,7 +10,7 @@ function ModifyMailView() {
   const { mailManager, selectedManager, butManager } = useContext(RootStore);
   const [fileNumberState, setfileNumberState] = useState(0);
   const [allFiles, setAllFiles] = useState([null, null, null]);
-  const [textCheck, setTextCheck] = useState([true, true, true, true]);
+  const [textCheck, setTextCheck] = useState([true, true, true]);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -36,16 +36,13 @@ function ModifyMailView() {
   function changeBodyMail(item) {
     let totalText = '';
     if (textCheck[0]) {
-      totalText += "- Quelles années sont concernés par l'alternance? \r\n";
+      totalText += t('courrielModifQuestion1') + " \r\n";
     }
     if (textCheck[1]) {
-      totalText += "- Quelles sont les plannings d'alternance pour la rentrée prochaine? \r\n";
+      totalText += t('courrielModifQuestion2') + " \r\n";
     }
     if (textCheck[2]) {
-      totalText += "- Quelles sont les modalités pour gérer et suivre mon offre d'alternance? \r\n";
-    }
-    if (textCheck[3]) {
-      totalText += '- quelles sont les modalités administratives pour gérer ou suivre mon offre? \r\n';
+      totalText += t('courrielModifQuestion3') + " \r\n";
     }
     if (item) {
       totalText += item.value;
@@ -72,29 +69,25 @@ function ModifyMailView() {
             {t('courrielModifCorps')}
           </h2>
           <h3>
-            Desélectionnez les questions que vous ne voulez pas voir figurer dans le mail.
+            {t('courrielModifSelection')}
           </h3>
           <div className="grid">
             <label>
               <input type="checkbox" id="yearsAlt" name="yearsAlt" checked={textCheck[0]} onChange={() => handleCheckboxChange(0)} />
-              - Quelles années sont concernés par l&apos;alternance?
+              {t('courrielModifQuestion1')}
             </label>
             <label>
               <input type="checkbox" id="planningAlt" name="planningAlt" checked={textCheck[1]} onChange={() => handleCheckboxChange(1)} />
-              - Quelles sont les plannings d&apos;alternance pour la rentrée prochaine?
+              {t('courrielModifQuestion2')}
             </label>
             <label>
               <input type="checkbox" id="modalAlt" name="modalAlt" checked={textCheck[2]} onChange={() => handleCheckboxChange(2)} />
-              - Quelles sont les modalités pour gérer et suivre mon offre d&apos;alternance?
-            </label>
-            <label>
-              <input type="checkbox" id="adminAlt" name="adminAlt" checked={textCheck[3]} onChange={() => handleCheckboxChange(3)} />
-              - quelles sont les modalités administratives pour gérer ou suivre mon offre?
+              {t('courrielModifQuestion3')}
             </label>
           </div>
           <div>
             <label>
-              Si vous souhaitez demander des informations complémentaires :
+              {t('courrielModifQuestionPlus')}
               <textarea id="contenu" onChange={(evt) => changeBodyMail(evt.target)} name="contenu" rows="2" className="block w-full p-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
             </label>
           </div>
