@@ -16,9 +16,10 @@ function MapModaleExplanation({ onClose }) {
           <p>
             {t('carteMETexte2')}
           </p>
+          {window.innerWidth >= 1024 ?
           <p>
             {t('carteMETexte3')}
-          </p>
+          </p> : null}
           <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre1')}</h3>
           <p>
             {t('carteMETexte1')}
