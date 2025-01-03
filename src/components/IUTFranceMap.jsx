@@ -100,7 +100,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         coordinateSystem: 'geo',
         symbol: 'circle',
         color: 'blue',
-        symbolSize: 10,
+        symbolSize: 15,
         showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
         tooltip: { // propriété des tooltip
           formatter: ({ data }) => data.name,
@@ -119,7 +119,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         coordinateSystem: 'geo',
         symbol: 'rect',
         color: 'red',
-        symbolSize: 12,
+        symbolSize: 17,
         showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
         tooltip: { // propriété des tooltip
           formatter: ({ data }) => data.name,
