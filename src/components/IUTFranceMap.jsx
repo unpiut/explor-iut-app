@@ -55,6 +55,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
       userZoomInfo.center = zoomInfo.correctedCenter;
     }
   }
+  if(window.innerWidth >= 1024){
   return {
     geo: { // Options d'un système de coordonnées géographique: https://echarts.apache.org/en/option.html#geo
       map: mapName, // Nom de la map enregistrée
@@ -133,6 +134,85 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
       },
     ],
   };
+  }else{
+    geo: { // Options d'un système de coordonnées géographique: https://echarts.apache.org/en/option.html#geo
+      map: mapName, // Nom de la map enregistrée
+      roam: true, // Autorise le déplacement et le zoom dans la carte avec de la souris*
+      legend: false,
+      itemStyle: { //
+        areaColor: '#e7e8ea', // Couleur de base des zones (gris)
+      },
+      nameProperty: 'nom', // Nom de la propriété utilisé dans les données de carte pour le nom des zones
+      zoom: userZoomInfo.zoom,
+      center: userZoomInfo.center,
+      emphasis: {
+        label: {
+          show: false,
+        },
+        itemStyle: {
+          areaColor: '#e7e8ea',
+          borderWidth: 1,
+        },
+      },
+    },
+    tooltip: {
+      show: false,
+    },
+    graphic: {
+      id: 'selectedRect',
+      type: 'rect',
+      draggable: 'false',
+      cursor: 'pointer',
+      z: 100,
+      style: {
+        fill: '#1028A7',
+        opacity: 0.2,
+      },
+    },
+    animationDuration: 2000,
+    // legend: {}, par de lédende pour cette visualisation
+    series: [
+      {
+        id: 'iut',
+        name: 'IUT',
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        symbol: 'circle',
+        color: 'blue',
+        symbolSize: 10,
+        showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
+        tooltip: { // propriété des tooltip
+          formatter: ({ data }) => data.name,
+          show: true,
+        },
+        rippleEffect: { // Configuration de l'effet
+          brushType: 'stroke',
+          scale: 2.5,
+        },
+        data: iut2series(iuts, franceMap),
+      },
+      {
+        id: 'selectedIut',
+        name: 'IUT',
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        symbol: 'rect',
+        color: 'red',
+        symbolSize: 12,
+        showEffectOn: 'emphasis', // configure quand activer l'effet (ici l'effet "scatter") des symbole, ici lorsque la souris est dessus
+        tooltip: { // propriété des tooltip
+          formatter: ({ data }) => data.name,
+          show: true,
+        },
+        rippleEffect: { // Configuration de l'effet
+          brushType: 'stroke',
+          scale: 2.5,
+        },
+        data: iutSelect2series(iuts, franceMap),
+      },
+    ],
+  };
+  }
 }
 
 function createDataOnlyOption(iuts, franceMap, iutSelectionnes) {
