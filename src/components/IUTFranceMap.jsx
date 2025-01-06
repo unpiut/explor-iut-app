@@ -135,6 +135,7 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
     ],
   };
   }else{
+    return{
     geo: { // Options d'un système de coordonnées géographique: https://echarts.apache.org/en/option.html#geo
       map: mapName, // Nom de la map enregistrée
       roam: true, // Autorise le déplacement et le zoom dans la carte avec de la souris*
