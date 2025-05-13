@@ -10,7 +10,7 @@ function ModifyMailView() {
   const { mailManager, selectedManager, butManager } = useContext(RootStore);
   const [fileNumberState, setfileNumberState] = useState(0);
   const [allFiles, setAllFiles] = useState([null, null, null]);
-  const [textCheck, setTextCheck] = useState([true, true, true]);
+  // const [textCheck, setTextCheck] = useState([true, true, true]);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -35,27 +35,27 @@ function ModifyMailView() {
 
   function changeBodyMail(item) {
     let totalText = '';
-    if (textCheck[0]) {
-      totalText += t('courrielModifQuestion1') + " \r\n";
-    }
-    if (textCheck[1]) {
-      totalText += t('courrielModifQuestion2') + " \r\n";
-    }
-    if (textCheck[2]) {
-      totalText += t('courrielModifQuestion3') + " \r\n";
-    }
+    // if (textCheck[0]) {
+    //   totalText += t('courrielModifQuestion1') + " \r\n";
+    // }
+    // if (textCheck[1]) {
+    //   totalText += t('courrielModifQuestion2') + " \r\n";
+    // }
+    // if (textCheck[2]) {
+    //   totalText += t('courrielModifQuestion3') + " \r\n";
+    // }
     if (item) {
       totalText += item.value;
     }
     mailManager.corpsMail = totalText;
   }
 
-  function handleCheckboxChange(index) {
-    const newTextCheck = [...textCheck];
-    newTextCheck[index] = !newTextCheck[index];
-    setTextCheck(newTextCheck);
-    changeBodyMail();
-  }
+  // function handleCheckboxChange(index) {
+  //   const newTextCheck = [...textCheck];
+  //   newTextCheck[index] = !newTextCheck[index];
+  //   setTextCheck(newTextCheck);
+  //   changeBodyMail();
+  // }
 
   return (
     <>
@@ -68,7 +68,7 @@ function ModifyMailView() {
           <h2 className="block text-sm sm:text-lg font-medium leading-6">
             {t('courrielModifCorps')}
           </h2>
-          <h3>
+          {/* <h3>
             {t('courrielModifSelection')}
           </h3>
           <div className="grid">
@@ -84,7 +84,7 @@ function ModifyMailView() {
               <input type="checkbox" id="modalAlt" name="modalAlt" checked={textCheck[2]} onChange={() => handleCheckboxChange(2)} />
               {t('courrielModifQuestion3')}
             </label>
-          </div>
+          </div> */}
           <div>
             <label>
               {t('courrielModifQuestionPlus')}
