@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useContext, useState } from 'react';
+import React, {
+  useContext, useEffect, useRef, useState,
+} from 'react';
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -8,16 +10,25 @@ import RootStore from '../RootStore';
 
 function ModifyMailView() {
   const { mailManager, selectedManager, butManager } = useContext(RootStore);
+  const sendingMail = useRef(false);
   const [fileNumberState, setfileNumberState] = useState(0);
   const [allFiles, setAllFiles] = useState([null, null, null]);
   // const [textCheck, setTextCheck] = useState([true, true, true]);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  useEffect(() => {
+    mailManager.initCorpsMail();
+  }, [mailManager]);
+
   function sendMail() {
     if (selectedManager.alreadySend) {
       navigate('/mailSend');
     }
+    if (sendingMail.current === true) {
+      return;
+    }
+    sendingMail.current = true;
     const filesToSend = allFiles.filter((f) => !!f);
     const selectedDepts = [...selectedManager.iutSelectionnes]
       .flatMap((iut) => iut.departements)
@@ -28,13 +39,16 @@ function ModifyMailView() {
       selectedDepartments: selectedDepts,
     }).then(({ creationDateTime }) => {
       selectedManager.dateEnvoi = creationDateTime;
+      selectedManager.alreadySend = true;
+      sendingMail.current = false;
       navigate('/mailSend');
+    }).catch(() => {
+      sendingMail.current = false;
     });
-    selectedManager.alreadySend = true;
   }
 
   function changeBodyMail(item) {
-    let totalText = '';
+    // let totalText = '';
     // if (textCheck[0]) {
     //   totalText += t('courrielModifQuestion1') + " \r\n";
     // }
@@ -44,10 +58,10 @@ function ModifyMailView() {
     // if (textCheck[2]) {
     //   totalText += t('courrielModifQuestion3') + " \r\n";
     // }
-    if (item) {
-      totalText += item.value;
-    }
-    mailManager.corpsMail = totalText;
+    // if (item) {
+    //   totalText += item.value;
+    // }
+    mailManager.corpsMail = item.value;
   }
 
   // function handleCheckboxChange(index) {
@@ -88,7 +102,7 @@ function ModifyMailView() {
           <div>
             <label>
               {t('courrielModifQuestionPlus')}
-              <textarea id="contenu" onChange={(evt) => changeBodyMail(evt.target)} name="contenu" rows="2" className="block w-full p-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
+              <textarea id="contenu" onChange={(evt) => changeBodyMail(evt.target)} value={mailManager.corpsMail} name="contenu" rows="6" className="block w-full p-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
             </label>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import i18n from 'i18next';
 
 class MailManager {
   _adresseMail;
@@ -9,20 +10,19 @@ class MailManager {
 
   _fonctionDansEntreprise;
 
-  _objet;
-
   _personnalizeCorps;
 
   _corpsMail;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      forgeMailObjet: false,
+    });
     this._personnalizeCorps = false;
     this._adresseMail = '';
     this._nom = '';
     this._nomEntreprise = '';
     this._fonctionDansEntreprise = '';
-    this._objet = '';
     this._corpsMail = '';
   }
 
@@ -58,35 +58,37 @@ class MailManager {
     this._fonctionDansEntreprise = newFonction;
   }
 
-  get objet() {
-    if (this._nomEntreprise) {
-      this._objet = `${this._nomEntreprise} - Demande d'information pour déposer une offre d'alternance`;
-    } else {
-      this._objet = "nom modifiable - Demande d'information pour déposer une offre d'alternance";
-    }
-    return this._objet;
-  }
-
-  set objet(newObjet) {
-    this._objet = newObjet;
-  }
-
   get corpsMail() {
-    if (this._personnalizeCorps) {
-      return this._corpsMail;
-    }
-    return `Bonjour,
-      Suite à ma consultation et ma recherche sur le site iut.fr, j'ai identifié des formations qui correspondent à mes recherches d'alternants. Pourriez vous me communiquer pour chacune des formations :
-      - Quelles années sont concernés par l'alternance?
-      - Quelles sont les plannings d'alternance pour la rentrée prochaine?
-      - Quelles sont les modalités pour gérer et suivre mon offre d'alternance?
-      dans l'attente de votre retour,
-    Bien cordialement`;
+    return this._corpsMail;
   }
 
   set corpsMail(nouveauCorps) {
-    this._personnalizeCorps = true;
     this._corpsMail = nouveauCorps;
+  }
+
+  initCorpsMail() {
+    if (i18n.exists('courrielCorpsDefaut')) {
+      this._corpsMail = i18n.t('courrielCorpsDefaut');
+    } else {
+      this._corpsMail = `Bonjour,
+Suite à ma consultation et ma recherche sur le site iut.fr, j'ai identifié des formations qui correspondent à mes recherches d'alternants. Pourriez vous me communiquer pour chacune des formations les informations informations de base concernant l'alternance ?
+      
+dans l'attente de votre retour,
+Bien cordialement`;
+    }
+  }
+
+  forgeMailObjet() {
+    const preffix = this._nomEntreprise ?? 'nom modifiable';
+    const suffix = i18n.exists('courrielObjetSuffix') ? i18n.t('courrielObjetSuffix') : "Demande d'information pour déposer une offre d'alternance";
+    return `${preffix} - ${suffix}`;
+  }
+
+  forgeMailBody() {
+    if (!this._corpsMail) {
+      this.initCorpsMail();
+    }
+    return this._corpsMail;
   }
 
   isUpdatedInfo() {
@@ -102,8 +104,8 @@ class MailManager {
     myFormData.append('contactCompany', this.nomEntreprise);
     myFormData.append('contactFunction', this._fonctionDansEntreprise);
     myFormData.append('contactMail', this.adresseMail);
-    myFormData.append('mailSubject', this.objet);
-    myFormData.append('mailBody', this.corpsMail);
+    myFormData.append('mailSubject', this.forgeMailObjet());
+    myFormData.append('mailBody', this.forgeMailBody());
     files?.forEach((f) => myFormData.append('files', f));
     selectedDepartments.forEach((dep) => {
       myFormData.append('deptIds', dep.id);
