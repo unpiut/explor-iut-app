@@ -12,9 +12,9 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
-        MMI: "url('./assets/MMI.png')",
-        TC: "url('./assets/TC.png')",
-        GCCD: "url('./assets/GCCD.png')",
+        MMI: 'url(\'./assets/MMI.png\')',
+        TC: 'url(\'./assets/TC.png\')',
+        GCCD: 'url(\'./assets/GCCD.png\')',
       },
       colors: {
         'blue-transparent': 'rgba(30, 58, 138, 0.9)',

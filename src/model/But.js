@@ -9,7 +9,7 @@ class But {
         background: 'bg-amber-transparent',
       },
     },
-    "Métiers support de l'Industriel": {
+    'Métiers support de l\'Industriel': {
       order: 3,
       colors: {
         border: 'border-lime-600',
@@ -23,14 +23,14 @@ class But {
         background: 'bg-purple-transparent',
       },
     },
-    "Métiers de l'informatique": {
+    'Métiers de l\'informatique': {
       order: 1,
       colors: {
         border: 'border-cyan-500',
         background: 'bg-cyan-500/90',
       },
     },
-    default: {
+    'default': {
       order: 1000,
       colors: {
         border: 'border-black',
@@ -68,7 +68,7 @@ class But {
     this._code = code;
     this._nom = nom;
     this._filiere = filiere;
-    this._parcours = parcours?.map((p) => [p.code, p.nom]);
+    this._parcours = parcours?.map(p => [p.code, p.nom]);
     this._universMetiers = universMetiers;
     this._description = description;
     this._metiers = metiers;
