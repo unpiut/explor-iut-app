@@ -28,7 +28,7 @@ function MapView() {
         </h2>
         <h2 className="text-center sm:text-sm lg:text-xl">
           {' '}
-          { selectedManager.nbIutSelectionnesId > 1
+          {selectedManager.nbIutSelectionnesId > 1
             ? (
               <>
 
@@ -64,10 +64,12 @@ function MapView() {
                     <p>
                       {t('carteMETexte2')}
                     </p>
-                    {window.innerWidth >= 1024 ? 
-                    <p>
-                      {t('carteMETexte3')}
-                    </p> : null}
+                    {window.innerWidth >= 1024
+                      ? (
+                        <p>
+                          {t('carteMETexte3')}
+                        </p>
+                      ) : null}
                     <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre1')}</h3>
                     <p>
                       {t('carteMETexte1')}

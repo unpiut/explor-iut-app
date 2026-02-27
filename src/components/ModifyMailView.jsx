@@ -22,8 +22,14 @@ function ModifyMailView() {
   }, [mailManager]);
 
   function sendMail() {
+    if (allFiles.length === 0) {
+      setError(t('courrielErreurFichierObligatoire'));
+      return;
+    }
+
     if (selectedManager.alreadySend) {
       navigate('/mailSend');
+      return;
     }
     if (sendingMail.current === true) {
       return;
@@ -64,12 +70,9 @@ function ModifyMailView() {
     mailManager.corpsMail = item.value;
   }
 
-  // function handleCheckboxChange(index) {
-  //   const newTextCheck = [...textCheck];
-  //   newTextCheck[index] = !newTextCheck[index];
-  //   setTextCheck(newTextCheck);
-  //   changeBodyMail();
-  // }
+  function removeFile(index) {
+    setAllFiles((prev) => prev.filter((_, i) => i !== index));
+  }
 
   return (
     <>
@@ -132,7 +135,7 @@ function ModifyMailView() {
                 <input
                   type="file"
                   onChange={(e) => {
-                    setAllFiles(([f1,, f3]) => [f1, e.target.files[0], f3]);
+                    setAllFiles(([f1, , f3]) => [f1, e.target.files[0], f3]);
                     if (fileNumberState === 1) setfileNumberState(fileNumberState + 1);
                   }}
                   accept=".pdf"
@@ -141,29 +144,87 @@ function ModifyMailView() {
                   className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
                 />
               </label>
-            )
-            : null}
-          {fileNumberState >= 2
-            ? (
-              <label htmlFor="offre3">
-                {t('courrielModifPropOffre3')}
-                <input
-                  type="file"
-                  onChange={(e) => {
-                    setAllFiles(([f1, f2]) => [f1, f2, e.target.files[0]]);
-                  }}
-                  accept=".pdf"
-                  name="offre3"
-                  id="offre3"
-                  className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
-                />
-              </label>
-            )
-            : null}
+            </div>
+        <div className="w-full lg:w-1/2">
+          <h2 className="text-lg font-medium">
+            {t('courrielModifOffre')}
+          </h2>
+          <p className="text-sm italic">{t('courrielModifPropOffreWarning')}</p>
+          <p className="text-sm font-semibold">{t('courrielModifPropOffreWarning2')}</p>
+
+          <div
+            className={`border-2 border-dashed rounded-md p-6 text-center mt-3 transition
+          ${error ? 'border-red-500' : 'border-gray-400'}
+        `}
+          >
+            <p>{t('courrielModifPropDropZone')}</p>
+            <input
+              type="file"
+              multiple
+              onChange={handleFilesChange}
+              accept=".pdf"
+              disabled={allFiles.length >= MAX_FILES}
+              className="mt-4"
+            />
+          </div>
+
+          <p className="text-sm text-gray-600 mt-2 text-center">
+            {allFiles.length}
+            /
+            {MAX_FILES}
+            {' '}
+            fichiers
+          </p>
+
+          {error && (
+            <p className="text-red-500 text-sm text-center mt-2">
+              {error}
+            </p>
+          )}
+
+          {allFiles.length > 0 && (
+            <div className="mt-6">
+              <h3 className="font-medium text-center">
+                {t('courrielModifFichiersAjoutes')}
+              </h3>
+
+              <ul className="mt-3 space-y-2">
+                {allFiles.map((file, index) => (
+                  <li
+                    key={index}
+                    className="flex justify-between items-center bg-gray-50 p-3 rounded-md"
+                  >
+                    <span className="truncate max-w-[70%]">
+                      {file.name}
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => removeFile(index)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      {t('courrielModifSupprimer')}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
-      </form>
-      <Footer onClick={() => sendMail()} gauche={{ texte: t('courrielModifRetour'), lien: '/mail' }} droite={{ texte: t('courrielModifAvance'), lien: '/mailSend' }} />
-    </>
+
+      </div>
+    </form >
+      <div className="mt-12">
+        <Footer
+          onClick={sendMail}
+          gauche={{ texte: t('courrielModifRetour'), lien: '/mail' }}
+          droite={{ texte: t('courrielModifAvance'), disable: allFiles.length === 0, lien: '/mailSend' }}
+        />
+      </div>
+
+      </div >
+    </div >
   );
 }
+
 export default observer(ModifyMailView);

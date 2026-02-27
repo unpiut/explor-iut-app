@@ -23,6 +23,21 @@ module.exports = {
         'lime-transparent': 'rgba(101, 163, 13, 0.9)',
         'amber-transparent': 'rgba(234, 88, 12, 0.9)',
       },
+      keyframes: {
+        softBlink: {
+          '0%, 100%': {
+            backgroundColor: '#ffffff',
+            color: '#1e3a8a',
+          },
+          '50%': {
+            backgroundColor: '#1e3a8a',
+            color: '#ffffff',
+          },
+        },
+      },
+      animation: {
+        softBlink: 'softBlink 2s ease-in-out infinite',
+      },
     },
   },
   plugins: [],

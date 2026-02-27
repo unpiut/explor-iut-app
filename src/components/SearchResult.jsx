@@ -27,7 +27,7 @@ function SearchResult({ iut, butSlct }) {
         📧 Mail :
         {` ${iut.mel}`}
       </p>
-      <button className="p-1 m-2 text-red-800 border border-red-800 rounded w-full text-center" type="button" onClick={() => selectedManager.switchIutSelectionnes(iut)}>{t('recapCaseSupp')}</button>
+      <button className="p-1 m-2 text-red-600 border-2 border-red-600 rounded w-full text-center" type="button" onClick={() => selectedManager.switchIutSelectionnes(iut)}>{t('recapCaseSupp')}</button>
     </div>
   );
 }

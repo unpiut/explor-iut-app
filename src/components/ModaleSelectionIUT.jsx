@@ -35,8 +35,8 @@ function ModaleSelectionIUT({
             <p className="ml-5 ">
               {'· '}
               {
-            butManager.buts.find((b) => b.code === d.butDispenses[0].codeBut).prettyPrintFiliere
-            }
+                butManager.buts.find((b) => b.code === d.butDispenses[0].codeBut).prettyPrintFiliere
+              }
             </p>
           </div>
         ))}

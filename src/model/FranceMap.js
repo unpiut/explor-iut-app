@@ -32,6 +32,11 @@ const REMAPING_TOM = {
     top: 50,
     width: 1,
   },
+  'Polyn\u00e9sie fran\u00e7aise': {
+    left: -7.834939110760255,
+    top: 38,
+    width: 1,
+  },
 };
 
 const ID_BY_CODE_REGION = {
@@ -41,6 +46,7 @@ const ID_BY_CODE_REGION = {
   'NOUVELLE-CALEDONIE': 'Nouvelle-Cal\u00e9donie',
   'LA REUNION': 'La R\u00e9union',
   MAYOTTE: 'Mayotte',
+  'POLYNESIE FRANÇAISE': 'Polyn\u00e9sie fran\u00e7aise',
 };
 
 function recursiveCoorFlatMap(coors) {
@@ -192,7 +198,7 @@ export default class FranceMap {
     });
 
     try {
-      const jsonData = await import(/* webpackChunkName: "franceRegions" */ '../assets/franceRegions.geojson');
+      const jsonData = await import(/* webpackChunkName: "franceRegions" */ '../assets/franceRegions2.geojson');
       const topLeftPointByRegion = buildTopLeftPointByRegion(jsonData.default);
       const regionCenterAndScalingZoom = computeRegionCenterAndScalingZoom(topLeftPointByRegion);
       runInAction(() => {

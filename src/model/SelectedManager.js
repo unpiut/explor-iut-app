@@ -107,7 +107,7 @@ class SelectedManager {
     this._alreadySend = false;
     if (this._butSelectionnes.has(but)) {
       this._butSelectionnes.delete(but);
-    } else if (this._butSelectionnes.size < 3) {
+    } else if (this._butSelectionnes.size < 2) {
       this._butSelectionnes.add(but);
     }
   }
