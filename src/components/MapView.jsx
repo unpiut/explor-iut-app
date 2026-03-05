@@ -1,4 +1,3 @@
-import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import Footer from './Footer';
@@ -6,6 +5,7 @@ import IUTFranceMap from './IUTFranceMap';
 import RootStore from '../RootStore';
 import IUTRememberCard from './IUTRememberCard';
 import MapModaleExplanation from './MapModaleExplanation';
+import { useContext, useState } from 'react';
 
 function MapView() {
   const { t } = useTranslation();
@@ -14,11 +14,13 @@ function MapView() {
 
   return (
     <>
-      {modaleOpen ? (
-        <MapModaleExplanation
-          onClose={() => { setModaleOpen(false); selectedManager.mapVisited = true; }}
-        />
-      ) : null}
+      {modaleOpen
+        ? (
+          <MapModaleExplanation
+            onClose={() => { setModaleOpen(false); selectedManager.mapVisited = true; }}
+          />
+        )
+        : null}
       <div className="grid">
         <div className="flex gap-2 justify-center">
           <h1 className="text-center text-3xl font-bold">{t('carteTitre')}</h1>
@@ -64,12 +66,9 @@ function MapView() {
                     <p>
                       {t('carteMETexte2')}
                     </p>
-                    {window.innerWidth >= 1024
-                      ? (
-                        <p>
-                          {t('carteMETexte3')}
-                        </p>
-                      ) : null}
+                    <p className='hidden lg:block'>
+                      {t('carteMETexte3')}
+                    </p>
                     <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre1')}</h3>
                     <p>
                       {t('carteMETexte1')}

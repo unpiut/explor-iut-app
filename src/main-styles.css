@@ -1,12 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-*{
-    color: #282828
+@layer base {
+    * {
+        color: #282828
+    }
+
+    a {
+        color: #1C2D86;
+        text-decoration: underline;
+    }
 }
 
-a{
-    color: #1C2D86;
-    text-decoration:underline;
+@theme {
+    --color-blue-transparent: rgba(30, 58, 138, 0.9);
+    --color-red-transparent: rgba(185, 28, 28, 0.9);
+    --color-purple-transparent: rgba(107, 33, 168, 0.9);
+    --color-lime-transparent: rgba(101, 163, 13, 0.9);
+    --color-amber-transparent: rgba(234, 88, 12, 0.9);
+    --font-sans: 'Inter var', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }

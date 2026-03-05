@@ -75,7 +75,7 @@ function createPluginConfiguration(productionMode = false) {
       filename: 'index.html',
       inject: 'body',
       title: appTitle,
-      favicon: './src/assets/favicon.ico', // : handled in favicons plugins
+      favicon: './src/favicon.ico', // : handled in favicons plugins
       meta: {
         description: description ?? 'no description',
         keywords: keywords?.join(', ') ?? '',

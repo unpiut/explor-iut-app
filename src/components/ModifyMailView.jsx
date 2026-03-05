@@ -12,8 +12,9 @@ function ModifyMailView() {
   const { mailManager, selectedManager, butManager } = useContext(RootStore);
   const sendingMail = useRef(false);
   const [fileNumberState, setfileNumberState] = useState(0);
-  const [allFiles, setAllFiles] = useState([null, null, null]);
-  // const [textCheck, setTextCheck] = useState([true, true, true]);
+  const [allFiles, setAllFiles] = useState([]);
+  const [error, setError] = useState('');
+  const MAX_FILES = 3;
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -54,98 +55,48 @@ function ModifyMailView() {
   }
 
   function changeBodyMail(item) {
-    // let totalText = '';
-    // if (textCheck[0]) {
-    //   totalText += t('courrielModifQuestion1') + " \r\n";
-    // }
-    // if (textCheck[1]) {
-    //   totalText += t('courrielModifQuestion2') + " \r\n";
-    // }
-    // if (textCheck[2]) {
-    //   totalText += t('courrielModifQuestion3') + " \r\n";
-    // }
-    // if (item) {
-    //   totalText += item.value;
-    // }
     mailManager.corpsMail = item.value;
+  }
+
+  function handleFilesChange(e) {
+    const newFiles = Array.from(e.target.files);
+    setAllFiles(prev => [...prev, ...newFiles].slice(0, MAX_FILES));
+    setError('');
   }
 
   function removeFile(index) {
     setAllFiles((prev) => prev.filter((_, i) => i !== index));
+    setError('');
   }
 
   return (
-    <>
+    <div className="container mx-auto p-4">
       <h1 className="text-center text-xl lg:text-3xl font-bold">{t('courrielModifTitre')}</h1>
       <p className="text-center text-xs sm:text-xl lg:px-80">
         {t('courrielModifSousTitre')}
       </p>
+
       <form method="GET">
         <div className="m-2">
           <h2 className="block text-sm sm:text-lg font-medium leading-6">
             {t('courrielModifCorps')}
           </h2>
-          {/* <h3>
-            {t('courrielModifSelection')}
-          </h3>
-          <div className="grid">
-            <label>
-              <input type="checkbox" id="yearsAlt" name="yearsAlt" checked={textCheck[0]} onChange={() => handleCheckboxChange(0)} />
-              {t('courrielModifQuestion1')}
-            </label>
-            <label>
-              <input type="checkbox" id="planningAlt" name="planningAlt" checked={textCheck[1]} onChange={() => handleCheckboxChange(1)} />
-              {t('courrielModifQuestion2')}
-            </label>
-            <label>
-              <input type="checkbox" id="modalAlt" name="modalAlt" checked={textCheck[2]} onChange={() => handleCheckboxChange(2)} />
-              {t('courrielModifQuestion3')}
-            </label>
-          </div> */}
           <div>
             <label>
               {t('courrielModifQuestionPlus')}
-              <textarea id="contenu" onChange={(evt) => changeBodyMail(evt.target)} value={mailManager.corpsMail} name="contenu" rows="6" className="block w-full p-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
+              <textarea
+                id="contenu"
+                onChange={(evt) => changeBodyMail(evt.target)}
+                value={mailManager.corpsMail}
+                name="contenu"
+                rows="6"
+                className="block w-full p-1 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
+              />
             </label>
           </div>
         </div>
 
-        <div className="m-2">
-          <h2 className="block text-sm sm:text-lg font-medium leading-6">{t('courrielModifOffre')}</h2>
-          <label htmlFor="offre1">
-            {t('courrielModifPropOffre1')}
-            <br />
-            <span className="italic">{t('courrielModifPropOffreWarning')}</span>
-            <input
-              type="file"
-              onChange={(e) => {
-                setAllFiles(([, f2, f3]) => [e.target.files[0], f2, f3]);
-                if (fileNumberState === 0) setfileNumberState(fileNumberState + 1);
-              }}
-              accept=".pdf"
-              name="offre"
-              id="offre"
-              className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
-            />
-          </label>
-          {fileNumberState >= 1
-            ? (
-              <label htmlFor="offre2">
-                {t('courrielModifPropOffre2')}
-                <input
-                  type="file"
-                  onChange={(e) => {
-                    setAllFiles(([f1, , f3]) => [f1, e.target.files[0], f3]);
-                    if (fileNumberState === 1) setfileNumberState(fileNumberState + 1);
-                  }}
-                  accept=".pdf"
-                  name="offre2"
-                  id="offre2"
-                  className="p-1 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6"
-                />
-              </label>
-            </div>
-        <div className="w-full lg:w-1/2">
+        <div className="m-2 w-full lg:w-1/2">
           <h2 className="text-lg font-medium">
             {t('courrielModifOffre')}
           </h2>
@@ -154,8 +105,8 @@ function ModifyMailView() {
 
           <div
             className={`border-2 border-dashed rounded-md p-6 text-center mt-3 transition
-          ${error ? 'border-red-500' : 'border-gray-400'}
-        `}
+              ${error ? 'border-red-500' : 'border-gray-400'}
+            `}
           >
             <p>{t('courrielModifPropDropZone')}</p>
             <input
@@ -211,9 +162,8 @@ function ModifyMailView() {
             </div>
           )}
         </div>
+      </form>
 
-      </div>
-    </form >
       <div className="mt-12">
         <Footer
           onClick={sendMail}
@@ -221,9 +171,7 @@ function ModifyMailView() {
           droite={{ texte: t('courrielModifAvance'), disable: allFiles.length === 0, lien: '/mailSend' }}
         />
       </div>
-
-      </div >
-    </div >
+    </div>
   );
 }
 

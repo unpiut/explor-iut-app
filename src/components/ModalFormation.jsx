@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { observer, PropTypes as MPropTypes } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
@@ -30,7 +30,7 @@ function ModalFormation({ but, onClose, colors }) {
         type="button"
         aria-label="Fermer la fenêtre"
         onClick={onClose}
-        className="absolute inset-0 bg-black bg-opacity-50"
+        className="absolute inset-0 bg-black/50"
       />
 
       {/* Contenu modal */}
@@ -77,7 +77,7 @@ function ModalFormation({ but, onClose, colors }) {
         <p className="font-bold">{t('caseFormSpe')}</p>
         <div className="mb-4">
           <ul>
-            {but.parcours.map((parcours) => (
+            {but.parcours.map(parcours => (
               <li key={parcours[0]}>
                 {parcours[1]}
               </li>
@@ -95,8 +95,8 @@ function ModalFormation({ but, onClose, colors }) {
           onClick={selectionner}
           className={`transform duration-300 hover:scale-105 rounded w-full border px-4 py-2 font-semibold text-white transition
     ${!selectedManager.butSelectionnes.has(but)
-            ? colors.background
-            : 'bg-red-600'
+              ? colors.background
+              : 'bg-red-600'
             }`}
         >
           {!selectedManager.butSelectionnes.has(but)
