@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
@@ -30,7 +30,7 @@ function AppNavbar() {
               </svg>
             </button>
           </div>
-          <div className="relative flex-shrink-0 items-center sm:flex lg:flex hidden">
+          <div className="relative shrink-0 items-center sm:flex lg:flex hidden">
             <a href="/">
               <img className="h-10 lg:h-12 w-auto" src={logoExplorIUT} alt="Logo des IUT" />
             </a>
@@ -57,12 +57,12 @@ function AppNavbar() {
               </div>
             </div>
             <div className="flex items-center gap-10">
-              <div className="flex flex-shrink-0 items-center">
+              <div className="flex shrink-0 items-center">
                 <a href="https://www.iut.fr/">
                   <img className="h-8 lg:h-12 w-auto" src={logoPict} alt="Logo des IUT" />
                 </a>
               </div>
-              <div className="flex flex-shrink-0 items-center">
+              <div className="flex shrink-0 items-center">
                 <a href="https://www.unpiut.fr/">
                   <img className="w-auto h-10 lg:h-20" src={logoUnpiut} alt="Logo UNPIUT" />
                 </a>

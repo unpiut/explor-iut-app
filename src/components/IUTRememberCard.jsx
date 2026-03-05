@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PropTypes } from 'mobx-react';
 import classNames from 'classnames';
 import { PropTypes as MPropTypes } from 'prop-types';
@@ -33,10 +33,10 @@ function IUTRememberCard({ but, index }) {
           <p className="font-bold">
             Les spécialités :
           </p>
-          {but.parcours.map((parcours) => (
+          {but.parcours.map(parcours => (
             <p key={parcours[0]}>
               {' '}
-              { parcours[1]}
+              {parcours[1]}
               {parcours !== but.parcours[but.parcours.length - 1] ? ',' : null}
             </p>
           ))}

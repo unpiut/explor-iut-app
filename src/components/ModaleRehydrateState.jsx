@@ -1,4 +1,3 @@
-import React from 'react';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -20,14 +19,14 @@ function ModaleRehydrateState({ onConfirm, onCancel }) {
             <button
               onClick={onCancel}
               type="button"
-              className="max-w-full break-words text-xs p-1 m-2 md:text-base align-middle text-center border-2 border-black` bg-contain font-bold"
+              className="max-w-full wrap-break-word text-xs p-1 m-2 md:text-base align-middle text-center border-2 border-black` bg-contain font-bold"
             >
               {t('repriseNavigationAnnulation')}
             </button>
             <button
               onClick={onConfirm}
               type="button"
-              className="max-w-full break-words text-xs p-1 m-2 md:text-base align-middle text-center border-2 border-blue-900 bg-contain font-bold"
+              className="max-w-full wrap-break-word text-xs p-1 m-2 md:text-base align-middle text-center border-2 border-blue-900 bg-contain font-bold"
             >
               {t('repriseNavigationConfirmation')}
             </button>

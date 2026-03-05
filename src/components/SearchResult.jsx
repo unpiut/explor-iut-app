@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { observer, PropTypes as MPropTypes } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import RootStore from '../RootStore';
@@ -11,11 +11,11 @@ function SearchResult({ iut, butSlct }) {
 
       <h2 className="text-center font-bold">{`${iut.nom} - ${iut.site}`}</h2>
       <h2>{t('recapCaseFormation')}</h2>
-      {iut.departements.map((but) => (
-        butSlct.findIndex((b) => b.code === but.butDispenses[0].codeBut) >= 0
+      {iut.departements.map(but => (
+        butSlct.findIndex(b => b.code === but.butDispenses[0].codeBut) >= 0
           ? (
             <h2 key={but.butDispenses[0].codeBut}>
-              {butSlct[butSlct.findIndex((b) => b.code === but.butDispenses[0].codeBut)].nom}
+              {butSlct[butSlct.findIndex(b => b.code === but.butDispenses[0].codeBut)].nom}
             </h2>
           )
           : null))}

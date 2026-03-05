@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import SearchResult from './SearchResult';
@@ -29,20 +29,21 @@ function ResultView() {
       <div className="grid justify-center gap-6">
         <h1 className="text-center text-xl lg:text-3xl font-bold">{t('recapTitre')}</h1>
         {
-          selectedManager.nbIutSelectionnesId > 0 ? (
+          selectedManager.nbIutSelectionnesId > 0
+            ? (
 
-            <div className="mb-20 grid justify-items-center gap-6">
-              <div className="max-h-[60vh] gap-2 overflow-auto grid md:grid-cols-3">
-                {selectedManager.iutSelectionnesTab.map((iut) => (
-                  <SearchResult butSlct={butSelect} iut={iut} key={iut.site} />
-                ))}
+              <div className="mb-20 grid justify-items-center gap-6">
+                <div className="max-h-[60vh] gap-2 overflow-auto grid md:grid-cols-3">
+                  {selectedManager.iutSelectionnesTab.map(iut => (
+                    <SearchResult butSlct={butSelect} iut={iut} key={iut.site} />
+                  ))}
+                </div>
+                <button type="button" className="border-2 border-blue-900 p-2 w-3/4 mt-2 flex justify-center gap-4" onClick={() => setModaleTelechargement(true)}>
+                  <p>{t('recapTelecharger')}</p>
+                  <img width={25} src={telecharger} alt="telecharger" />
+                </button>
               </div>
-              <button type="button" className="border-2 border-blue-900 p-2 w-3/4 mt-2 flex justify-center gap-4" onClick={() => setModaleTelechargement(true)}>
-                <p>{t('recapTelecharger')}</p>
-                <img width={25} src={telecharger} alt="telecharger" />
-              </button>
-            </div>
-          )
+            )
             : <h2 className="sm:text-sm lg:text-base">{t('recapSansChoix')}</h2>
         }
         <Footer

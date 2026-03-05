@@ -1,4 +1,3 @@
-import React from 'react';
 import { PropTypes } from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -21,7 +20,8 @@ function MapModaleExplanation({ onClose }) {
               <p>
                 {t('carteMETexte3')}
               </p>
-            ) : null}
+            )
+            : null}
           <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre1')}</h3>
           <p>
             {t('carteMETexte1')}

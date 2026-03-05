@@ -43,7 +43,7 @@ class SelectedManager {
 
   get butSelectionnesId() {
     const tabBut = Array.from(this._butSelectionnes);
-    tabBut.map((b) => b.id);
+    tabBut.map(b => b.id);
     return tabBut;
   }
 
@@ -107,7 +107,8 @@ class SelectedManager {
     this._alreadySend = false;
     if (this._butSelectionnes.has(but)) {
       this._butSelectionnes.delete(but);
-    } else if (this._butSelectionnes.size < 2) {
+    }
+    else if (this._butSelectionnes.size < 2) {
       this._butSelectionnes.add(but);
     }
   }
@@ -117,7 +118,8 @@ class SelectedManager {
     if (this._iutSelectionnesId.has(iut.idIut)) {
       this._iutSelectionnes.delete(iut);
       this._iutSelectionnesId.delete(iut.idIut);
-    } else {
+    }
+    else {
       this._iutSelectionnes.add(iut);
       this._iutSelectionnesId.add(iut.idIut);
     }
@@ -129,7 +131,7 @@ class SelectedManager {
     this._iutSelectionnesId.clear();
     this._butSelectionnes.forEach((but) => {
       oldIutRecherches.forEach((i) => {
-        if (i.departements.find((d) => d.codesButDispenses[0] === but.code)) {
+        if (i.departements.find(d => d.codesButDispenses[0] === but.code)) {
           this._iutSelectionnes.add(i);
           this._iutSelectionnesId.add(i.idIut);
         }
@@ -146,17 +148,17 @@ class SelectedManager {
   async telecharger(typefile) {
     const now = dateToLocalDateTimeString(Date.now());
     const tab = this.iutSelectionnesTab
-      .flatMap((iut) => iut.departements.map((dep) => [iut, dep]))
-      .filter(([, d]) => this.butSelectionnesTab.some((b) => b.code === d.butDispenses[0].codeBut))
+      .flatMap(iut => iut.departements.map(dep => [iut, dep]))
+      .filter(([, d]) => this.butSelectionnesTab.some(b => b.code === d.butDispenses[0].codeBut))
       .map(([iut, dep]) => ({
-        'Filière métiers': this.butSelectionnesTab.find((b) => b.code === dep.butDispenses[0].codeBut).prettyPrintFiliere,
-        IUT: iut.nom,
-        Site: iut.site,
-        'Nom de la formation': this.butSelectionnesTab.find((b) => b.code === dep.butDispenses[0].codeBut).nom,
-        Courriel: iut.mel,
-        Téléphone: iut.tel,
-        "Date de l'extraction": now,
-        Suivi: '',
+        'Filière métiers': this.butSelectionnesTab.find(b => b.code === dep.butDispenses[0].codeBut).prettyPrintFiliere,
+        'IUT': iut.nom,
+        'Site': iut.site,
+        'Nom de la formation': this.butSelectionnesTab.find(b => b.code === dep.butDispenses[0].codeBut).nom,
+        'Courriel': iut.mel,
+        'Téléphone': iut.tel,
+        'Date de l\'extraction': now,
+        'Suivi': '',
       }));
     const worksheet = XLSX.utils.json_to_sheet(tab);
     const workbook = XLSX.utils.book_new();
@@ -167,7 +169,7 @@ class SelectedManager {
   loadState(buts, iuts, hasAlreadyVisit) {
     this._butSelectionnes = buts;
     this._iutSelectionnes = iuts;
-    this._iutSelectionnesId = iuts.map((iut) => iut.idIut);
+    this._iutSelectionnesId = iuts.map(iut => iut.idIut);
     this._firstVisitMap = !hasAlreadyVisit;
   }
 }

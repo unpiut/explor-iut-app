@@ -4,23 +4,15 @@ import Footer from './Footer';
 import IUTFranceMap from './IUTFranceMap';
 import RootStore from '../RootStore';
 import IUTRememberCard from './IUTRememberCard';
-import MapModaleExplanation from './MapModaleExplanation';
 import { useContext, useState } from 'react';
 
 function MapView() {
   const { t } = useTranslation();
   const { selectedManager } = useContext(RootStore);
-  const [modaleOpen, setModaleOpen] = useState(!selectedManager.mapVisited);
+  const [modaleOpen] = useState(!selectedManager.mapVisited);
 
   return (
     <>
-      {modaleOpen
-        ? (
-          <MapModaleExplanation
-            onClose={() => { setModaleOpen(false); selectedManager.mapVisited = true; }}
-          />
-        )
-        : null}
       <div className="grid">
         <div className="flex gap-2 justify-center">
           <h1 className="text-center text-3xl font-bold">{t('carteTitre')}</h1>
@@ -48,9 +40,11 @@ function MapView() {
               </>
             )}
         </h2>
-        <div className="grid lg:grid-cols-[2fr,1fr]">
-          <IUTFranceMap className="h-[70vh]" />
-          <div className="px-1 mb-32 lg:mr-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="lg:col-span-2">
+            <IUTFranceMap className="h-[70vh]" />
+          </div>
+          <div className="lg:col-span-1 px-1 mb-32 lg:mr-10">
             <h2 className="text-lg">Formations sélectionnées</h2>
             <div className="border-x-2 border-b-2 border-blue-900">
               {selectedManager.butSelectionnesTab.map((b, index) => (
@@ -66,7 +60,7 @@ function MapView() {
                     <p>
                       {t('carteMETexte2')}
                     </p>
-                    <p className='hidden lg:block'>
+                    <p className="hidden lg:block">
                       {t('carteMETexte3')}
                     </p>
                     <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre1')}</h3>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import Footer from './Footer';
 import RootStore from '../RootStore';
@@ -11,7 +11,7 @@ function LegalNotice() {
     return () => {
       stateSaver.rehydrationPromptHidden = false;
     };
-  }, []);
+  }, [stateSaver]);
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6 text-gray-800">

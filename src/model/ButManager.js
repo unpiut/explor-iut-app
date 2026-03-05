@@ -33,7 +33,7 @@ class ButManager {
     }
     let buts = await fetch(`${APP_ENV_API_PATH}/referentiel/but`);
     buts = await buts.json();
-    buts = buts.map((b) => new But(b));
+    buts = buts.map(b => new But(b));
     runInAction(() => {
       this._allButRetrieved = true;
       this._buts = buts;
@@ -59,11 +59,11 @@ class ButManager {
    */
   getButByCode(code) {
     // find the BUT
-    const butIdx = this._buts.findIndex((b) => b.code === code);
+    const butIdx = this._buts.findIndex(b => b.code === code);
     if (butIdx >= 0) {
       return this._buts[butIdx];
     }
-    throw new Error("Ce but n'existe pas.");
+    throw new Error('Ce but n\'existe pas.');
   }
 
   /**
@@ -73,13 +73,13 @@ class ButManager {
    */
   async getButByCodeWithInfo(code) {
     // find the BUT
-    const butIdx = this._buts.findIndex((b) => b.code === code);
+    const butIdx = this._buts.findIndex(b => b.code === code);
     if (butIdx >= 0) {
       // add more informations
       await this._buts[butIdx].getInfo();
       return runInAction(() => this._buts[butIdx]);
     }
-    throw new Error("Ce but n'existe pas.");
+    throw new Error('Ce but n\'existe pas.');
   }
 }
 

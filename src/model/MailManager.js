@@ -69,7 +69,8 @@ class MailManager {
   initCorpsMail() {
     if (i18n.exists('courrielCorpsDefaut')) {
       this._corpsMail = i18n.t('courrielCorpsDefaut');
-    } else {
+    }
+    else {
       this._corpsMail = `Bonjour,
 Suite à ma consultation et ma recherche sur le site iut.fr, j'ai identifié des formations qui correspondent à mes recherches d'alternants. Pourriez vous me communiquer pour chacune des formations les informations informations de base concernant l'alternance ?
       
@@ -80,7 +81,7 @@ Bien cordialement`;
 
   forgeMailObjet() {
     const preffix = this._nomEntreprise ?? 'nom modifiable';
-    const suffix = i18n.exists('courrielObjetSuffix') ? i18n.t('courrielObjetSuffix') : "Demande d'information pour déposer une offre d'alternance";
+    const suffix = i18n.exists('courrielObjetSuffix') ? i18n.t('courrielObjetSuffix') : 'Demande d\'information pour déposer une offre d\'alternance';
     return `${preffix} - ${suffix}`;
   }
 
@@ -106,7 +107,7 @@ Bien cordialement`;
     myFormData.append('contactMail', this.adresseMail);
     myFormData.append('mailSubject', this.forgeMailObjet());
     myFormData.append('mailBody', this.forgeMailBody());
-    files?.forEach((f) => myFormData.append('files', f));
+    files?.forEach(f => myFormData.append('files', f));
     selectedDepartments.forEach((dep) => {
       myFormData.append('deptIds', dep.id);
     });
@@ -116,7 +117,7 @@ Bien cordialement`;
       body: myFormData,
     });
     if (!res.ok) {
-      throw new Error("Le traitement ne s'est pas bien effectué");
+      throw new Error('Le traitement ne s\'est pas bien effectué');
     }
     return res.json();
   }
@@ -130,7 +131,7 @@ Bien cordialement`;
       body: myFormData,
     });
     if (!res.ok) {
-      throw new Error("Le traitement ne s'est pas bien effectué");
+      throw new Error('Le traitement ne s\'est pas bien effectué');
     }
   }
 }

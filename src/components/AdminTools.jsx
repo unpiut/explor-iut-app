@@ -1,4 +1,4 @@
-import React, {
+import {
   useContext, useEffect, useRef, useState,
 } from 'react';
 import { observer } from 'mobx-react';
@@ -28,7 +28,7 @@ function AdminTools() {
       // Unhide rehydratation prompt if any
       stateSaver.rehydrationPromptHidden = false;
     };
-  }, []);
+  }, [stateSaver]);
 
   function checkCreds(evt) {
     evt.preventDefault();
@@ -115,20 +115,20 @@ function AdminTools() {
             </fieldset>
           </form>
           {adminManager.lastError && (
-          <div className="mt-4 pl-2 w-full rounded border-red-700 border-4 bg-red-200 font-bold">
-            <p>
-              Erreur :&nbsp;
-              {adminManager.lastError?.message ?? 'Erreur inconnue'}
-            </p>
-          </div>
+            <div className="mt-4 pl-2 w-full rounded border-red-700 border-4 bg-red-200 font-bold">
+              <p>
+                Erreur :&nbsp;
+                {adminManager.lastError?.message ?? 'Erreur inconnue'}
+              </p>
+            </div>
           )}
           {error && (
-          <div className="mt-4 pl-2 w-full rounded border-red-700 border-4 bg-red-200 font-bold">
-            <p>
-              Erreur :&nbsp;
-              {error?.message ?? 'Erreur inconnue'}
-            </p>
-          </div>
+            <div className="mt-4 pl-2 w-full rounded border-red-700 border-4 bg-red-200 font-bold">
+              <p>
+                Erreur :&nbsp;
+                {error?.message ?? 'Erreur inconnue'}
+              </p>
+            </div>
           )}
           {adminManager.credentialVerified && (
             <div className="mt-4 pl-2 w-full rounded border-green-700 border-4 bg-green-200 font-bold">
@@ -139,60 +139,62 @@ function AdminTools() {
           )}
         </div>
         {adminManager.credentialVerified && (
-        <>
-          <div className="basis-1/3">
-            <h1 className="text-xl font-semibold mb-3">Historique des bases de données</h1>
-            {adminManager.loadingDataHistory ? (
-              <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
-                <p>Chargement en cours</p>
-              </div>
-            ) : (
-              <div className="w-full">
-                {
-                    adminManager.dataHistory?.map((datum) => (
-                      <div className="mb-1 pl-2 border-stone-800 border-2" key={datum.id}>
-                        {getHistoryDataTitle(datum)}
-                        &nbsp;
-                        <button
-                          type="button"
-                          className="text-sky-700 hover:text-red-600 hover:underline"
-                          onClick={(evt) => telecharger(evt, datum.id)}
-                        >
-                          Télécharger
-                        </button>
-                      </div>
-                    ))
-                  }
-              </div>
-            )}
-            {downloading && (
-              <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
-                <p>Téléchargement en cours</p>
-              </div>
-            )}
-          </div>
-          <div className="basis-1/3">
-            <h1 className="text-xl font-semibold mb-3">Téléverser une nouvelle version et mettre à jour la base de données</h1>
-            <form onSubmit={televerser} method="POST" action="#">
-              <fieldset disabled={uploading}>
-                <div className="mb-2">
-                  <input
-                    onChange={(e) => setFileState(e.target.files[0])}
-                    type="file"
-                    accept=".xlsx"
-                    required
-                  />
+          <>
+            <div className="basis-1/3">
+              <h1 className="text-xl font-semibold mb-3">Historique des bases de données</h1>
+              {adminManager.loadingDataHistory
+                ? (
+                  <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
+                    <p>Chargement en cours</p>
+                  </div>
+                )
+                : (
+                  <div className="w-full">
+                    {
+                      adminManager.dataHistory?.map(datum => (
+                        <div className="mb-1 pl-2 border-stone-800 border-2" key={datum.id}>
+                          {getHistoryDataTitle(datum)}
+                          &nbsp;
+                          <button
+                            type="button"
+                            className="text-sky-700 hover:text-red-600 hover:underline"
+                            onClick={evt => telecharger(evt, datum.id)}
+                          >
+                            Télécharger
+                          </button>
+                        </div>
+                      ))
+                    }
+                  </div>
+                )}
+              {downloading && (
+                <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
+                  <p>Téléchargement en cours</p>
                 </div>
-                <button className="rounded border-2 border-blue-900 px-2" type="submit">Téléverser le document</button>
-              </fieldset>
-            </form>
-            {uploading && (
-              <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
-                <p>Téléversement en cours</p>
-              </div>
-            )}
-          </div>
-        </>
+              )}
+            </div>
+            <div className="basis-1/3">
+              <h1 className="text-xl font-semibold mb-3">Téléverser une nouvelle version et mettre à jour la base de données</h1>
+              <form onSubmit={televerser} method="POST" action="#">
+                <fieldset disabled={uploading}>
+                  <div className="mb-2">
+                    <input
+                      onChange={e => setFileState(e.target.files[0])}
+                      type="file"
+                      accept=".xlsx"
+                      required
+                    />
+                  </div>
+                  <button className="rounded border-2 border-blue-900 px-2" type="submit">Téléverser le document</button>
+                </fieldset>
+              </form>
+              {uploading && (
+                <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
+                  <p>Téléversement en cours</p>
+                </div>
+              )}
+            </div>
+          </>
         )}
       </div>
     </>

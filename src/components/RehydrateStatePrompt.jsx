@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import ModaleRehydrateState from './ModaleRehydrateState';
@@ -14,7 +14,7 @@ function RehydrateStatePrompt() {
     if (stateSaver.canRehydrate !== showRehydratModal) {
       setShowRehydratModal(stateSaver.canRehydrate);
     }
-  }, [stateSaver, stateSaver.canRehydrate]);
+  }, [showRehydratModal, stateSaver, stateSaver.canRehydrate]);
 
   const confirmRehydratation = () => {
     stateSaver.rehydrate().then(({ hasButs, hasIuts }) => {
@@ -25,7 +25,8 @@ function RehydrateStatePrompt() {
       if (hasButs) {
         if (hasIuts) {
           navigate('/map');
-        } else {
+        }
+        else {
           navigate('/formation');
         }
       }

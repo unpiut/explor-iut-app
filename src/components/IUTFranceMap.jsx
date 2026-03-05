@@ -1,4 +1,4 @@
-import React, {
+import {
   useContext, useEffect, useRef, useState,
 } from 'react';
 import classNames from 'classnames';
@@ -22,7 +22,7 @@ function iut2series(iuts, franceMap) {
       return false;
     }
     return true;
-  }).map((iut) => ({
+  }).map(iut => ({
     name: iut.site ? `${iut.nom} - ${iut.site}` : iut.nom,
     value: franceMap.mapRegionPoint(iut.region, iut.location),
     iutId: iut.idIut,
@@ -36,7 +36,7 @@ function iutSelect2series(iutSelectionnes, franceMap) {
       return false;
     }
     return true;
-  }).map((iut) => ({
+  }).map(iut => ({
     name: iut.site ? `${iut.nom} - ${iut.site}` : iut.nom,
     value: franceMap.mapRegionPoint(iut.region, iut.location),
     iutId: iut.idIut,
@@ -49,7 +49,8 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
     const userRegionCode = franceMap.locateRegionCodeForCoordinates(userCoors);
     if (!userRegionCode) {
       console.warn('No region code found for user');
-    } else {
+    }
+    else {
       const zoomInfo = franceMap.getCenterAndZoomRatioForRegionCode(userRegionCode);
       userZoomInfo.zoom = zoomInfo.zoomRatio;
       userZoomInfo.center = zoomInfo.correctedCenter;
@@ -171,22 +172,26 @@ function IUTFranceMap({ className }) {
 
       theChart.on('click', { seriesId: 'iut' }, (event) => { // Création de la modale sur un IUT
         setAfficheModale(true);
-        setModale(<ModaleSelectionIUT
-          iutId={event.data.iutId}
-          onClose={() => setAfficheModale(false)}
-          X={event.event.event.pageX}
-          Y={event.event.event.pageY}
-        />);
+        setModale(
+          <ModaleSelectionIUT
+            iutId={event.data.iutId}
+            onClose={() => setAfficheModale(false)}
+            X={event.event.event.pageX}
+            Y={event.event.event.pageY}
+          />,
+        );
       });
 
       theChart.on('click', { seriesId: 'selectedIut' }, (event) => { // Création de la modale sur un IUT déjà sélectionné
         setAfficheModale(true);
-        setModale(<ModaleSelectionIUT
-          iutId={event.data.iutId}
-          onClose={() => setAfficheModale(false)}
-          X={event.event.event.pageX}
-          Y={event.event.event.pageY}
-        />);
+        setModale(
+          <ModaleSelectionIUT
+            iutId={event.data.iutId}
+            onClose={() => setAfficheModale(false)}
+            X={event.event.event.pageX}
+            Y={event.event.event.pageY}
+          />,
+        );
       });
 
       theChart.on('click', 'geo', () => setAfficheModale(false)); // Evenement permettant de quitter la modale si on clique sur la carte
@@ -194,7 +199,8 @@ function IUTFranceMap({ className }) {
       document.addEventListener('keydown', (event) => { // Evenement permettant de quitter la modale avec Echap
         if (event.code === 'Backspace') {
           setAfficheModale(false);
-        } else if (event.code === 'ControlLeft' && enDeplacement.current) {
+        }
+        else if (event.code === 'ControlLeft' && enDeplacement.current) {
           theChart.setOption({ geo: { roam: false } });
           enDeplacement.current = false;
         }
@@ -223,7 +229,8 @@ function IUTFranceMap({ className }) {
           if (!(position.current.initialX < evt.offsetX)) {
             position.current.x = evt.offsetX;
             position.current.width = position.current.initialX - evt.offsetX;
-          } else {
+          }
+          else {
             position.current.x = position.current.initialX;
             position.current.width = evt.offsetX - position.current.initialX;
           }
@@ -231,7 +238,8 @@ function IUTFranceMap({ className }) {
           if (!(position.current.initialY < evt.offsetY)) {
             position.current.y = evt.offsetY;
             position.current.height = position.current.initialY - evt.offsetY;
-          } else {
+          }
+          else {
             position.current.y = position.current.initialY;
             position.current.height = evt.offsetY - position.current.initialY;
           }
@@ -257,12 +265,12 @@ function IUTFranceMap({ className }) {
             if (i.value) {
               const positionI = theChart.convertToPixel('geo', i.value);
               return position.current.x < positionI[0]
-              && positionI[0] < position.current.width + position.current.x
-              && positionI[1] < position.current.height + position.current.y
-              && position.current.y < positionI[1];
+                && positionI[0] < position.current.width + position.current.x
+                && positionI[1] < position.current.height + position.current.y
+                && position.current.y < positionI[1];
             }
             return false;
-          }).map((i) => selectedManager.switchIutSelectionnes(iutManager.getIutById(i.iutId)));
+          }).map(i => selectedManager.switchIutSelectionnes(iutManager.getIutById(i.iutId)));
 
           theChart.setOption({
             graphic: {
@@ -294,7 +302,7 @@ function IUTFranceMap({ className }) {
           setEchartState(theChart);
         });
     }
-  }, [refContainer.current]); // Le useEffect sera rappelé si la réf dom de la carte change
+  }, [echartState, franceMap, iutManager, selectedManager]); // Le useEffect sera rappelé si la réf dom de la carte change
 
   useEffect(() => autorun(() => {
     // Mise à jour de la carte uniquement si la carte a bien été crée et si l'on a des iuts
@@ -307,7 +315,7 @@ function IUTFranceMap({ className }) {
         createDataOnlyOption(iuts, franceMap, selectedManager.iutSelectionnesTab),
       );
     }
-  }), [echartState, iutManager]);
+  }), [echartState, franceMap, iutManager, selectedManager.iutSelectionnesTab]);
   return (
     <div>
       <div className="grid justify-center">

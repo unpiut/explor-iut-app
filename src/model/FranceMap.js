@@ -2,22 +2,22 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import * as echarts from 'echarts/core';
 
 const REMAPING_TOM = {
-  Guyane: {
+  'Guyane': {
     left: -7.834939110760255,
     top: 48,
     width: 1,
   },
-  Guadeloupe: {
+  'Guadeloupe': {
     left: -7.834939110760255,
     top: 46,
     width: 2,
   },
-  Martinique: {
+  'Martinique': {
     left: -7.834939110760255,
     top: 44,
     width: 1,
   },
-  Mayotte: {
+  'Mayotte': {
     left: -7.834939110760255,
     top: 40,
     width: 1,
@@ -40,29 +40,29 @@ const REMAPING_TOM = {
 };
 
 const ID_BY_CODE_REGION = {
-  GUYANE: 'Guyane',
-  GUADELOUPE: 'Guadeloupe',
-  MARTINIQUE: 'Martinique',
+  'GUYANE': 'Guyane',
+  'GUADELOUPE': 'Guadeloupe',
+  'MARTINIQUE': 'Martinique',
   'NOUVELLE-CALEDONIE': 'Nouvelle-Cal\u00e9donie',
   'LA REUNION': 'La R\u00e9union',
-  MAYOTTE: 'Mayotte',
+  'MAYOTTE': 'Mayotte',
   'POLYNESIE FRANÇAISE': 'Polyn\u00e9sie fran\u00e7aise',
 };
 
 function recursiveCoorFlatMap(coors) {
   if (Array.isArray(coors[0])) {
-    return coors.flatMap((coor) => recursiveCoorFlatMap(coor));
+    return coors.flatMap(coor => recursiveCoorFlatMap(coor));
   }
   return [coors];
 }
 
 function buildTopLeftPointByRegion(geoJson) {
   return geoJson.features
-    .filter((feature) => feature?.properties?.nom && feature?.geometry?.coordinates)
-    .map((feature) => [
+    .filter(feature => feature?.properties?.nom && feature?.geometry?.coordinates)
+    .map(feature => [
       feature.properties.nom,
       feature.geometry.coordinates
-        .flatMap((c) => recursiveCoorFlatMap(c))
+        .flatMap(c => recursiveCoorFlatMap(c))
         .reduce((acc, [long, lat]) => {
           if (lat < acc.minLat) {
             acc.minLat = lat;
@@ -112,7 +112,7 @@ function computeRegionCenterAndScalingZoom(topLeftPointByRegion) {
       const remappingInfo = REMAPING_TOM[regionCode];
       if (remappingInfo) {
         correctedCenter = [remappingInfo.left + remappingInfo.width / 2,
-          remappingInfo.top + (height * (remappingInfo.width / width)) / 2];
+        remappingInfo.top + (height * (remappingInfo.width / width)) / 2];
         correctedLeft = remappingInfo.left;
         correctedRight = remappingInfo.left + remappingInfo.width;
         correctedTop = remappingInfo.top;
@@ -209,11 +209,13 @@ export default class FranceMap {
       });
       echarts.registerMap(this._mapName, this._franceMap, REMAPING_TOM);
       return this._franceMap;
-    } catch (err) {
+    }
+    catch (err) {
       // this._errorManager.handleError(err);
       console.warn(err);
       return null;
-    } finally {
+    }
+    finally {
       runInAction(() => {
         this._loading = false;
       });

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
@@ -12,13 +12,13 @@ function ModaleSelectionIUT({
 
   // Get full info of the iut
   useEffect(() => {
-    const iut = iutManager.iuts.find((i) => i.idIut === iutId);
+    const iut = iutManager.iuts.find(i => i.idIut === iutId);
     iut.getInfo();
   }, [iutManager, iutId]);
 
-  const iut = iutManager.iuts.find((i) => i.idIut === iutId);
+  const iut = iutManager.iuts.find(i => i.idIut === iutId);
   const butSelect = selectedManager.butSelectionnesTab;
-  const filtre = (b) => (butSelect.find((unBut) => unBut.code === b.butDispenses[0].codeBut));
+  const filtre = b => (butSelect.find(unBut => unBut.code === b.butDispenses[0].codeBut));
   function selectionner() {
     selectedManager.switchIutSelectionnes(iut);
     onClose();
@@ -30,12 +30,12 @@ function ModaleSelectionIUT({
         <button className="font-bold" type="button" onClick={onClose}>X</button>
       </div>
       <div>
-        {iut.departements.filter(filtre).map((d) => (
+        {iut.departements.filter(filtre).map(d => (
           <div className="w-full" key={d.code}>
             <p className="ml-5 ">
               {'· '}
               {
-                butManager.buts.find((b) => b.code === d.butDispenses[0].codeBut).prettyPrintFiliere
+                butManager.buts.find(b => b.code === d.butDispenses[0].codeBut).prettyPrintFiliere
               }
             </p>
           </div>

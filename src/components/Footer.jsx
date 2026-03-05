@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import fleche from '../assets/icone-les-iut.svg';
@@ -17,7 +16,7 @@ function Footer({
               <Link className="px-2 text-sm sm:text-base no-underline" to={gauche.lien}>Etape précédente</Link>
             </div>
             <div className="lg:grid hidden">
-              <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
+              <img className="w-3/4 m-auto" src={motif} alt="motif unpiut" />
               <Link className="text-center" to="/mentions">Mentions légales</Link>
             </div>
             <div className={`ring rounded ${!droite.disable ? 'bg-white text-blue-900 animate-softBlink ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
@@ -35,7 +34,7 @@ function Footer({
               <Link className="px-2 text-sm sm:text-base no-underline" to={gauche.lien}>Etape précédente</Link>
             </div>
             <div className="lg:grid hidden">
-              <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
+              <img className="w-3/4 m-auto" src={motif} alt="motif unpiut" />
               <Link className="text-center" to="/mentions">Mentions légales</Link>
             </div>
             <div className={`ring rounded ${!droite.disable ? 'bg-white text-blue-900 animate-softBlink ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
@@ -43,13 +42,14 @@ function Footer({
               <img className="lg:block hidden" width={30} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
             </div>
           </>
-        ) : null}
+        )
+        : null}
       {!gauche && droite && !onClick
         ? (
           <>
             <div />
             <div className="lg:grid hidden">
-              <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
+              <img className="w-3/4 m-auto" src={motif} alt="motif unpiut" />
               <Link className="text-center" to="/mentions">Mentions légales</Link>
             </div>
             <div className={`ring rounded ${!droite.disable ? 'bg-white text-blue-900 animate-softBlink ring-blue-900' : 'ring-gray-400'}  m-4 items-center flex justify-self-end h-3/5`}>
@@ -57,7 +57,8 @@ function Footer({
               <img className="lg:block hidden" width={30} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
             </div>
           </>
-        ) : null}
+        )
+        : null}
       {gauche && !droite && !onClick
         ? (
           <>
@@ -66,12 +67,13 @@ function Footer({
               <Link className="px-2 text-sm sm:text-base no-underline" to={gauche.lien}>{gauche.texte}</Link>
             </div>
             <div className="lg:grid hidden">
-              <img className="w-3/4 m-[auto]" src={motif} alt="motif unpiut" />
+              <img className="w-3/4 m-auto" src={motif} alt="motif unpiut" />
               <Link className="text-center" to="/mentions">Mentions légales</Link>
             </div>
             <div />
           </>
-        ) : null}
+        )
+        : null}
     </div>
   );
 }

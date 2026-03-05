@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import RootStore from '../RootStore';
@@ -17,7 +17,8 @@ function ValidateView() {
     const token = queryParam.get('t');
     if (!token) {
       setProcessing({ processing: false, error: 'Absence de token' });
-    } else {
+    }
+    else {
       fetch(`${APP_ENV_API_PATH}/mail/validate`, {
         method: 'POST',
         headers: new Headers({ 'content-type': 'application/json' }),
@@ -25,21 +26,21 @@ function ValidateView() {
       })
         .then((res) => {
           if (!res.ok) {
-            throw new Error("Le traitement ne s'est pas bien effectué");
+            throw new Error('Le traitement ne s\'est pas bien effectué');
           }
           // Clear rehydration state
           stateSaver.clearSavedState();
           // Remove processing indicator
           setProcessing({ processing: false, error: null });
         }).catch(() => {
-          setProcessing({ processing: false, error: "Le traitement ne s'est pas bien effectué" });
+          setProcessing({ processing: false, error: 'Le traitement ne s\'est pas bien effectué' });
         });
     }
     return () => {
       // Unhide rehydratation prompt if any
       stateSaver.rehydrationPromptHidden = false;
     };
-  }, []);
+  }, [queryParam, stateSaver]);
 
   return (
     <div className="grid gap-24 justify-center">

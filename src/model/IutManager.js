@@ -37,7 +37,11 @@ class IutManager {
     this._iutRecherches.clear();
     buts.forEach((but) => {
       this._iuts.forEach((i) => {
-        if (i.departements.find(d => d.butDispenses[0].codeBut === but.code)) {
+        // Vérifie si le département propose ce BUT parmi tous ses BUTs dispensés
+        if (i.departements.find(d =>
+          d.butDispenses
+          && d.butDispenses.some(dispense => dispense.codeBut === but.code),
+        )) {
           this._iutRecherches.add(i);
         }
       });
