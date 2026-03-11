@@ -54,7 +54,7 @@ function FormationBrick({
         onClick={openModal}
         className={`h-full w-full text-xs md:text-sm xl:text-base text-center
     ${maClasse}
-    ${selectedManager.butSelectionnes.has(but) ? 'border-red-600 border-8' : 'border-none'}
+    ${selectedManager.butSelectionnes.has(but) ? 'border-green-600 border-8' : 'border-none'}
     bg-center
     bg-contain
     flex flex-col items-center justify-center
@@ -62,7 +62,7 @@ function FormationBrick({
     transition-all duration-500 ease-out
     hover:scale-105 hover:shadow-2xl`}
       >
-        <h2 className={`text-white px-2 font-bold py-3 ${selectedManager.butSelectionnes.has(but) ? 'bg-red-600/80' : `${styleFond}`} w-full 
+        <h2 className={`text-white px-1 font-bold py-1 ${selectedManager.butSelectionnes.has(but) ? 'bg-green-600/80' : `${styleFond}`} w-full 
     transition-all duration-500 ease-in-out
     group-hover:scale-90 group-hover:opacity-0`}
         >

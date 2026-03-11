@@ -38,7 +38,7 @@ function ResultView() {
                     <SearchResult butSlct={butSelect} iut={iut} key={iut.site} />
                   ))}
                 </div>
-                <button type="button" className="border-2 border-blue-900 p-2 w-3/4 mt-2 flex justify-center gap-4" onClick={() => setModaleTelechargement(true)}>
+                <button type="button" className="border-2 border-blue-900 p-2 w-3/4 mt-2 flex justify-center gap-4 transform transition duration-300 hover:scale-105" onClick={() => setModaleTelechargement(true)}>
                   <p>{t('recapTelecharger')}</p>
                   <img width={25} src={telecharger} alt="telecharger" />
                 </button>

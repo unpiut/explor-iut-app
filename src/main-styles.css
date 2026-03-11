@@ -19,3 +19,21 @@
     --color-amber-transparent: rgba(234, 88, 12, 0.9);
     --font-sans: 'Inter var', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
+
+@keyframes softBlink {
+
+    0%,
+    100% {
+        background-color: #1C2D86;
+        color: aliceblue;
+    }
+
+    50% {
+        background-color: aliceblue;
+        color: #1C2D86;
+    }
+}
+
+.animate-softBlink {
+    animation: softBlink 2.5s ease-in-out infinite;
+}

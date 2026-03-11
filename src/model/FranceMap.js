@@ -2,39 +2,40 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import * as echarts from 'echarts/core';
 
 const REMAPING_TOM = {
+  'Nouvelle-Cal\u00e9donie': {
+    left: -8,
+    top: 50,
+    width: 1,
+  },
   'Guyane': {
-    left: -7.834939110760255,
+    left: -8,
     top: 48,
     width: 1,
   },
   'Guadeloupe': {
-    left: -7.834939110760255,
+    left: -8,
     top: 46,
     width: 2,
   },
   'Martinique': {
-    left: -7.834939110760255,
+    left: -8,
     top: 44,
     width: 1,
   },
-  'Mayotte': {
-    left: -7.834939110760255,
-    top: 40,
-    width: 1,
-  },
+
   'La R\u00e9union': {
-    left: -7.834939110760255,
-    top: 42,
+    left: -10,
+    top: 49,
     width: 1,
   },
-  'Nouvelle-Cal\u00e9donie': {
-    left: -7.834939110760255,
-    top: 50,
+  'Mayotte': {
+    left: -10,
+    top: 47,
     width: 1,
   },
   'Polyn\u00e9sie fran\u00e7aise': {
-    left: -7.834939110760255,
-    top: 38,
+    left: -10,
+    top: 45,
     width: 1,
   },
 };

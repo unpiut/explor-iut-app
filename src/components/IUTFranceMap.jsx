@@ -44,18 +44,18 @@ function iutSelect2series(iutSelectionnes, franceMap) {
 }
 
 function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
-  const userZoomInfo = { zoom: 1, center: null };
-  if (userCoors) {
-    const userRegionCode = franceMap.locateRegionCodeForCoordinates(userCoors);
-    if (!userRegionCode) {
-      console.warn('No region code found for user');
-    }
-    else {
-      const zoomInfo = franceMap.getCenterAndZoomRatioForRegionCode(userRegionCode);
-      userZoomInfo.zoom = zoomInfo.zoomRatio;
-      userZoomInfo.center = zoomInfo.correctedCenter;
-    }
-  }
+  // const userZoomInfo = { zoom: 1, center: null };
+  // if (userCoors) {
+  //   const userRegionCode = franceMap.locateRegionCodeForCoordinates(userCoors);
+  //   if (!userRegionCode) {
+  //     console.warn('No region code found for user');
+  //   }
+  //   else {
+  //     const zoomInfo = franceMap.getCenterAndZoomRatioForRegionCode(userRegionCode);
+  //     userZoomInfo.zoom = zoomInfo.zoomRatio;
+  //     userZoomInfo.center = zoomInfo.correctedCenter;
+  //   }
+  // }
   return {
     geo: { // Options d'un système de coordonnées géographique: https://echarts.apache.org/en/option.html#geo
       map: mapName, // Nom de la map enregistrée
@@ -65,8 +65,8 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         areaColor: '#e7e8ea', // Couleur de base des zones (gris)
       },
       nameProperty: 'nom', // Nom de la propriété utilisé dans les données de carte pour le nom des zones
-      zoom: userZoomInfo.zoom,
-      center: userZoomInfo.center,
+      zoom: 6,
+      center: [3.5, 46.5],
       emphasis: {
         label: {
           show: false,
@@ -323,7 +323,14 @@ function IUTFranceMap({ className }) {
           {afficheModale ? modale : null}
         </div>
       </div>
-      <div className={classNames(className, 'w-full', 'h-96')} ref={refContainer} />
+      <div
+        className={classNames(
+          className,
+          'w-full',
+          'h-96',
+        )}
+        ref={refContainer}
+      />
     </div>
   );
 }

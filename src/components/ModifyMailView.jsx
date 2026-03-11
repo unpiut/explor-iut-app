@@ -13,7 +13,9 @@ function ModifyMailView() {
   const [fileNumberState, setfileNumberState] = useState(0);
   const [allFiles, setAllFiles] = useState([]);
   const [error, setError] = useState('');
-  const MAX_FILES = 3;
+  const [sendError, setSendError] = useState(''); // Nouvel état pour les erreurs d'envoi
+  const [isSending, setIsSending] = useState(false); // Nouvel état pour l'indicateur de chargement
+  const MAX_FILES = 10;
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -22,10 +24,8 @@ function ModifyMailView() {
   }, [mailManager]);
 
   function sendMail() {
-    if (allFiles.length === 0) {
-      setError(t('courrielErreurFichierObligatoire'));
-      return;
-    }
+    // Réinitialiser les erreurs d'envoi
+    setSendError('');
 
     if (selectedManager.alreadySend) {
       navigate('/mailSend');
@@ -34,12 +34,16 @@ function ModifyMailView() {
     if (sendingMail.current === true) {
       return;
     }
+
     sendingMail.current = true;
+    setIsSending(true); // Activer l'indicateur de chargement
+
     const filesToSend = allFiles.filter(f => !!f);
     const selectedDepts = [...selectedManager.iutSelectionnes]
       .flatMap(iut => iut.departements)
       .filter(dept => dept.butDispenses
         .some(b => selectedManager.butSelectionnes.has(butManager.getButByCode(b.codeBut))));
+
     mailManager.sendMail({
       files: filesToSend,
       selectedDepartments: selectedDepts,
@@ -47,9 +51,13 @@ function ModifyMailView() {
       selectedManager.dateEnvoi = creationDateTime;
       selectedManager.alreadySend = true;
       sendingMail.current = false;
+      setIsSending(false); // Désactiver l'indicateur de chargement
       navigate('/mailSend');
-    }).catch(() => {
+    }).catch((error) => {
+      console.error("Erreur lors de l'envoi du mail:", error);
       sendingMail.current = false;
+      setIsSending(false); // Désactiver l'indicateur de chargement
+      setSendError(t('courrielModifErreurEnvoi') || "L'envoi du message a échoué. Veuillez réessayer."); // Afficher l'erreur
     });
   }
 
@@ -77,10 +85,23 @@ function ModifyMailView() {
         {t('courrielModifSousTitre')}
       </p>
 
+      {/* Indicateur de chargement pendant l'envoi */}
+      {isSending && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-lg shadow-xl max-w-md mx-auto text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              {t('courrielModifEnvoiEnCours') || "Envoi du message en cours..."}
+            </h3>
+            <p className="text-gray-600">
+              {t('courrielModifPatientez') || "Veuillez patienter, cela peut prendre quelques instants."}
+            </p>
+          </div>
+        </div>
+      )}
+
       <form method="GET" className="space-y-6">
-        {/* Grille principale - 2 colonnes sur grand écran */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          {/* Colonne de gauche - Corps du message */}
           <div className="space-y-2">
             <h2 className="block text-sm sm:text-lg font-medium leading-6 text-gray-900">
               {t('courrielModifCorps')}
@@ -97,6 +118,7 @@ function ModifyMailView() {
                 rows="8"
                 className="block w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out sm:text-base"
                 placeholder={t('courrielModifQuestionPlus')}
+                disabled={isSending} // Désactiver pendant l'envoi
               />
             </div>
           </div>
@@ -104,7 +126,7 @@ function ModifyMailView() {
           {/* Colonne de droite - Zone de dépôt des fichiers */}
           <div className="space-y-3">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">
+              <h2 className="text-lg text-gray-900">
                 {t('courrielModifOffre')}
               </h2>
               <p className="text-sm italic text-gray-600 mt-1">
@@ -115,53 +137,79 @@ function ModifyMailView() {
               </p>
             </div>
 
-            {/* Zone de drop */}
+            {/* Zone de dépôt de fichiers harmonisée */}
             <div
-              className={`border-2 border-dashed rounded-xl p-6 text-center transition-all duration-200
-                ${error ? 'border-red-400 bg-red-50' : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50'}
+              className={`relative rounded-lg border-2 transition-all duration-200
+                ${error ? 'border-red-400 bg-red-50' : 'border-gray-300 hover:border-blue-500 hover:bg-blue-50/30'}
                 ${allFiles.length >= MAX_FILES ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                ${isSending ? 'opacity-50 pointer-events-none' : ''}
               `}
             >
-              <p className="text-gray-600 mb-3">
-                {t('courrielModifPropDropZone')}
-              </p>
-              <input
-                type="file"
-                multiple
-                onChange={handleFilesChange}
-                accept=".pdf"
-                disabled={allFiles.length >= MAX_FILES}
-                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed"
-              />
-              <p className="text-xs text-gray-500 mt-3">
-                {allFiles.length}
-                /
-                {MAX_FILES}
-                {' '}
-                {t('courrielModifFichiers') || 'fichiers maximum'}
-              </p>
+              <div className="p-6 text-center">
+                <div className="flex justify-center mb-3">
+                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                </div>
+                <p className="text-sm text-gray-600 mb-2">
+                  {t('courrielModifPropDropZone')}
+                </p>
+                <p className="text-xs text-gray-500 mb-3">
+                  {allFiles.length}/{MAX_FILES} {t('courrielModifFichiers') || 'fichiers maximum'}
+                </p>
+
+                <div className="relative">
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleFilesChange}
+                    disabled={allFiles.length >= MAX_FILES || isSending}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+                  />
+                  <button
+                    type="button"
+                    disabled={allFiles.length >= MAX_FILES || isSending}
+                    className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-wider shadow-sm hover:bg-gray-50 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => document.querySelector('input[type="file"]')?.click()}
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    {t('courrielModifChoisirFichiers') || 'Choisir des fichiers'}
+                  </button>
+                </div>
+              </div>
             </div>
 
-            {/* Message d'erreur */}
+            {/* Message d'erreur pour les fichiers */}
             {error && (
               <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg" role="alert">
                 <p className="text-sm font-medium">{error}</p>
               </div>
             )}
+
+            {/* Message d'erreur d'envoi */}
+            {sendError && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg" role="alert">
+                <div className="flex items-center">
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                  <p className="text-sm font-medium">{sendError}</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Liste des fichiers ajoutés (occupe toute la largeur) */}
+        {/* Liste des fichiers ajoutés */}
         {allFiles.length > 0 && (
           <div className="mt-8 border-t pt-6">
-            <h3 className="font-semibold text-gray-900 text-center mb-4">
-              {t('courrielModifFichiersAjoutes') || 'Fichiers ajoutés'}
-            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {allFiles.map((file, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between bg-gray-50 p-3 rounded-lg border border-gray-200 hover:shadow-sm transition-shadow"
+                  className={`flex items-center justify-between bg-gray-50 p-3 rounded-lg border border-gray-200 hover:shadow-sm transition-shadow ${isSending ? 'opacity-50' : ''}`}
                 >
                   <div className="flex items-center space-x-3 truncate">
                     <svg className="w-5 h-5 text-blue-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -171,14 +219,14 @@ function ModifyMailView() {
                       {file.name}
                     </span>
                     <span className="text-xs text-gray-500">
-                      {(file.size / 1024).toFixed(0)}
-                      Ko
+                      {(file.size / 1024).toFixed(0)} Ko
                     </span>
                   </div>
                   <button
                     type="button"
                     onClick={() => removeFile(index)}
-                    className="ml-2 text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-50 transition-colors"
+                    disabled={isSending}
+                    className="ml-2 text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     aria-label="Supprimer le fichier"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -198,10 +246,12 @@ function ModifyMailView() {
           onClick={sendMail}
           gauche={{ texte: t('courrielModifRetour'), lien: '/mail' }}
           droite={{
-            texte: t('courrielModifAvance'),
-            disable: allFiles.length === 0,
+            texte: isSending
+              ? (t('courrielModifEnvoiEnCoursCourt') || "Envoi...")
+              : t('courrielModifAvance'),
             lien: '/mailSend',
           }}
+          disabled={isSending} // Si votre composant Footer accepte une prop disabled
         />
       </div>
     </div>
