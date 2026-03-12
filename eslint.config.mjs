@@ -39,6 +39,7 @@ export default defineConfig([
         APP_ENV_APP_TITLE: 'readonly',
         APP_ENV_API_PATH: 'readonly',
         APP_ENV_TEST_APP: 'readonly',
+        APP_ENV_MATOMO_URL: 'readonly',
       },
     },
     plugins: {

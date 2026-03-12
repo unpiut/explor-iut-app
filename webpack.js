@@ -19,16 +19,19 @@ const babelConfig = require('./babel.config'); // Info de config de babel
 let PUBLIC_PATH; // url de base de l'appli
 let API_PATH; // chemin de l'API Rest
 let TEST_APP; // Indicateur d'application en mode test
+let MATOMO_URL;
 
 function setGlobalVariable(prodMode, devMode) {
   PUBLIC_PATH = process.env.PUBLIC_PATH ?? '/';
   if (devMode) {
     API_PATH = 'http://localhost:8080/api/v1';
     TEST_APP = false;
+    MATOMO_URL = 'http://localhost:8999/js';
   }
   else {
     API_PATH = process.env.API_PATH ?? '/api/v1';
     TEST_APP = !!process.env.TEST_APP;
+    MATOMO_URL = process.env.MATOMO_URL;
   }
 }
 
@@ -64,6 +67,7 @@ function createPluginConfiguration(productionMode = false) {
       APP_ENV_APP_TITLE: JSON.stringify(appTitle),
       APP_ENV_API_PATH: JSON.stringify(API_PATH),
       APP_ENV_TEST_APP: JSON.stringify(TEST_APP),
+      APP_ENV_MATOMO_URL: JSON.stringify(MATOMO_URL),
     }),
     // Copie directe de fichiers
     // new CopyWebpackPlugin({

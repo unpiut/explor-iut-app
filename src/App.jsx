@@ -1,4 +1,5 @@
 // import classNames from 'classnames';
+import { useEffect } from 'react';
 import {
   createBrowserRouter,
   redirect,
@@ -102,6 +103,28 @@ const router = createBrowserRouter([
 });
 
 function App() {
+  useEffect(() => {
+    if (APP_ENV_MATOMO_URL) {
+      const _mtm = window._mtm = window._mtm || [];
+      _mtm.push({
+        'mtm.startTime': new Date().getTime(),
+        'event': 'mtm.Start',
+      });
+
+      const d = document;
+      const g = d.createElement('script');
+      const s = d.getElementsByTagName('script')[0];
+
+      g.async = true;
+      g.src = APP_ENV_MATOMO_URL;
+
+      s.parentNode.insertBefore(g, s);
+    }
+    else {
+      console.warn('Matomo tracking disabled');
+    }
+  }, []);
+
   return (
     <RootStore.Provider value={STORE}>
       <RouterProvider router={router} />
