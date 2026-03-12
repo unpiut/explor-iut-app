@@ -247,7 +247,7 @@ function ModifyMailView() {
           gauche={{ texte: t('courrielModifRetour'), lien: '/mail' }}
           droite={{
             texte: isSending
-              ? (t('courrielModifEnvoiEnCoursCourt') || "Envoi...")
+              ? (t('courrielModifEnvoiEnCours') || "Envoi...")
               : t('courrielModifAvance'),
             lien: '/mailSend',
           }}

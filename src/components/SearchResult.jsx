@@ -20,10 +20,6 @@ function SearchResult({ iut, butSlct }) {
           )
           : null))}
       <p>
-        📞 Téléphone :
-        {` ${iut.tel}`}
-      </p>
-      <p>
         📧 Mail :
         {` ${iut.mel}`}
       </p>

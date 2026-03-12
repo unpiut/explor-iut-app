@@ -65,8 +65,9 @@ function createInitalEchartOption(mapName, iuts, franceMap, userCoors = null) {
         areaColor: '#e7e8ea', // Couleur de base des zones (gris)
       },
       nameProperty: 'nom', // Nom de la propriété utilisé dans les données de carte pour le nom des zones
-      zoom: 6,
-      center: [3.5, 46.5],
+      // 6,
+      zoom: 1,
+      center: null, // [3.5, 46.5],
       emphasis: {
         label: {
           show: false,
