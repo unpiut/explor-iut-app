@@ -7,7 +7,7 @@ function Footer({
    droite, gauche, onClick,
 }) {
    return (
-      <div className="items-center justify-items-end justify-between fixed flex bottom-0 right-0 left-0 bg-slate-50 mt-5">
+      <div className="items-center justify-items-end justify-between fixed flex bottom-0 right-0 left-0 bg-slate-50 mt-5 z-11">
          {onClick
             ? (
                <>

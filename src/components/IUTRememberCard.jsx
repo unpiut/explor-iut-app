@@ -8,7 +8,7 @@ function IUTRememberCard({ but, index }) {
   const [developpement, setDeveloppement] = useState(false);
   return (
     <div key={index}>
-      <button className="grid grid-cols-2 justify-items-center w-full justify-around align-middle border-t-2 border-blue-900" key={but.code} type="button" value={but.code} onClick={() => setDeveloppement(!developpement)}>
+      <button className="cursor-pointer grid grid-cols-2 justify-items-center w-full justify-around align-middle border-t-2 border-blue-900" key={but.code} type="button" value={but.code} onClick={() => setDeveloppement(!developpement)}>
         <p>
           {but.prettyPrintFiliere}
         </p>

@@ -23,7 +23,7 @@ function SearchResult({ iut, butSlct }) {
         📧 Mail :
         {` ${iut.mel}`}
       </p>
-      <button className="hover:bg-red-600 hover:text-white font-semibold p-1 m-2 text-red-600 border-2 border-red-600 rounded w-full text-center" type="button" onClick={() => selectedManager.switchIutSelectionnes(iut)}>{t('recapCaseSupp')}</button>
+      <button className="cursor-pointer hover:bg-red-600 hover:text-white font-semibold p-1 m-2 text-red-600 border-2 border-red-600 rounded w-full text-center" type="button" onClick={() => selectedManager.switchIutSelectionnes(iut)}>{t('recapCaseSupp')}</button>
     </div>
   );
 }

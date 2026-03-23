@@ -26,7 +26,7 @@ function setGlobalVariable(prodMode, devMode) {
   if (devMode) {
     API_PATH = 'http://localhost:8080/api/v1';
     TEST_APP = false;
-    MATOMO_URL = 'http://localhost:8999/js';
+    MATOMO_URL = 'http://localhost/js/container_WKLco9S4.js';
   }
   else {
     API_PATH = process.env.API_PATH ?? '/api/v1';
@@ -42,6 +42,7 @@ function printPreReport(prodMode, devMode) {
     `- DEV MODE: ${devMode}`,
     `- PUBLIC_PATH: ${PUBLIC_PATH}`,
     `- API_PATH: ${API_PATH}`,
+    `- MATOMO_URL: ${MATOMO_URL}`,
   ];
   // compute max line length and add 4 car (2 starts, 2 spaces)
   const length = texts.map(t => t.length).reduce((a, b) => Math.max(a, b), 0);
@@ -238,7 +239,7 @@ function createDevelopmentSpecificConfigurations(devMode = false) {
     devtool: 'inline-source-map',
     devServer: {
       port: 3000,
-      host: 'localhost', // Accessible uniquement d'une ip localhost (4 ou 6)
+      host: '0.0.0.0', // Accessible uniquement d'une ip localhost (4 ou 6)
       historyApiFallback: true, // Evite d'afficher une page 404 plutot que la page index.html
       // quand on utilie HTML5 History API
       static: [{

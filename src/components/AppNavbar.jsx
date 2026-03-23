@@ -34,7 +34,7 @@ function AppNavbar() {
             <a href="/">
               <img className="h-10 lg:h-12 w-auto" src={logoExplorIUT} alt="Logo des IUT" />
             </a>
-            <a href="/" className="font-bold text-blue-900 no-underline ml-4">
+            <a href="/" className="font-bold text-blue-900 no-underline ml-4 text-3xl">
               Explor-IUT
             </a>
           </div>
