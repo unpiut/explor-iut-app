@@ -192,9 +192,9 @@ function createJsRules(prodMode = false) {
 function createOtherRules(prodMode = false) {
   return [
     {
-      // Gestion des fichiers images
-      test: /\.(png|svg|jpg|jpeg|gif|webp)$/i,
-      type: 'asset/resource', // le module asset émet un fichier séparé du bundle et exporte son url
+      // Gestion des fichiers images + vidéos
+      test: /\.(png|svg|jpg|jpeg|gif|webp|mp4|webm|ogg)$/i,
+      type: 'asset/resource',
     }, {
       // Gestion des polices d'écriture
       test: /\.(woff|woff2|eot|ttf|otf)$/i,

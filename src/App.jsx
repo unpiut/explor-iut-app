@@ -83,18 +83,34 @@ const router = createBrowserRouter([
       {
         path: 'mailSend',
         element: <WithPagedTitle pageTitle="Courriel envoyé"><MailSendView /></WithPagedTitle>,
+        loader: async () => {
+          STORE.stateSaver.rehydrationPromptHidden = false;
+          return null;
+        },
       },
       {
         path: 'validate',
         element: <WithPagedTitle pageTitle="Validation"><ValidateView /></WithPagedTitle>,
+        loader: async () => {
+          STORE.stateSaver.rehydrationPromptHidden = false;
+          return null;
+        },
       },
       {
         path: 'mentions',
         element: <WithPagedTitle pageTitle="Mentions légales"><LegalNotice /></WithPagedTitle>,
+        loader: async () => {
+          STORE.stateSaver.rehydrationPromptHidden = false;
+          return null;
+        },
       },
       {
         path: 'admin',
         element: <WithPagedTitle pageTitle="Administration"><AdminTools /></WithPagedTitle>,
+        loader: async () => {
+          STORE.stateSaver.rehydrationPromptHidden = false;
+          return null;
+        },
       },
     ],
   },
