@@ -21,6 +21,7 @@ import { WithPagedTitle } from './components/utils';
 import LegalNotice from './components/LegalNotice';
 import AdminTools from './components/AdminTools';
 import ValidateView from './components/ValidateView';
+import AstucesView from './components/AstucesView';
 
 const router = createBrowserRouter([
   {
@@ -99,6 +100,14 @@ const router = createBrowserRouter([
       {
         path: 'mentions',
         element: <WithPagedTitle pageTitle="Mentions légales"><LegalNotice /></WithPagedTitle>,
+        loader: async () => {
+          STORE.stateSaver.rehydrationPromptHidden = false;
+          return null;
+        },
+      },
+      {
+        path: 'astuces',
+        element: <AstucesView pageTitle="Astuces"><AstucesView /></AstucesView>,
         loader: async () => {
           STORE.stateSaver.rehydrationPromptHidden = false;
           return null;

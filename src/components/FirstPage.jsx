@@ -17,8 +17,8 @@ function FirstPage() {
     <>
       <div className="grid p-10 align-middle gap-5 justify-center relative">
 
-        {/* Bouton tutoriel - à gauche */}
-        <div className="absolute top-6 left-6">
+        {/* Bouton tutoriel - à droite */}
+        <div className="absolute top-6 right-6">
           <button
             onClick={() => setIsTutoOpen(true)}
             className="cursor-pointer group flex flex-col items-center gap-1 transition-all duration-300 hover:scale-110"
@@ -27,31 +27,31 @@ function FirstPage() {
             <img
               src={youtube}
               alt="Tutoriel"
-              className="w-15 h-10 transition-transform duration-300 group-hover:-rotate-6"
+              className="w-18 h-12 transition-transform duration-300 group-hover:-rotate-6"
             />
-            <span className="text-sm font-semibold tracking-wide text-gray-700 group-hover:text-blue-700 transition-colors duration-300">
-              {t('tutoBtn', 'Tuto')}
-            </span>
+            <div className="text-sm font-semibold tracking-wide text-gray-700 group-hover:text-blue-700 transition-colors duration-300 text-center">
+              <span>Découvrer Explor-IUT</span>
+              <br />
+              <span>en 3 minutes</span>
+            </div>
           </button>
         </div>
 
-        {/* Bouton astuce recherche - à droite */}
-        <div className="absolute top-6 right-6">
-          <button
-            onClick={() => setIsAstuceOpen(true)}
-            className="cursor-pointer group flex flex-col items-center gap-1 transition-all duration-300 hover:scale-110"
-            aria-label={t('rechercheBtn', 'Améliorer la recherche')}
-          >
+        {/* Bouton astuce recherche - à gauche */}
+        <Link to="/astuces" className="no-underline absolute top-0 left-6 ">
+          <div className="cursor-pointer group flex flex-col items-center gap-1 transition-all duration-300 hover:scale-110">
             <img
               src={ampoule}
               alt="Astuce"
-              className="w-10 h-15 transition-transform duration-300 group-hover:rotate-12"
+              className="w-12 h-18 transition-transform duration-300 group-hover:rotate-12"
             />
-            <span className="text-sm font-semibold tracking-wide text-gray-700 group-hover:text-blue-700 transition-colors duration-300">
-              {t('tutoBtn', 'Astuce recherche')}
-            </span>
-          </button>
-        </div>
+            <div className="text-sm font-semibold tracking-wide text-gray-700 group-hover:text-blue-700 transition-colors duration-300 text-center">
+              <span>Astuces pour optimiser</span>
+              <br />
+              <span>vos recherches</span>
+            </div>
+          </div>
+        </Link>
 
         <h1 className="text-center text-3xl lg:text-5xl font-bold">{t('accueilTitre')}</h1>
         <p className="text-xl lg:text-3xl text-center">
