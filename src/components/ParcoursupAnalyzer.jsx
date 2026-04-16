@@ -5,30 +5,30 @@ import * as XLSX from 'xlsx';
 // Clés = code court BDD, valeurs = préfixes/noms exacts tels qu'ils apparaissent
 // dans la colonne "Filière de formation détaillée bis" de Parcoursup.
 const BUT_CODE_TO_PS_PREFIXES = {
-  MMI: ["metiers du multimedia et de l'internet", "metiers du multimédia et de l'internet"],
-  Chimie: ['chimie'],
-  GB: ['genie biologique', 'genie biologique parcours'],
-  GCGP: ['genie chimique genie des procedes', 'genie chimique - genie des procedes'],
-  GCCD: ['genie civil', 'genie civil - construction durable'],
-  GEII: ['genie electrique et informatique industrielle'],
-  MP: ['mesures physiques'],
-  SGM: ['science et genie des materiaux'],
-  GIM: ['genie industriel et maintenance'],
-  GMP: ['genie mecanique et productique'],
-  QLIO: ['qualite, logistique industrielle et organisation', 'qualite logistique industrielle et organisation'],
-  PEC: ['packaging, emballage et conditionnement', 'packaging emballage et conditionnement'],
-  MLT: ['management de la logistique et des transports'],
-  MT2E: ["metiers de la transition et de l'efficacite energetiques", "metiers de la transition et de l efficacite energetiques"],
-  HSE: ['hygiene securite environnement', 'hygiene, securite, environnement'],
-  INFO: ['informatique'],
-  SD: ['science des donnees'],
-  RT: ['reseaux et telecommunications'],
-  CJ: ['carrieres juridiques'],
-  CS: ['carrieres sociales'],
-  GACO: ['gestion administrative et commerciale des organisations'],
-  TC: ['techniques de commercialisation'],
+  'MMI': ['metiers du multimedia et de l\'internet', 'metiers du multimédia et de l\'internet'],
+  'Chimie': ['chimie'],
+  'GB': ['genie biologique', 'genie biologique parcours'],
+  'GCGP': ['genie chimique genie des procedes', 'genie chimique - genie des procedes'],
+  'GCCD': ['genie civil', 'genie civil - construction durable'],
+  'GEII': ['genie electrique et informatique industrielle'],
+  'MP': ['mesures physiques'],
+  'SGM': ['science et genie des materiaux'],
+  'GIM': ['genie industriel et maintenance'],
+  'GMP': ['genie mecanique et productique'],
+  'QLIO': ['qualite, logistique industrielle et organisation', 'qualite logistique industrielle et organisation'],
+  'PEC': ['packaging, emballage et conditionnement', 'packaging emballage et conditionnement'],
+  'MLT': ['management de la logistique et des transports'],
+  'MT2E': ['metiers de la transition et de l\'efficacite energetiques', 'metiers de la transition et de l efficacite energetiques'],
+  'HSE': ['hygiene securite environnement', 'hygiene, securite, environnement'],
+  'INFO': ['informatique'],
+  'SD': ['science des donnees'],
+  'RT': ['reseaux et telecommunications'],
+  'CJ': ['carrieres juridiques'],
+  'CS': ['carrieres sociales'],
+  'GACO': ['gestion administrative et commerciale des organisations'],
+  'TC': ['techniques de commercialisation'],
   'Info-Com': ['information communication', 'information-communication'],
-  GEA: ['gestion des entreprises et des administrations'],
+  'GEA': ['gestion des entreprises et des administrations'],
 };
 
 // ─── Mapping nom normalisé Parcoursup → nom normalisé BDD ────────────────────
@@ -170,7 +170,7 @@ function norm(s) {
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/['']/g, "'")
+    .replace(/['']/g, '\'')
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -263,11 +263,11 @@ function parseDataFile(wb) {
   const rows = XLSX.utils.sheet_to_json(iutSheet, { defval: null });
   let lastIUT = null, lastSite = null, lastRegion = null;
 
-  const clean = rows.map(row => {
+  const clean = rows.map((row) => {
     if (row['IUT']) lastIUT = row['IUT'];
     if (row['Site (lieux)']) lastSite = row['Site (lieux)'];
     if (row['Région']) lastRegion = row['Région'];
-    return { ...row, IUT: lastIUT, 'Site (lieux)': lastSite, Région: lastRegion };
+    return { ...row, 'IUT': lastIUT, 'Site (lieux)': lastSite, 'Région': lastRegion };
   }).filter(r => r['Diplôme']);
 
   // Construire le set des noms BDD normalisés (pour la résolution de correspondance)
@@ -304,7 +304,7 @@ function compare(dataFile, parcoursupRows) {
   const psMap = new Map(); // clé: "iutNormBDD|||butCode" → objet
   const unknownIUTs = new Set();
 
-  parcoursupRows.forEach(row => {
+  parcoursupRows.forEach((row) => {
     const spec = row['Filière de formation détaillée bis'] || '';
     const code = getButCode(spec);
     if (!code) return;
@@ -323,11 +323,11 @@ function compare(dataFile, parcoursupRows) {
         iutNormBDD: bddName,
         etablissement: etabRaw,
         butCode: code,
-        uai: row["Code UAI de l'établissement"] || row['Code UAI de l\'établissement'] || '',
-        departement: row['Code départemental de l\'établissement'] || row["Code départemental de l'établissement"] || '',
-        region: row['Région de l\'établissement'] || row["Région de l'établissement"] || '',
+        uai: row['Code UAI de l\'établissement'] || row['Code UAI de l\'établissement'] || '',
+        departement: row['Code départemental de l\'établissement'] || row['Code départemental de l\'établissement'] || '',
+        region: row['Région de l\'établissement'] || row['Région de l\'établissement'] || '',
         session: row['Session'],
-        capacite: row['Capacité de l\'établissement par formation'] || row["Capacité de l'établissement par formation"],
+        capacite: row['Capacité de l\'établissement par formation'] || row['Capacité de l\'établissement par formation'],
         cod: row['cod_aff_form'],
         spec,
       });
@@ -355,7 +355,7 @@ function compare(dataFile, parcoursupRows) {
   // On groupe par (iutNorm, diplomeNorm) pour éviter les doublons liés aux sites multiples
   const bddChecked = new Map();
 
-  bddEntries.forEach(e => {
+  bddEntries.forEach((e) => {
     const key = `${e.iutNorm}|||${e.diplomeNorm}`;
     if (bddChecked.has(key)) return;
     bddChecked.set(key, e);
@@ -414,25 +414,60 @@ function ButCard({ item }) {
       <div className="flex flex-wrap items-center gap-2 mb-1">
         {item.type === 'opened'
           ? <Badge color="green">Ouverture</Badge>
-          : <Badge color="red">Fermeture</Badge>
-        }
-        <span className="font-mono text-blue-900 font-bold text-sm">[{item.butCode}]</span>
+          : <Badge color="red">Fermeture</Badge>}
+        <span className="font-mono text-blue-900 font-bold text-sm">
+          [
+          {item.butCode}
+          ]
+        </span>
         <span className="font-semibold text-sm">{item.etablissement || item.iutNorm}</span>
-        {item.site && <span className="text-stone-500 text-sm">({item.site})</span>}
+        {item.site && (
+          <span className="text-stone-500 text-sm">
+            (
+            {item.site}
+            )
+          </span>
+        )}
       </div>
       <p className="text-xs text-stone-500">
         {item.region && <span>{item.region}</span>}
-        {item.departement && <span className="ml-2">Dépt : {item.departement}</span>}
-        {item.uai && <span className="ml-2 font-mono">UAI : {item.uai}</span>}
-        {item.capacite != null && <span className="ml-2">· {item.capacite} places</span>}
-        {item.session && <span className="ml-2">· Session {item.session}</span>}
+        {item.departement && (
+          <span className="ml-2">
+            Dépt :
+            {item.departement}
+          </span>
+        )}
+        {item.uai && (
+          <span className="ml-2 font-mono">
+            UAI :
+            {item.uai}
+          </span>
+        )}
+        {item.capacite != null && (
+          <span className="ml-2">
+            ·
+            {item.capacite}
+            {' '}
+            places
+          </span>
+        )}
+        {item.session && (
+          <span className="ml-2">
+            · Session
+            {item.session}
+          </span>
+        )}
       </p>
       {item.spec && (
         <p className="text-xs text-stone-400 mt-0.5 italic">{item.spec}</p>
       )}
       {psUrl && (
-        <a href={psUrl} target="_blank" rel="noopener noreferrer"
-          className="text-sky-700 hover:underline text-xs mt-1 inline-block">
+        <a
+          href={psUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sky-700 hover:underline text-xs mt-1 inline-block"
+        >
           Voir sur Parcoursup ↗
         </a>
       )}
@@ -484,7 +519,8 @@ export default function ParcoursupAnalyzer() {
       if (!parsed) throw new Error('Onglets "IUT" et "BUT" introuvables dans ce fichier.');
       setDataFile(parsed);
       setDataFilename(file.name);
-    } catch (err) {
+    }
+    catch (err) {
       setError(`Fichier BDD : ${err.message}`);
     }
   }, []);
@@ -499,7 +535,8 @@ export default function ParcoursupAnalyzer() {
       if (!rows.length) throw new Error('Aucune ligne BUT trouvée.');
       setParcoursupRows(rows);
       setParcoursupFilename(file.name);
-    } catch (err) {
+    }
+    catch (err) {
       setError(`Fichier Parcoursup : ${err.message}`);
     }
   }, []);
@@ -511,9 +548,11 @@ export default function ParcoursupAnalyzer() {
     setTimeout(() => {
       try {
         setResults(compare(dataFile, parcoursupRows));
-      } catch (err) {
+      }
+      catch (err) {
         setError(`Erreur lors de la comparaison : ${err.message}`);
-      } finally {
+      }
+      finally {
         setLoading(false);
       }
     }, 50);
@@ -539,9 +578,14 @@ export default function ParcoursupAnalyzer() {
             <input type="file" accept=".xlsx" onChange={handleDataFile} className="block text-sm mb-2" />
             {dataFilename && (
               <div className="pl-2 rounded border-green-700 border-2 bg-green-100 font-bold text-sm py-0.5">
-                ✓ {dataFilename}
+                ✓
+                {' '}
+                {dataFilename}
                 <span className="font-normal text-stone-500 ml-2">
-                  ({dataFile?.entries.length} entrées)
+                  (
+                  {dataFile?.entries.length}
+                  {' '}
+                  entrées)
                 </span>
               </div>
             )}
@@ -556,9 +600,14 @@ export default function ParcoursupAnalyzer() {
             <input type="file" accept=".xlsx" onChange={handleParcoursupFile} className="block text-sm mb-2" />
             {parcoursupFilename && (
               <div className="pl-2 rounded border-green-700 border-2 bg-green-100 font-bold text-sm py-0.5">
-                ✓ {parcoursupFilename}
+                ✓
+                {' '}
+                {parcoursupFilename}
                 <span className="font-normal text-stone-500 ml-2">
-                  ({parcoursupRows?.length} lignes BUT)
+                  (
+                  {parcoursupRows?.length}
+                  {' '}
+                  lignes BUT)
                 </span>
               </div>
             )}
@@ -581,15 +630,25 @@ export default function ParcoursupAnalyzer() {
               <div className={`mt-2 pl-2 rounded border-4 font-bold text-sm py-1 ${totalChanges === 0
                 ? 'border-green-700 bg-green-100'
                 : 'border-blue-700 bg-blue-100'
-                }`}>
+                }`}
+              >
                 {totalChanges === 0
                   ? '✅ Base de données à jour'
                   : `${totalChanges} modification${totalChanges > 1 ? 's' : ''} détectée${totalChanges > 1 ? 's' : ''}`}
                 {results.latestSession && (
-                  <span className="font-normal ml-1 text-stone-600">(session {results.latestSession})</span>
+                  <span className="font-normal ml-1 text-stone-600">
+                    (session
+                    {results.latestSession}
+                    )
+                  </span>
                 )}
                 <div className="font-normal text-xs text-stone-500 mt-0.5">
-                  {results.totalPS} formations Parcoursup · {results.totalBDD} entrées BDD
+                  {results.totalPS}
+                  {' '}
+                  formations Parcoursup ·
+                  {results.totalBDD}
+                  {' '}
+                  entrées BDD
                 </div>
               </div>
             )}
@@ -599,7 +658,9 @@ export default function ParcoursupAnalyzer() {
 
       {error && (
         <div className="mb-4 pl-2 rounded border-red-700 border-4 bg-red-100 font-bold text-sm py-1">
-          ⚠️ {error}
+          ⚠️
+          {' '}
+          {error}
         </div>
       )}
 
@@ -627,7 +688,11 @@ export default function ParcoursupAnalyzer() {
                 onClick={() => setShowUnknown(o => !o)}
                 className="text-sm font-semibold text-orange-800 flex items-center gap-2"
               >
-                ⚠️ {results.unknownIUTs.length} établissement(s) Parcoursup non identifiés dans la BDD
+                ⚠️
+                {' '}
+                {results.unknownIUTs.length}
+                {' '}
+                établissement(s) Parcoursup non identifiés dans la BDD
                 <span className="text-xs font-normal">{showUnknown ? '▲ masquer' : '▼ voir'}</span>
               </button>
               {showUnknown && (
@@ -637,7 +702,11 @@ export default function ParcoursupAnalyzer() {
               )}
               <p className="text-xs text-orange-600 mt-2">
                 Ces établissements n'ont pas pu être associés à un IUT de la base. Leurs formations n'ont pas été analysées.
-                Vous pouvez compléter le dictionnaire <code>PS_TO_BDD_IUT_OVERRIDE</code> dans le code source.
+                Vous pouvez compléter le dictionnaire
+                {' '}
+                <code>PS_TO_BDD_IUT_OVERRIDE</code>
+                {' '}
+                dans le code source.
               </p>
             </div>
           )}
