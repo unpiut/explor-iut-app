@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PropTypes } from 'mobx-react';
 import classNames from 'classnames';
 import { PropTypes as MPropTypes } from 'prop-types';
@@ -8,7 +8,7 @@ function IUTRememberCard({ but, index }) {
   const [developpement, setDeveloppement] = useState(false);
   return (
     <div key={index}>
-      <button className="grid grid-cols-2 justify-items-center w-full justify-around align-middle border-t-2 border-blue-900" key={but.code} type="button" value={but.code} onClick={() => setDeveloppement(!developpement)}>
+      <button className="cursor-pointer grid grid-cols-2 justify-items-center w-full justify-around align-middle border-t-2 border-blue-900" key={but.code} type="button" value={but.code} onClick={() => setDeveloppement(!developpement)}>
         <p>
           {but.prettyPrintFiliere}
         </p>
@@ -33,10 +33,10 @@ function IUTRememberCard({ but, index }) {
           <p className="font-bold">
             Les spécialités :
           </p>
-          {but.parcours.map((parcours) => (
+          {but.parcours.map(parcours => (
             <p key={parcours[0]}>
               {' '}
-              { parcours[1]}
+              {parcours[1]}
               {parcours !== but.parcours[but.parcours.length - 1] ? ',' : null}
             </p>
           ))}

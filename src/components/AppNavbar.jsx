@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import logoPict from '../assets/logo-les-iut.svg';
 import logoUnpiut from '../assets/logo-unpiut.webp';
 import fleche from '../assets/icone-les-iut.svg';
+import logoExplorIUT from '../assets/logo-explorIUT-grand.svg';
 import RootStore from '../RootStore';
 
 function AppNavbar() {
@@ -29,33 +30,43 @@ function AppNavbar() {
               </svg>
             </button>
           </div>
-          <div className="flex flex-1 gap-14 sm:gap-1 lg:gap-40 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex flex-shrink-0 items-center">
-              <a href="https://www.iut.fr/">
-                <img className="h-8 lg:h-12 w-auto" src={logoPict} alt="Logo des IUT" />
-              </a>
-            </div>
+          <div className="relative shrink-0 items-center sm:flex lg:flex hidden">
+            <a href="/">
+              <img className="h-10 lg:h-12 w-auto" src={logoExplorIUT} alt="Logo des IUT" />
+            </a>
+            <a href="/" className="font-bold text-blue-900 no-underline ml-4 text-3xl">
+              Explor-IUT
+            </a>
+          </div>
+          <div className="flex flex-1 items-center justify-end gap-10">
             <div className="hidden sm:ml-6 sm:block sm:py-6">
               <div className="flex space-x-4 gap-10">
                 <div className="flex">
-                  <Link to="/formation" className="no-underline group flex gap-2 hover:bg-blue-900 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                  <p className="no-underline group flex gap-2 text-blue-900 rounded-md px-3 py-2 text-sm font-semibold">
                     {t('navigation1')}
                     <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
-                  </Link>
-                  <Link to={selectedManager.nbButSelectionnes > 0 ? '/map' : '?'} className={`${selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  no-underline flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
+                  </p>
+                  <p className={`${selectedManager.nbButSelectionnes < 1 ? 'text-blue-100' : 'text-blue-900'}  no-underline flex gap-2 rounded-md px-3 py-2 text-sm font-semi-bold`}>
                     {t('navigation2')}
                     <img width={25} style={{ transform: 'rotate(-0.25turn)' }} src={fleche} alt="fleche" />
-                  </Link>
-                  <Link to={selectedManager.nbIutSelectionnesId > 0 ? '/mail' : '?'} className={`${selectedManager.nbIutSelectionnesId < 1 ? 'text-blue-100' : 'hover:bg-blue-900 hover:text-white'}  no-underline flex gap-2 rounded-md px-3 py-2 text-sm font-medium`}>
+                  </p>
+                  <p className={`${selectedManager.nbIutSelectionnesId < 1 ? 'text-blue-100' : 'text-blue-900'}  no-underline font-semi-bold flex gap-2 rounded-md px-3 py-2 text-sm`}>
                     {t('navigation4')}
-                  </Link>
+                  </p>
                 </div>
               </div>
             </div>
-            <div className="flex flex-shrink-0 items-center">
-              <a href="https://www.unpiut.fr/">
-                <img className="w-auto h-10 lg:h-20" src={logoUnpiut} alt="Logo UNPIUT" />
-              </a>
+            <div className="flex items-center gap-10">
+              <div className="flex shrink-0 items-center">
+                <a href="https://www.iut.fr/">
+                  <img className="h-8 lg:h-12 w-auto" src={logoPict} alt="Logo des IUT" />
+                </a>
+              </div>
+              <div className="flex shrink-0 items-center">
+                <a href="https://www.unpiut.fr/">
+                  <img className="w-auto h-10 lg:h-20" src={logoUnpiut} alt="Logo UNPIUT" />
+                </a>
+              </div>
             </div>
           </div>
         </div>

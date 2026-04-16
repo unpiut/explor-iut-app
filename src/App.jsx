@@ -1,5 +1,5 @@
-import React from 'react';
 // import classNames from 'classnames';
+import { useEffect } from 'react';
 import {
   createBrowserRouter,
   redirect,
@@ -21,6 +21,7 @@ import { WithPagedTitle } from './components/utils';
 import LegalNotice from './components/LegalNotice';
 import AdminTools from './components/AdminTools';
 import ValidateView from './components/ValidateView';
+import AstucesView from './components/AstucesView';
 
 const router = createBrowserRouter([
   {
@@ -83,18 +84,42 @@ const router = createBrowserRouter([
       {
         path: 'mailSend',
         element: <WithPagedTitle pageTitle="Courriel envoyé"><MailSendView /></WithPagedTitle>,
+        loader: async () => {
+          STORE.stateSaver.rehydrationPromptHidden = false;
+          return null;
+        },
       },
       {
         path: 'validate',
         element: <WithPagedTitle pageTitle="Validation"><ValidateView /></WithPagedTitle>,
+        loader: async () => {
+          STORE.stateSaver.rehydrationPromptHidden = false;
+          return null;
+        },
       },
       {
         path: 'mentions',
         element: <WithPagedTitle pageTitle="Mentions légales"><LegalNotice /></WithPagedTitle>,
+        loader: async () => {
+          STORE.stateSaver.rehydrationPromptHidden = false;
+          return null;
+        },
+      },
+      {
+        path: 'astuces',
+        element: <AstucesView pageTitle="Astuces"><AstucesView /></AstucesView>,
+        loader: async () => {
+          STORE.stateSaver.rehydrationPromptHidden = false;
+          return null;
+        },
       },
       {
         path: 'admin',
         element: <WithPagedTitle pageTitle="Administration"><AdminTools /></WithPagedTitle>,
+        loader: async () => {
+          STORE.stateSaver.rehydrationPromptHidden = false;
+          return null;
+        },
       },
     ],
   },
@@ -103,6 +128,28 @@ const router = createBrowserRouter([
 });
 
 function App() {
+  useEffect(() => {
+    if (APP_ENV_MATOMO_URL) {
+      const _mtm = window._mtm = window._mtm || [];
+      _mtm.push({
+        'mtm.startTime': new Date().getTime(),
+        'event': 'mtm.Start',
+      });
+
+      const d = document;
+      const g = d.createElement('script');
+      const s = d.getElementsByTagName('script')[0];
+
+      g.async = true;
+      g.src = APP_ENV_MATOMO_URL;
+
+      s.parentNode.insertBefore(g, s);
+    }
+    else {
+      console.warn('Matomo tracking disabled');
+    }
+  }, []);
+
   return (
     <RootStore.Provider value={STORE}>
       <RouterProvider router={router} />

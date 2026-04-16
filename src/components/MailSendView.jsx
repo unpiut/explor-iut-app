@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +16,7 @@ function MailSendView() {
       // Unhide rehydratation prompt if any
       stateSaver.rehydrationPromptHidden = false;
     };
-  }, []);
+  }, [stateSaver]);
 
   function renvoiMail() {
     mailManager.resendMail(selectedManager.dateEnvoi);

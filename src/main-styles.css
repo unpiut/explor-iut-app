@@ -1,12 +1,55 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-*{
-    color: #282828
+@layer base {
+    * {
+        color: #282828
+    }
+
+    a {
+        color: #1C2D86;
+        text-decoration: underline;
+    }
 }
 
-a{
-    color: #1C2D86;
-    text-decoration:underline;
+@theme {
+    --color-blue-transparent: rgba(30, 58, 138, 0.9);
+    --color-red-transparent: rgba(185, 28, 28, 0.9);
+    --color-purple-transparent: rgba(107, 33, 168, 0.9);
+    --color-lime-transparent: rgba(101, 163, 13, 0.9);
+    --color-amber-transparent: rgba(234, 88, 12, 0.9);
+    --font-sans: 'Inter var', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@keyframes softBlink {
+
+    0%,
+    100% {
+        background-color: #1C2D86;
+        color: aliceblue;
+    }
+
+    50% {
+        background-color: aliceblue;
+        color: #1C2D86;
+    }
+}
+
+.animate-softBlink {
+    animation: softBlink 2.5s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.2s ease-out;
 }

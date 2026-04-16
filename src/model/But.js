@@ -6,31 +6,31 @@ class But {
       order: 4,
       colors: {
         border: 'border-orange-600',
-        background: 'bg-amber-transparent',
+        background: 'bg-amber-transparent/80',
       },
     },
-    "Métiers support de l'Industriel": {
+    'Métiers support de l\'Industriel': {
       order: 3,
       colors: {
         border: 'border-lime-600',
-        background: 'bg-lime-transparent',
+        background: 'bg-lime-transparent/80',
       },
     },
     'Métiers du Social, Gestion, Commerce': {
       order: 2,
       colors: {
         border: 'border-purple-800',
-        background: 'bg-purple-transparent',
+        background: 'bg-purple-transparent/80',
       },
     },
-    "Métiers de l'informatique": {
+    'Métiers de l\'informatique': {
       order: 1,
       colors: {
         border: 'border-cyan-500',
-        background: 'bg-cyan-500/90',
+        background: 'bg-cyan-500/80',
       },
     },
-    default: {
+    'default': {
       order: 1000,
       colors: {
         border: 'border-black',
@@ -68,7 +68,7 @@ class But {
     this._code = code;
     this._nom = nom;
     this._filiere = filiere;
-    this._parcours = parcours?.map((p) => [p.code, p.nom]);
+    this._parcours = parcours?.map(p => [p.code, p.nom]);
     this._universMetiers = universMetiers;
     this._description = description;
     this._metiers = metiers;

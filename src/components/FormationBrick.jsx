@@ -1,131 +1,99 @@
 /* eslint no-param-reassign: ["error", { "props": false }] */
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { observer, PropTypes as MPropTypes } from 'mobx-react';
-import classNames from 'classnames';
-import { useTranslation } from 'react-i18next';
+// import classNames from 'classnames';
+// import { useTranslation } from 'react-i18next';
 import RootStore from '../RootStore';
-import style from './FormationBrick.css';
+import * as style from './FormationBrick.css';
+import ModalFormation from './ModalFormation';
 
 function FormationBrick({
-  but, tabIndex, canOpen, isClose,
+  but, tabIndex,
 }) {
-  const { t } = useTranslation();
-  const [close, setClose] = useState(true);
-  const { iutManager, selectedManager } = useContext(RootStore);
+  // const { t } = useTranslation();
+  // const [close, setClose] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { selectedManager } = useContext(RootStore);
 
   const styleBordure = but.universMetiersInfo.colors.border;
   const styleFond = but.universMetiersInfo.colors.background;
 
   const maClasse = style[`bg-${but.code}`] ?? style['bg-DEFAULT']; // On charge la classe 'version js' de nom bg-codeBUT ou bg-DEFAULT si la classe précédente n'existe pas
-  function changement() {
-    but.getInfo();
-    if (close) {
-      canOpen();
-      setClose(false);
-    } else {
-      canOpen();
-      setClose(true);
-    }
-  }
 
-  function selectionner() {
-    selectedManager.switchButSelectionnes(but);
-    iutManager.switchIutRecherches(selectedManager.butSelectionnes);
-    selectedManager.switchIutSelectionnesIdByBut();
-    canOpen();
-    setClose(true);
+  // Déterminer si la formation est sélectionnée
+  const isSelected = selectedManager.butSelectionnes.has(but);
+
+  function openModal() {
+    but.getInfo();
+    setIsOpen(true);
   }
 
   return (
     <div
-      className={classNames('grid', 'items-center', {
-        'aspect-square': !isClose,
-        'col-span-1': !isClose,
-        'col-span-2': isClose,
-        'md:col-span-3': isClose,
-        'lg:col-span-3': isClose,
-        'xl:col-span-5': isClose,
-      })}
+      className="aspect-square col-span-1"
       tabIndex={tabIndex}
     >
-      {isClose
-        ? (
-          <div
-            className={`grid gap-y-2 border-4 text-sm  ${styleBordure}`}
-          >
-            <button
-              type="button"
-              onClick={changement}
-              className={`align-middle font-bold grid grid-cols-3 text-base text-center ${selectedManager.butSelectionnes.has(but) ? 'bg-red-700' : styleFond} border-blue-900`}
-            >
-              <div />
-              <p className="text-slate-50">
-                {selectedManager.butSelectionnes.has(but)
-                  ? `${but.prettyPrintFiliere} ✅` : but.prettyPrintFiliere}
-              </p>
-              <p className="text-slate-50 justify-self-end pr-3">X</p>
-            </button>
+      <button
+        type="button"
+        onClick={openModal}
+        className={`cursor-pointer h-full w-full text-xs md:text-sm xl:text-base text-center
+          relative
+          overflow-hidden
+          ${maClasse}
+          ${isSelected ? 'border-green-600 border-8' : 'border-none'}
+          bg-center
+          bg-contain
+          flex flex-col items-center justify-center
+          group
+          transition-all duration-500 ease-out
+          hover:scale-105 hover:shadow-2xl`}
+        style={{
+          position: 'relative',
+        }}
+      >
+        {/* Pseudo-élément pour le filtre sur l'image de fond */}
+        <div
+          className={`absolute inset-0 pointer-events-none transition-all duration-500 ease-out hover
+            ${!isSelected ? 'backdrop-brightness-80 backdrop-saturate-80' : 'bg-transparent backdrop-brightness-100 backdrop-saturate-100'}`}
+          style={{
+            zIndex: 1,
+          }}
+        />
 
-            <button className="m-2 text-base font-bold border-2 border-blue-900" onClick={selectionner} type="button">{!selectedManager.butSelectionnes.has(but) ? t('caseFormSelect') : t('caseFormDeselect')}</button>
+        {/* Contenu texte avec un z-index plus élevé pour être au-dessus du filtre */}
+        <h2 className={`text-white px-1 font-bold py-1 ${styleFond} w-full 
+          transition-all duration-500 ease-in-out
+          relative z-10`}
+        >
+          {but.prettyPrintFiliere}
+        </h2>
+      </button>
 
-            <div className="flex flex-wrap align-middle gap-2">
-              <p className="align-middle">{t('caseFormTitre')}</p>
-              <p className="font-bold text-base">
-
-                {`${but.nom} (${but.code})`}
-              </p>
-            </div>
-            <p className="font-bold">
-              {t('caseFormDesc')}
-            </p>
-            <p>
-              {but.description ? ` ${but.description}` : ''}
-            </p>
-            <div>
-              <p className="font-bold">
-                {t('caseFormSpe')}
-              </p>
-              {but.parcours.map((parcours) => (
-                <p key={parcours[0]}>
-                  {' '}
-                  { parcours[1]}
-                  {parcours !== but.parcours[but.parcours.length - 1] ? ',' : null}
-                </p>
-              ))}
-            </div>
-            <p className="font-bold">
-              {t('caseFormDebouch')}
-            </p>
-            <p>
-              {but.metiers ? ` ${but.metiers}` : ''}
-            </p>
-
-            <div className="flex flex-wrap justify-between p-2">
-              <a className="underline font-bold text-base" target="_blank" href={but.urlFiche} rel="noreferrer">{t('caseFormIutfr')}</a>
-              <a className="underline font-bold text-base" target="_blank" href={but.urlFranceCompetence} rel="noreferrer">{t('caseFormFrComp')}</a>
-            </div>
-          </div>
-        )
-        : (
-          <button
-            type="button"
-            onClick={changement}
-            className={`h-full max-w-full overflow-hidden break-words text-xs md:text-sm xl:text-base align-middle text-center leading-loose hover:bg-[length:130%] transition-all duration-300 bg-center border-4 ${maClasse} ${styleBordure} bg-contain`}
-          >
-            <h2 className={`text-white px-2 font-bold py-3 ${selectedManager.butSelectionnes.has(but) ? 'bg-red-transparent' : styleFond} w-full`}>
-              {selectedManager.butSelectionnes.has(but)
-                ? `${but.prettyPrintFiliere} ✅` : but.prettyPrintFiliere}
-            </h2>
-          </button>
-        )}
+      {isOpen && (
+        <ModalFormation
+          but={but}
+          onClose={() => setIsOpen(false)}
+          colors={{
+            border: styleBordure,
+            background: styleFond,
+          }}
+        />
+      )}
     </div>
   );
 }
+
 FormationBrick.propTypes = ({
   but: MPropTypes.objectOrObservableObject.isRequired,
   tabIndex: PropTypes.number.isRequired,
-  canOpen: PropTypes.func.isRequired,
-  isClose: PropTypes.bool.isRequired,
+  // canOpen: PropTypes.func.isRequired,
+  // isClose: PropTypes.bool.isRequired,
+  colors: PropTypes.shape({
+    border: PropTypes.string.isRequired,
+    background: PropTypes.string.isRequired,
+  }).isRequired,
 });
+
 export default observer(FormationBrick);

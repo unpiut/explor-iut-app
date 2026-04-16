@@ -14,12 +14,14 @@ class LocalStorageManager {
       this._storage.setItem(testedKey, testedKey);
       this._storage.removeItem(testedKey);
       this._simulated = false;
-    } catch (e) {
+    }
+    catch (e) {
       if (e instanceof DOMException
         && (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')
         && this._storage && this._storage.length !== 0) {
         console.warn('Max storage reached. Will simulate storage', e);
-      } else {
+      }
+      else {
         console.warn('Unavailable storage. Will simulate storage', e);
       }
       this._storage = new Map();
@@ -33,7 +35,8 @@ class LocalStorageManager {
     }
     if (this._simulated) {
       this._storage[key] = value;
-    } else {
+    }
+    else {
       this._storage.setItem(key, JSON.stringify(value, null, 0));
     }
     return value;
@@ -59,7 +62,8 @@ class LocalStorageManager {
     }
     if (this._simulated) {
       this._storage.delete(key);
-    } else {
+    }
+    else {
       this._storage.removeItem(key);
     }
   }

@@ -1,90 +1,52 @@
-import React, {
-  useContext, useEffect, useRef, useState,
-} from 'react';
+import { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import RootStore from '../RootStore';
-import { dateToLocalDateTimeString } from '../services/timeService';
-
-function getHistoryDataTitle(datum) {
-  let title = dateToLocalDateTimeString(datum.version);
-  if (datum.used) {
-    title += ' (actuellement utilisé)';
-  }
-  return title;
-}
+import DatabaseManager from './DatabaseManager';
+import ParcoursupAnalyzer from './ParcoursupAnalyzer';
 
 function AdminTools() {
   const { adminManager, stateSaver } = useContext(RootStore);
-  const [fileState, setFileState] = useState(null);
-  const [error, setError] = useState(null);
-  const [downloading, setDownloading] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const linkRef = useRef();
 
   useEffect(() => {
-    // Hide rehydratation prompt
     stateSaver.rehydrationPromptHidden = true;
     return () => {
-      // Unhide rehydratation prompt if any
       stateSaver.rehydrationPromptHidden = false;
     };
-  }, []);
+  }, [stateSaver]);
 
-  function checkCreds(evt) {
+  async function checkCreds(evt) {
     evt.preventDefault();
-    adminManager.verifyCredential();
+    try {
+      await adminManager.verifyCredential();
+      // Une fois authentifié, charger immédiatement l'historique
+      if (adminManager.credentialVerified) {
+        console.log('Authentification réussie, chargement de l\'historique...');
+        await adminManager.loadDataHistory();
+        console.log('Historique chargé:', adminManager.dataHistory);
+      }
+    } catch (err) {
+      console.error('Erreur:', err);
+    }
   }
 
-  function televerser(evt) {
-    evt.preventDefault();
-    if (uploading) {
-      return;
-    }
-    if (!fileState) {
-      return;
-    }
-    setError(null);
-    setUploading(true);
-    adminManager.uploadData({
-      file: fileState,
-      filename: fileState.name,
-    }).catch((err) => {
-      setError(err.message);
-    }).finally(() => {
-      setUploading(false);
-    });
-  }
-
-  function telecharger(evt, id) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    if (downloading) {
-      return;
-    }
-    setError(null);
-    setDownloading(true);
-    adminManager.downloadData(id)
-      .then(({ objectUrl, filename }) => {
-        const link = linkRef.current;
-        link.href = objectUrl;
-        link.download = filename;
-        link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-      }).catch((err) => {
-        setError(err.message);
-      }).finally(() => {
-        setDownloading(false);
-      });
-  }
-
-  return (
-    <>
-      {/* eslint-disable-next-line jsx-a11y/anchor-has-content, jsx-a11y/anchor-is-valid */}
-      <a ref={linkRef} style={{ display: 'none' }} />
+  // Si l'utilisateur est déjà connecté, afficher directement les outils admin
+  if (adminManager.credentialVerified) {
+    return (
       <div className="grid gap-4 grid-cols-3 mt-4">
+        <DatabaseManager adminManager={adminManager} />
+        <ParcoursupAnalyzer />
+      </div>
+    );
+  }
+
+  // Sinon, afficher uniquement le formulaire de connexion
+  return (
+    <div className="grid gap-4 grid-cols-3 mt-4">
+      <div className="col-span-3 flex justify-center">
         <div className="basis-1/3">
-          <h1 className="text-xl font-semibold mb-3">Authentification</h1>
+          <h1 className="text-xl font-semibold mb-3">Authentification administrateur</h1>
           <form onSubmit={checkCreds} method="POST" action="#">
-            <fieldset disabled={adminManager.credentialVerified}>
+            <fieldset>
               <label htmlFor="username">
                 Nom d&apos;utilisateur :
                 <input
@@ -110,92 +72,22 @@ function AdminTools() {
                 />
               </label>
               <div className="mt-4">
-                <button className="rounded border-2 border-blue-900 px-2" type="submit">Charger les fonctionnalités administrative</button>
+                <button className="rounded border-2 border-blue-900 px-2 py-1 hover:bg-blue-100 transition-colors" type="submit">
+                  Se connecter
+                </button>
               </div>
             </fieldset>
           </form>
+
           {adminManager.lastError && (
-          <div className="mt-4 pl-2 w-full rounded border-red-700 border-4 bg-red-200 font-bold">
-            <p>
-              Erreur :&nbsp;
-              {adminManager.lastError?.message ?? 'Erreur inconnue'}
-            </p>
-          </div>
-          )}
-          {error && (
-          <div className="mt-4 pl-2 w-full rounded border-red-700 border-4 bg-red-200 font-bold">
-            <p>
-              Erreur :&nbsp;
-              {error?.message ?? 'Erreur inconnue'}
-            </p>
-          </div>
-          )}
-          {adminManager.credentialVerified && (
-            <div className="mt-4 pl-2 w-full rounded border-green-700 border-4 bg-green-200 font-bold">
-              <p>
-                Authentification réussie
-              </p>
+            <div className="mt-4 pl-2 w-full rounded border-red-700 border-4 bg-red-200 font-bold">
+              <p>Erreur :&nbsp;{adminManager.lastError?.message ?? 'Erreur inconnue'}</p>
             </div>
           )}
         </div>
-        {adminManager.credentialVerified && (
-        <>
-          <div className="basis-1/3">
-            <h1 className="text-xl font-semibold mb-3">Historique des bases de données</h1>
-            {adminManager.loadingDataHistory ? (
-              <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
-                <p>Chargement en cours</p>
-              </div>
-            ) : (
-              <div className="w-full">
-                {
-                    adminManager.dataHistory?.map((datum) => (
-                      <div className="mb-1 pl-2 border-stone-800 border-2" key={datum.id}>
-                        {getHistoryDataTitle(datum)}
-                        &nbsp;
-                        <button
-                          type="button"
-                          className="text-sky-700 hover:text-red-600 hover:underline"
-                          onClick={(evt) => telecharger(evt, datum.id)}
-                        >
-                          Télécharger
-                        </button>
-                      </div>
-                    ))
-                  }
-              </div>
-            )}
-            {downloading && (
-              <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
-                <p>Téléchargement en cours</p>
-              </div>
-            )}
-          </div>
-          <div className="basis-1/3">
-            <h1 className="text-xl font-semibold mb-3">Téléverser une nouvelle version et mettre à jour la base de données</h1>
-            <form onSubmit={televerser} method="POST" action="#">
-              <fieldset disabled={uploading}>
-                <div className="mb-2">
-                  <input
-                    onChange={(e) => setFileState(e.target.files[0])}
-                    type="file"
-                    accept=".xlsx"
-                    required
-                  />
-                </div>
-                <button className="rounded border-2 border-blue-900 px-2" type="submit">Téléverser le document</button>
-              </fieldset>
-            </form>
-            {uploading && (
-              <div className="pl-2 w-full rounded border-blue-700 border-4 bg-blue-200 font-bold">
-                <p>Téléversement en cours</p>
-              </div>
-            )}
-          </div>
-        </>
-        )}
       </div>
-    </>
+    </div>
   );
 }
+
 export default observer(AdminTools);

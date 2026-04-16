@@ -67,11 +67,12 @@ class AppStateSaver {
       const buts = butCodes.map((code) => {
         try {
           return this._butManager.getButByCode(code);
-        } catch (err) {
+        }
+        catch (err) {
           console.warn(`Retrieved unknown but from cache with code ${code}`);
           return null;
         }
-      }).filter((b) => !!b);
+      }).filter(b => !!b);
 
       if (buts.length) {
         runInAction(() => {
@@ -86,11 +87,12 @@ class AppStateSaver {
       const iuts = iutIds.map((id) => {
         try {
           return this._iutManager.getIutById(id);
-        } catch (err) {
+        }
+        catch (err) {
           console.warn(`Retrieved unknown iut from cache with id ${id}`);
           return null;
         }
-      }).filter((i) => !!i);
+      }).filter(i => !!i);
 
       if (iuts.length) {
         runInAction(() => {
@@ -134,7 +136,7 @@ class AppStateSaver {
     if (this._pendingRehydrationData.iuts) {
       // set selected iuts
       this._pendingRehydrationData.iuts
-        .forEach((iut) => this._selectedManager.switchIutSelectionnes(iut));
+        .forEach(iut => this._selectedManager.switchIutSelectionnes(iut));
       // Invoke iut refresh for those selected
       // console.log('IUT rehydrated', iutIds);
       await this._selectedManager.miseAJour();
@@ -172,13 +174,13 @@ class AppStateSaver {
 
   static async updateSelectedButs(buts) {
     // care: buts is a set: we must transform it into an array of code
-    const codeButs = [...buts].map((b) => b.code);
+    const codeButs = [...buts].map(b => b.code);
     // save the array
     await localStorageMgr.setItem(AppStateSaver.BUT_STORAGE_KEY, codeButs);
   }
 
   static async updateSelectedIuts(iuts) {
-    const idIuts = [...iuts].map((iut) => iut.idIut);
+    const idIuts = [...iuts].map(iut => iut.idIut);
     await localStorageMgr.setItem(AppStateSaver.IUT_STORAGE_KEY, idIuts);
   }
 

@@ -23,7 +23,7 @@ async function fetchTextOrFallback(url, option) {
       console.warn(`Error on retrieve remote texts, use fallback texts (${e.message})`);
       // Lazy loading of fallback texts to avoid merging them with main chunk and reduce its size
       return import(/* webpackChunkName: "fallbackTexts" */ '../assets/text.json')
-        .then((module) => createFakeFetchJsonAnswer(module)); // we trick i18n-fetch-backend
+        .then(module => createFakeFetchJsonAnswer(module)); // we trick i18n-fetch-backend
     });
 }
 
