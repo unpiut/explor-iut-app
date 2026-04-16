@@ -58,7 +58,7 @@ function TutoModalYT({ isOpen, onClose }) {
         <div className="relative w-full bg-black" style={{ paddingBottom: '56.25%' }}>
           <iframe
             className="absolute inset-0 w-full h-full"
-            src="https://youtu.be/pluTRowjeIg?si=PvAKZI9B8zLv1Pdf"
+            src="https://www.youtube.com/embed/NF_ajhFlHmo?si=CJcgXBLLsthCyDh0"
             title={t('tutoModalTitre', 'Tutoriel vidéo')}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

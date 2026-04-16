@@ -10,7 +10,7 @@ import youtube from '../assets/youtube.webp';
 
 function FirstPage() {
   const { t } = useTranslation();
-  const [isTutoOpen, setIsTutoOpen] = useState(false);
+  const [isTutoYTOpen, setIsTutoYTOpen] = useState(false);
   const [isAstuceOpen, setIsAstuceOpen] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ function FirstPage() {
         {/* Bouton tutoriel - à droite */}
         <div className="absolute top-6 right-6">
           <button
-            onClick={() => setIsTutoOpen(true)}
+            onClick={() => setIsTutoYTOpen(true)}
             className="cursor-pointer group flex flex-col items-center gap-1 transition-all duration-300 hover:scale-110"
             aria-label={t('tutoBtn', 'Voir le tutoriel')}
           >
@@ -48,7 +48,7 @@ function FirstPage() {
             <div className="text-sm font-semibold tracking-wide text-gray-700 group-hover:text-blue-700 transition-colors duration-300 text-center">
               <span>Astuces pour optimiser</span>
               <br />
-              <span>vos recherches</span>
+              <span>ses recherches</span>
             </div>
           </div>
         </Link>
@@ -100,7 +100,7 @@ function FirstPage() {
       <Footer droite={{ texte: t('accueilAvance'), lien: '/formation' }} />
 
       {/* Modales */}
-      <TutoModal isOpen={isTutoOpen} onClose={() => setIsTutoOpen(false)} />
+      <TutoModalYT isOpen={isTutoYTOpen} onClose={() => setIsTutoYTOpen(false)} />
       {isAstuceOpen && (
         <TutoModalYT isOpen={isAstuceOpen} onClose={() => setIsAstuceOpen(false)} />
       )}
