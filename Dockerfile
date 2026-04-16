@@ -19,9 +19,14 @@ FROM node:23-alpine3.22
 WORKDIR /usr/src/app
 
 # Args declaration
+# Chemin d'accès publique à l'application d'après la racine du site
 ARG PUBLIC_PATH=/
+# Chemin d'accès à l'API. Peut être relatif ou absolu
 ARG API_PATH=/api
+# Mode test actif si la variable est définie avec n'importe quelle valeur
 ARG TEST_APP
+# url du tracker Matomo. Doit être absolue. Laisser vide pour désactiver le tracking
+ARG MATOMO_URL
 
 # Install dependencies
 COPY package.json package-lock.json ./
