@@ -73,7 +73,8 @@ class AdminManager {
         this._credVerified = true;
       });
       this.loadDataHistory();
-    } catch (e) {
+    }
+    catch (e) {
       runInAction(() => {
         this._lastError = e;
       });
@@ -101,11 +102,13 @@ class AdminManager {
       runInAction(() => {
         this._dataHistory = history;
       });
-    } catch (e) {
+    }
+    catch (e) {
       runInAction(() => {
         this._lastError = e;
       });
-    } finally {
+    }
+    finally {
       runInAction(() => {
         this._loadingDataHistory = false;
       });
@@ -133,7 +136,7 @@ class AdminManager {
       body: myFormData,
     });
     if (!res.ok) {
-      throw new Error("Le traitement ne s'est pas bien effectué");
+      throw new Error('Le traitement ne s\'est pas bien effectué');
     }
   }
 
@@ -151,7 +154,7 @@ class AdminManager {
       headers,
     });
     if (!res.ok) {
-      throw new Error("Le traitement ne s'est pas bien effectué");
+      throw new Error('Le traitement ne s\'est pas bien effectué');
     }
     // Compute filename
     const cd = res.headers.get('Content-Disposition');

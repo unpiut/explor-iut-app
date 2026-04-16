@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import FormationBrick from './FormationBrick';
@@ -14,7 +14,7 @@ function FormationView() {
     <>
       <div className="mb-4">
         <h1 className="text-center text-xl lg:text-3xl font-bold">{t('formationTitre')}</h1>
-        <h1 className="text-center sm:text-sm lg:text-2xl">
+        <h1 className="text-center sm:text-sm lg:text-base">
           <b>{t('formationSousTitre')}</b>
           {'  '}
           {t('formationSousSousTitre')}

@@ -12,7 +12,8 @@ function formatDate(dateFormat, d) {
   }
   try {
     return dateFormat.format(d);
-  } catch (e) {
+  }
+  catch (e) {
     console.warn(`Wrong date to format: ${d}`, e);
     return null;
   }

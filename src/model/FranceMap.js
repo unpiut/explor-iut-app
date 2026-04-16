@@ -2,61 +2,68 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import * as echarts from 'echarts/core';
 
 const REMAPING_TOM = {
-  Guyane: {
-    left: -7.834939110760255,
+  'Nouvelle-Cal\u00e9donie': {
+    left: -8,
+    top: 50,
+    width: 1,
+  },
+  'Guyane': {
+    left: -8,
     top: 48,
     width: 1,
   },
-  Guadeloupe: {
-    left: -7.834939110760255,
+  'Guadeloupe': {
+    left: -8,
     top: 46,
     width: 2,
   },
-  Martinique: {
-    left: -7.834939110760255,
+  'Martinique': {
+    left: -8,
     top: 44,
     width: 1,
   },
-  Mayotte: {
-    left: -7.834939110760255,
-    top: 40,
-    width: 1,
-  },
+
   'La R\u00e9union': {
-    left: -7.834939110760255,
-    top: 42,
+    left: -10,
+    top: 49,
     width: 1,
   },
-  'Nouvelle-Cal\u00e9donie': {
-    left: -7.834939110760255,
-    top: 50,
+  'Mayotte': {
+    left: -10,
+    top: 47,
+    width: 1,
+  },
+  'Polyn\u00e9sie fran\u00e7aise': {
+    left: -10,
+    top: 45,
     width: 1,
   },
 };
 
 const ID_BY_CODE_REGION = {
-  GUYANE: 'Guyane',
-  GUADELOUPE: 'Guadeloupe',
-  MARTINIQUE: 'Martinique',
+  'GUYANE': 'Guyane',
+  'GUADELOUPE': 'Guadeloupe',
+  'MARTINIQUE': 'Martinique',
   'NOUVELLE-CALEDONIE': 'Nouvelle-Cal\u00e9donie',
   'LA REUNION': 'La R\u00e9union',
-  MAYOTTE: 'Mayotte',
+  'MAYOTTE': 'Mayotte',
+  'POLYNESIE FRANÇAISE': 'Polyn\u00e9sie fran\u00e7aise',
 };
 
 function recursiveCoorFlatMap(coors) {
   if (Array.isArray(coors[0])) {
-    return coors.flatMap((coor) => recursiveCoorFlatMap(coor));
+    return coors.flatMap(coor => recursiveCoorFlatMap(coor));
   }
   return [coors];
 }
 
 function buildTopLeftPointByRegion(geoJson) {
   return geoJson.features
-    .filter((feature) => feature?.properties?.nom && feature?.geometry?.coordinates)
-    .map((feature) => [
+    .filter(feature => feature?.properties?.nom && feature?.geometry?.coordinates)
+    .map(feature => [
       feature.properties.nom,
       feature.geometry.coordinates
-        .flatMap((c) => recursiveCoorFlatMap(c))
+        .flatMap(c => recursiveCoorFlatMap(c))
         .reduce((acc, [long, lat]) => {
           if (lat < acc.minLat) {
             acc.minLat = lat;
@@ -106,7 +113,7 @@ function computeRegionCenterAndScalingZoom(topLeftPointByRegion) {
       const remappingInfo = REMAPING_TOM[regionCode];
       if (remappingInfo) {
         correctedCenter = [remappingInfo.left + remappingInfo.width / 2,
-          remappingInfo.top + (height * (remappingInfo.width / width)) / 2];
+        remappingInfo.top + (height * (remappingInfo.width / width)) / 2];
         correctedLeft = remappingInfo.left;
         correctedRight = remappingInfo.left + remappingInfo.width;
         correctedTop = remappingInfo.top;
@@ -192,7 +199,7 @@ export default class FranceMap {
     });
 
     try {
-      const jsonData = await import(/* webpackChunkName: "franceRegions" */ '../assets/franceRegions.geojson');
+      const jsonData = await import(/* webpackChunkName: "franceRegions" */ '../assets/franceRegions2.geojson');
       const topLeftPointByRegion = buildTopLeftPointByRegion(jsonData.default);
       const regionCenterAndScalingZoom = computeRegionCenterAndScalingZoom(topLeftPointByRegion);
       runInAction(() => {
@@ -203,11 +210,13 @@ export default class FranceMap {
       });
       echarts.registerMap(this._mapName, this._franceMap, REMAPING_TOM);
       return this._franceMap;
-    } catch (err) {
+    }
+    catch (err) {
       // this._errorManager.handleError(err);
       console.warn(err);
       return null;
-    } finally {
+    }
+    finally {
       runInAction(() => {
         this._loading = false;
       });

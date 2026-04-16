@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import classNames from 'classnames';
-import style from './TestModeFrame.css';
+import * as style from './TestModeFrame.css';
 
 function TestModeFrame({ children }) {
   if (!APP_ENV_TEST_APP) {

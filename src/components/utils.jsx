@@ -1,12 +1,12 @@
 /* eslint react/jsx-props-no-spreading: off */
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 export function withPageTitle(WrappedComponent, pageTitle, overrideAppTitle = false) {
   return function PagedComponent(props) {
     useEffect(() => {
       document.title = overrideAppTitle ? pageTitle : `${APP_ENV_APP_TITLE} - ${pageTitle}`;
-    }, [pageTitle, overrideAppTitle]);
+    }, []);
     return (<WrappedComponent {...props} />);
   };
 }

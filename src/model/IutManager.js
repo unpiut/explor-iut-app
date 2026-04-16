@@ -37,7 +37,11 @@ class IutManager {
     this._iutRecherches.clear();
     buts.forEach((but) => {
       this._iuts.forEach((i) => {
-        if (i.departements.find((d) => d.butDispenses[0].codeBut === but.code)) {
+        // Vérifie si le département propose ce BUT parmi tous ses BUTs dispensés
+        if (i.departements.find(d =>
+          d.butDispenses
+          && d.butDispenses.some(dispense => dispense.codeBut === but.code),
+        )) {
           this._iutRecherches.add(i);
         }
       });
@@ -50,7 +54,7 @@ class IutManager {
     }
     let iuts = await fetch(`${APP_ENV_API_PATH}/iut`);
     iuts = await iuts.json();
-    iuts = iuts.map((i) => new Iut(i));
+    iuts = iuts.map(i => new Iut(i));
     return runInAction(() => {
       this._iuts = iuts;
       this._allIutRetrieved = true;
@@ -66,17 +70,17 @@ class IutManager {
   }
 
   getIutById(idIut) {
-    const iut = this._iuts.find((i) => i.idIut === idIut);
+    const iut = this._iuts.find(i => i.idIut === idIut);
     if (iut) {
       return iut;
     }
-    throw new Error("L'iut n'existe pas");
+    throw new Error('L\'iut n\'existe pas');
   }
 
   getIutByButs(buts) {
     const iterateur = buts.values();
     let iutsBon = [];
-    const filtre = (iut) => iut.departements.find((dp) => dp.code === iterateur.next().value.code);
+    const filtre = iut => iut.departements.find(dp => dp.code === iterateur.next().value.code);
     for (let i = 0; i < buts.size; i += 1) {
       iutsBon += this._iuts.filter(filtre);
     }
