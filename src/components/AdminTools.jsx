@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import RootStore from '../RootStore';
 import DatabaseManager from './DatabaseManager';
@@ -6,6 +6,7 @@ import ParcoursupAnalyzer from './ParcoursupAnalyzer';
 
 function AdminTools() {
   const { adminManager, stateSaver } = useContext(RootStore);
+  const [uploadError, setUploadError] = useState(null);
 
   useEffect(() => {
     stateSaver.rehydrationPromptHidden = true;
@@ -33,8 +34,20 @@ function AdminTools() {
   if (adminManager.credentialVerified) {
     return (
       <div className="grid gap-4 grid-cols-3 mt-4">
-        <DatabaseManager adminManager={adminManager} />
+        <DatabaseManager
+          adminManager={adminManager}
+          onError={(err) => setUploadError(err)}
+        />
         <ParcoursupAnalyzer />
+
+        {/* Affichage de l'erreur de téléversement */}
+        {uploadError && (
+          <div className="col-span-3 mt-4">
+            <div className="pl-2 w-full rounded border-red-700 border-4 bg-red-200 font-bold">
+              <p>Erreur lors du téléversement :&nbsp;{uploadError.message || uploadError}</p>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
