@@ -72,10 +72,10 @@ class MailManager {
     }
     else {
       this._corpsMail = `Bonjour,
-Suite à ma consultation et ma recherche sur le site iut.fr, j'ai identifié des formations qui correspondent à mes recherches d'alternants. Pourriez vous me communiquer pour chacune des formations les informations informations de base concernant l'alternance ?
-      
-dans l'attente de votre retour,
-Bien cordialement`;
+  Suite à ma consultation et ma recherche sur le site iut.fr, j'ai identifié des formations qui correspondent à mes recherches d'alternants. Pourriez vous me communiquer pour chacune des formations les informations informations de base concernant l'alternance ?
+        
+  dans l'attente de votre retour,
+  Bien cordialement`;
     }
   }
 
