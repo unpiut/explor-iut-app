@@ -1,39 +1,80 @@
 import { useState, useCallback } from 'react';
 import * as XLSX from 'xlsx';
 
-// ─── Mapping BUT code → nom(s) Parcoursup ────────────────────────────────────
-// Clés = code court BDD, valeurs = préfixes/noms exacts tels qu'ils apparaissent
-// dans la colonne "Filière de formation détaillée bis" de Parcoursup.
-const BUT_CODE_TO_PS_PREFIXES = {
-  'MMI': ['metiers du multimedia et de l\'internet', 'metiers du multimédia et de l\'internet'],
-  'Chimie': ['chimie'],
-  'GB': ['genie biologique', 'genie biologique parcours'],
-  'GCGP': ['genie chimique genie des procedes', 'genie chimique - genie des procedes'],
-  'GCCD': ['genie civil', 'genie civil - construction durable'],
-  'GEII': ['genie electrique et informatique industrielle'],
-  'MP': ['mesures physiques'],
-  'SGM': ['science et genie des materiaux'],
-  'GIM': ['genie industriel et maintenance'],
-  'GMP': ['genie mecanique et productique'],
-  'QLIO': ['qualite, logistique industrielle et organisation', 'qualite logistique industrielle et organisation'],
-  'PEC': ['packaging, emballage et conditionnement', 'packaging emballage et conditionnement'],
-  'MLT': ['management de la logistique et des transports'],
-  'MT2E': ['metiers de la transition et de l\'efficacite energetiques', 'metiers de la transition et de l efficacite energetiques'],
-  'HSE': ['hygiene securite environnement', 'hygiene, securite, environnement'],
-  'INFO': ['informatique'],
-  'SD': ['science des donnees'],
-  'RT': ['reseaux et telecommunications'],
-  'CJ': ['carrieres juridiques'],
-  'CS': ['carrieres sociales'],
-  'GACO': ['gestion administrative et commerciale des organisations'],
-  'TC': ['techniques de commercialisation'],
-  'Info-Com': ['information communication', 'information-communication'],
-  'GEA': ['gestion des entreprises et des administrations'],
+// ─── Mapping "Nom court de la formation" (nouveau format PS) → code BDD ────────
+// Le nouveau fichier Parcoursup utilise la colonne "Nom court de la formation"
+// ex: "BUT-TC", "BUT-Informatique", "BUT-GB-SAB"
+// On extrait le code BDD en supprimant le préfixe "BUT-" et le suffixe "-App"
+// puis on applique les correspondances manuelles pour les cas ambigus.
+
+const NOM_COURT_TO_BDD_CODE = {
+  // Informatique / Numérique
+  'Informatique': 'INFO',
+  'MMI': 'MMI',
+  'RT': 'RT',
+  'SD': 'SD',
+  // Génie
+  'GEII': 'GEII',
+  'GMP': 'GMP',
+  'GIM': 'GIM',
+  'GC-CD': 'GCCD',
+  'GCGP': 'GCGP',
+  'GB-SAB': 'GB',
+  'GB-BMB': 'GB',
+  'GB-SEE': 'GB',
+  'GB-Opt.Agr': 'GB',
+  'BD-DN': 'GB',
+  'SGM': 'SGM',
+  'MP': 'MP',
+  'Chimie': 'Chimie',
+  'HSE': 'HSE',
+  'MTEE': 'MT2E',
+  'PEC': 'PEC',
+  // Tertiaire
+  'GEA': 'GEA',
+  'TC': 'TC',
+  'GACO': 'GACO',
+  'CJ': 'CJ',
+  'CS-Opt.ASSC': 'CS',
+  'CS-Opt.AS': 'CS',
+  'CS-Opt.ES': 'CS',
+  'CS-VTD': 'CS',
+  'CGE3S': 'CS',
+  'IC-Opt.CO': 'Info-Com',
+  'IC-Opt.MLP': 'Info-Com',
+  'IC-Opt.INO': 'Info-Com',
+  'IC-Opt.JOUR': 'Info-Com',
+  'IC-PUB': 'Info-Com',
+  'MLT': 'MLT',
+  'QLIO': 'QLIO',
 };
 
+/**
+ * Extrait le code BDD depuis le "Nom court de la formation" du nouveau format PS.
+ * Ex: "BUT-TC-App" → "TC" → "TC"
+ *     "BUT-GB-SAB" → "GB-SAB" → "GB"
+ *     "BUT-Informatique" → "Informatique" → "INFO"
+ */
+function getButCodeFromNomCourt(nomCourt) {
+  if (!nomCourt) return null;
+  // Supprimer préfixe "BUT-"
+  let key = String(nomCourt).replace(/^BUT-/i, '');
+  // Supprimer suffixe "-App" (apprentissage)
+  key = key.replace(/-App$/i, '');
+  // Chercher correspondance directe
+  if (NOM_COURT_TO_BDD_CODE[key]) return NOM_COURT_TO_BDD_CODE[key];
+  // Retourner la clé brute si pas de mapping (formations nouvelles)
+  return key;
+}
+
 // ─── Mapping nom normalisé Parcoursup → nom normalisé BDD ────────────────────
-// Utilisé quand la normalisation automatique ne suffit pas.
+// Le nouveau format utilise "Nom de l'établissement" avec format :
+// "IUT Lyon1 Site de Bourg-en-Bresse (01)"
+// "IUT de l'Aisne - Site de Soissons-Cuffies (02)"
+// On peut aussi utiliser "Identifiant de l'établissement" (code UAI) pour les matching.
+
 const PS_TO_BDD_IUT_OVERRIDE = {
+  'iut lyon1': 'iut lyon 1',
   'iut aix marseille': 'iut aix marseille',
   'iut d aix marseille': 'iut aix marseille',
   'iut d amiens': 'iut amiens',
@@ -111,11 +152,7 @@ const PS_TO_BDD_IUT_OVERRIDE = {
   'iut de senart fontainebleau': 'iut senart fontainebleau',
   'iut de tarbes': 'iut tarbes',
   'iut de toulon': 'iut toulon',
-  'iut de toulon antenne de draguignan': 'iut toulon',
-  'iut de toulon antenne de toulon porte d italie': 'iut toulon',
   'iut de toulouse': 'iut toulouse',
-  'iut de toulouse antenne d auch': 'iut toulouse',
-  'iut de toulouse antenne de castres': 'iut toulouse',
   'iut de tours': 'iut tours',
   'iut de tremblay en france paris 8': 'iut tremblay en france',
   'iut de troyes': 'iut troyes',
@@ -159,7 +196,15 @@ const PS_TO_BDD_IUT_OVERRIDE = {
   'institut universitaire de technologie de paris pajol': 'iut paris diderot',
   'iut de schiltigheim site de selestat': 'iut strasbourg',
   'iut de montpellier sete site de montpellier campus occitanie': 'iut montpellier',
-  'la rochelle': 'la rochelle',
+  // Nouvelles entrées pour le nouveau format (avec département entre parenthèses)
+  'iut clermont auvergne': 'iut clermont ferrand',
+  'i u t clermont auvergne': 'iut clermont ferrand',
+  'iut nice cote d azur': 'iut nice',
+  'i u t nice cote d azur': 'iut nice',
+  'iut reims chalons charleville': 'iut reims',
+  'iut reims chalons charleville site de charleville': 'iut reims',
+  'iut paris rives de seine': 'iut paris rives de seine',
+  'iut de paris': 'iut paris rives de seine',
 };
 
 // ─── Utilitaires ──────────────────────────────────────────────────────────────
@@ -176,18 +221,25 @@ function norm(s) {
 }
 
 /**
- * Normalise un nom d'IUT (côté Parcoursup ou BDD) en chaîne courte sans accents,
- * sans ponctuation, sans info de site/université.
+ * Normalise un nom d'IUT en supprimant:
+ * - les infos de site/antenne/campus
+ * - le numéro de département entre parenthèses (nouveau format: "IUT Lyon1 Site de Bourg-en-Bresse (01)")
+ * - les références université
  */
 function normIUT(s) {
   if (!s) return '';
   let n = norm(s);
+  // Supprimer le numéro de département entre parenthèses en fin de chaîne ex: "(01)"
+  n = n.replace(/\s*\(\d{2,3}\)\s*$/, '').trim();
+  // Normaliser les abréviations IUT
   n = n.replace(/i\.?u\.?t\.?\s*/g, 'iut ').replace(/\s+/g, ' ').trim();
-  // Supprimer tout ce qui suit un séparateur de site
+  // Supprimer les séparateurs de site/antenne
   for (const sep of [' - site', ' site de ', ' site d ', ' antenne de ', ' pole de ', ' pole d ', ' campus ']) {
     const idx = n.indexOf(sep);
     if (idx > 0) n = n.slice(0, idx).trim();
   }
+  // Supprimer les tirets isolés en fin de chaîne
+  n = n.replace(/\s+-\s*$/, '').trim();
   // Supprimer les références à l'université
   n = n.replace(/\buniversite\b.*/, '').replace(/\buniv\b.*/, '').trim();
   // Ponctuation résiduelle
@@ -197,7 +249,6 @@ function normIUT(s) {
 
 /**
  * Résout le nom normalisé BDD depuis un nom Parcoursup brut.
- * Applique d'abord les overrides manuels, sinon tente une correspondance automatique.
  */
 function resolveBDDName(psRaw, bddNormSet) {
   const psNorm = normIUT(psRaw);
@@ -208,12 +259,12 @@ function resolveBDDName(psRaw, bddNormSet) {
   // 2. Correspondance directe
   if (bddNormSet.has(psNorm)) return psNorm;
 
-  // 3. Correspondance partielle : le nom BDD est contenu dans le nom PS, ou vice-versa
+  // 3. Correspondance partielle
   for (const bddN of bddNormSet) {
     if (psNorm.startsWith(bddN) || bddN.startsWith(psNorm)) return bddN;
   }
 
-  // 4. Chevauchement suffisant (60% des mots communs)
+  // 4. Chevauchement suffisant (60% des mots communs, longueur > 3)
   const psWords = new Set(psNorm.split(' ').filter(w => w.length > 3));
   for (const bddN of bddNormSet) {
     const bddWords = bddN.split(' ').filter(w => w.length > 3);
@@ -221,19 +272,6 @@ function resolveBDDName(psRaw, bddNormSet) {
     if (bddWords.length > 0 && common / bddWords.length >= 0.6) return bddN;
   }
 
-  return null; // IUT inconnu
-}
-
-/**
- * Identifie le code BUT (clé BDD) depuis un nom de spécialité Parcoursup.
- */
-function getButCode(specialtyName) {
-  const n = norm(specialtyName);
-  for (const [code, prefixes] of Object.entries(BUT_CODE_TO_PS_PREFIXES)) {
-    for (const prefix of prefixes) {
-      if (n === prefix || n.startsWith(prefix)) return code;
-    }
-  }
   return null;
 }
 
@@ -252,8 +290,80 @@ function loadXlsx(file) {
 }
 
 /**
+ * Détecte le format du fichier Parcoursup (nouveau ou ancien).
+ * Nouveau : colonne "Nom court de la formation" + "Types de formation"
+ * Ancien  : colonne "Filière de formation très agrégée" + "Filière de formation détaillée bis"
+ */
+function detectParcoursupFormat(rows) {
+  if (!rows.length) return 'unknown';
+  const cols = Object.keys(rows[0]);
+  if (cols.includes('Nom court de la formation') && cols.includes('Types de formation')) return 'nouveau';
+  if (cols.includes('Filière de formation très agrégée')) return 'ancien';
+  return 'unknown';
+}
+
+/**
+ * Parse le fichier Parcoursup (nouveau format: fr-esr-cartographie_formations_parcoursup.xlsx)
+ * Retourne uniquement les lignes BUT avec les champs normalisés.
+ */
+function parseParcoursupNouveauFormat(rows) {
+  return rows
+    .filter(r => r['Types de formation'] && String(r['Types de formation']).includes('BUT'))
+    .map(r => ({
+      _format: 'nouveau',
+      etablissement: r['Nom de l\'établissement'] || '',
+      uai: r['Identifiant de l\'établissement'] || '',
+      nomCourt: r['Nom court de la formation'] || '',
+      nomLong: r['Nom long de la formation'] || '',
+      region: r['Région'] || '',
+      departement: r['Département'] || '',
+      commune: r['Commune'] || '',
+      session: r['Session'],
+      lienFiche: r['Lien vers la fiche formation'] || '',
+      codeInterne: r['Code interne Parcoursup de la formation'] || '',
+      apprentissage: r['Formations en apprentissage'] === 'Oui' || String(r['Nom court de la formation']).endsWith('-App'),
+    }));
+}
+
+/**
+ * Parse le fichier Parcoursup (ancien format: Donnée_parcousup.xlsx)
+ * Rétrocompatibilité.
+ */
+function parseParcoursupAncienFormat(rows) {
+  return rows
+    .filter(r => r['Filière de formation très agrégée'] === 'BUT')
+    .map(r => ({
+      _format: 'ancien',
+      etablissement: r['Établissement'] || '',
+      uai: r['Code UAI de l\'établissement'] || '',
+      nomCourt: r['Filière de formation détaillée bis'] || '',
+      nomLong: r['Filière de formation détaillée bis'] || '',
+      region: r['Région de l\'établissement'] || '',
+      departement: r['Code départemental de l\'établissement'] || '',
+      commune: r['Commune de l\'établissement'] || '',
+      session: r['Session'],
+      lienFiche: r['Lien de la formation sur la plateforme Parcoursup'] || '',
+      codeInterne: r['cod_aff_form'] || '',
+      capacite: r['Capacité de l\'établissement par formation'],
+      apprentissage: false,
+    }));
+}
+
+/**
+ * Parse le fichier Parcoursup (quel que soit le format).
+ */
+function parseParcoursupFile(wb) {
+  const sheet = wb.Sheets[wb.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(sheet, { defval: null });
+  const format = detectParcoursupFormat(rows);
+
+  if (format === 'nouveau') return { rows: parseParcoursupNouveauFormat(rows), format: 'nouveau' };
+  if (format === 'ancien') return { rows: parseParcoursupAncienFormat(rows), format: 'ancien' };
+  throw new Error('Format Parcoursup non reconnu. Colonnes attendues : « Nom court de la formation » (nouveau) ou « Filière de formation très agrégée » (ancien).');
+}
+
+/**
  * Parse l'onglet IUT de la BDD ExplorIUT.
- * Retourne une liste de { iutNorm, diplome, site, region, departement }.
  */
 function parseDataFile(wb) {
   const iutSheet = wb.Sheets['IUT'];
@@ -270,7 +380,6 @@ function parseDataFile(wb) {
     return { ...row, 'IUT': lastIUT, 'Site (lieux)': lastSite, 'Région': lastRegion };
   }).filter(r => r['Diplôme']);
 
-  // Construire le set des noms BDD normalisés (pour la résolution de correspondance)
   const bddNormSet = new Set(clean.map(r => normIUT(r.IUT)));
 
   const entries = clean.map(r => ({
@@ -286,34 +395,31 @@ function parseDataFile(wb) {
   return { entries, bddNormSet };
 }
 
-/**
- * Parse le fichier Parcoursup et retourne uniquement les lignes BUT.
- */
-function parseParcoursupFile(wb) {
-  const sheet = wb.Sheets[wb.SheetNames[0]];
-  const rows = XLSX.utils.sheet_to_json(sheet, { defval: null });
-  return rows.filter(r => r['Filière de formation très agrégée'] === 'BUT');
-}
-
 // ─── Logique de comparaison ───────────────────────────────────────────────────
 
-function compare(dataFile, parcoursupRows) {
+function compare(dataFile, parcoursupData) {
   const { entries: bddEntries, bddNormSet } = dataFile;
+  const { rows: parcoursupRows, format } = parcoursupData;
 
   // --- Étape 1 : Dédoublonner les lignes Parcoursup (par IUT résolu + code BUT) ---
-  const psMap = new Map(); // clé: "iutNormBDD|||butCode" → objet
+  const psMap = new Map();
   const unknownIUTs = new Set();
 
   parcoursupRows.forEach((row) => {
-    const spec = row['Filière de formation détaillée bis'] || '';
-    const code = getButCode(spec);
+    // Identifier le code BUT selon le format
+    let code;
+    if (format === 'nouveau') {
+      code = getButCodeFromNomCourt(row.nomCourt);
+    }
+    else {
+      // Ancien format: utiliser l'ancien mapping par préfixe
+      code = getButCodeLegacy(row.nomCourt);
+    }
     if (!code) return;
 
-    const etabRaw = row['Établissement'] || '';
-    const bddName = resolveBDDName(etabRaw, bddNormSet);
-
+    const bddName = resolveBDDName(row.etablissement, bddNormSet);
     if (!bddName) {
-      unknownIUTs.add(etabRaw);
+      unknownIUTs.add(row.etablissement);
       return;
     }
 
@@ -321,24 +427,26 @@ function compare(dataFile, parcoursupRows) {
     if (!psMap.has(key)) {
       psMap.set(key, {
         iutNormBDD: bddName,
-        etablissement: etabRaw,
+        etablissement: row.etablissement,
         butCode: code,
-        uai: row['Code UAI de l\'établissement'] || row['Code UAI de l\'établissement'] || '',
-        departement: row['Code départemental de l\'établissement'] || row['Code départemental de l\'établissement'] || '',
-        region: row['Région de l\'établissement'] || row['Région de l\'établissement'] || '',
-        session: row['Session'],
-        capacite: row['Capacité de l\'établissement par formation'] || row['Capacité de l\'établissement par formation'],
-        cod: row['cod_aff_form'],
-        spec,
+        nomLong: row.nomLong,
+        uai: row.uai,
+        departement: row.departement,
+        region: row.region,
+        commune: row.commune,
+        session: row.session,
+        lienFiche: row.lienFiche,
+        codeInterne: row.codeInterne,
+        capacite: row.capacite,
+        apprentissage: row.apprentissage,
       });
     }
   });
 
-  // --- Étape 2 : Construire les sets BDD ---
-  // Set des combinaisons (iutNorm, diplomeNorm) présentes dans la BDD
+  // --- Étape 2 : Construire le set BDD ---
   const bddSet = new Set(bddEntries.map(e => `${e.iutNorm}|||${e.diplomeNorm}`));
 
-  // --- Étape 3 : Trouver les ouvertures (présents dans PS, absents de BDD) ---
+  // --- Étape 3 : Ouvertures (dans PS, absents de BDD) ---
   const openedBUTs = [];
   const psFoundKeys = new Set();
 
@@ -350,9 +458,8 @@ function compare(dataFile, parcoursupRows) {
     }
   }
 
-  // --- Étape 4 : Trouver les fermetures (présents dans BDD, absents de PS) ---
+  // --- Étape 4 : Fermetures (dans BDD, absents de PS) ---
   const closedBUTs = [];
-  // On groupe par (iutNorm, diplomeNorm) pour éviter les doublons liés aux sites multiples
   const bddChecked = new Map();
 
   bddEntries.forEach((e) => {
@@ -374,8 +481,7 @@ function compare(dataFile, parcoursupRows) {
     }
   });
 
-  // --- Métadonnées ---
-  const sessions = [...new Set(parcoursupRows.map(r => r['Session']))].filter(Boolean).sort();
+  const sessions = [...new Set(parcoursupRows.map(r => r.session))].filter(Boolean).sort();
   const latestSession = sessions[sessions.length - 1];
 
   return {
@@ -385,7 +491,46 @@ function compare(dataFile, parcoursupRows) {
     latestSession,
     totalPS: psMap.size,
     totalBDD: bddEntries.length,
+    format,
   };
+}
+
+// Rétrocompatibilité : ancien mapping par préfixe de texte
+const BUT_CODE_TO_PS_PREFIXES_LEGACY = {
+  'MMI': ['metiers du multimedia et de l\'internet', 'metiers du multimédia et de l\'internet'],
+  'Chimie': ['chimie'],
+  'GB': ['genie biologique', 'genie biologique parcours'],
+  'GCGP': ['genie chimique genie des procedes', 'genie chimique - genie des procedes'],
+  'GCCD': ['genie civil', 'genie civil - construction durable'],
+  'GEII': ['genie electrique et informatique industrielle'],
+  'MP': ['mesures physiques'],
+  'SGM': ['science et genie des materiaux'],
+  'GIM': ['genie industriel et maintenance'],
+  'GMP': ['genie mecanique et productique'],
+  'QLIO': ['qualite, logistique industrielle et organisation', 'qualite logistique industrielle et organisation'],
+  'PEC': ['packaging, emballage et conditionnement', 'packaging emballage et conditionnement'],
+  'MLT': ['management de la logistique et des transports'],
+  'MT2E': ['metiers de la transition et de l\'efficacite energetiques', 'metiers de la transition et de l efficacite energetiques'],
+  'HSE': ['hygiene securite environnement', 'hygiene, securite, environnement'],
+  'INFO': ['informatique'],
+  'SD': ['science des donnees'],
+  'RT': ['reseaux et telecommunications'],
+  'CJ': ['carrieres juridiques'],
+  'CS': ['carrieres sociales'],
+  'GACO': ['gestion administrative et commerciale des organisations'],
+  'TC': ['techniques de commercialisation'],
+  'Info-Com': ['information communication', 'information-communication'],
+  'GEA': ['gestion des entreprises et des administrations'],
+};
+
+function getButCodeLegacy(specialtyName) {
+  const n = norm(specialtyName);
+  for (const [code, prefixes] of Object.entries(BUT_CODE_TO_PS_PREFIXES_LEGACY)) {
+    for (const prefix of prefixes) {
+      if (n === prefix || n.startsWith(prefix)) return code;
+    }
+  }
+  return null;
 }
 
 // ─── Sous-composants ──────────────────────────────────────────────────────────
@@ -395,6 +540,7 @@ function Badge({ children, color }) {
     green: 'border-green-700 bg-green-100 text-green-900',
     red: 'border-red-700 bg-red-100 text-red-900',
     orange: 'border-orange-600 bg-orange-100 text-orange-900',
+    blue: 'border-blue-600 bg-blue-100 text-blue-900',
     gray: 'border-stone-400 bg-stone-100 text-stone-600',
   };
   return (
@@ -405,9 +551,9 @@ function Badge({ children, color }) {
 }
 
 function ButCard({ item }) {
-  const psUrl = item.cod
-    ? `https://dossierappel.parcoursup.fr/Candidats/public/fiches/afficherFicheFormation?g_ta_cod=${item.cod}&typeBac=0&originePc=0`
-    : null;
+  const psUrl = item.lienFiche || (item.codeInterne
+    ? `https://dossierappel.parcoursup.fr/Candidats/public/fiches/afficherFicheFormation?g_ta_cod=${item.codeInterne}&typeBac=0&originePc=0`
+    : null);
 
   return (
     <div className="mb-2 pl-3 border-stone-800 border-2 rounded py-2 pr-3 bg-white">
@@ -415,6 +561,7 @@ function ButCard({ item }) {
         {item.type === 'opened'
           ? <Badge color="green">Ouverture</Badge>
           : <Badge color="red">Fermeture</Badge>}
+        {item.apprentissage && <Badge color="blue">Apprentissage</Badge>}
         <span className="font-mono text-blue-900 font-bold text-sm">
           [
           {item.butCode}
@@ -426,6 +573,12 @@ function ButCard({ item }) {
             (
             {item.site}
             )
+          </span>
+        )}
+        {item.commune && item.commune !== item.etablissement && (
+          <span className="text-stone-400 text-xs">
+            —
+            {item.commune}
           </span>
         )}
       </div>
@@ -458,8 +611,8 @@ function ButCard({ item }) {
           </span>
         )}
       </p>
-      {item.spec && (
-        <p className="text-xs text-stone-400 mt-0.5 italic">{item.spec}</p>
+      {item.nomLong && item.nomLong !== item.butCode && (
+        <p className="text-xs text-stone-400 mt-0.5 italic">{item.nomLong}</p>
       )}
       {psUrl && (
         <a
@@ -501,9 +654,10 @@ function Section({ title, items, emptyMsg, renderItem }) {
 
 export default function ParcoursupAnalyzer() {
   const [dataFile, setDataFile] = useState(null);
-  const [parcoursupRows, setParcoursupRows] = useState(null);
+  const [parcoursupData, setParcoursupData] = useState(null);
   const [dataFilename, setDataFilename] = useState('');
   const [parcoursupFilename, setParcoursupFilename] = useState('');
+  const [detectedFormat, setDetectedFormat] = useState(null);
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -531,9 +685,10 @@ export default function ParcoursupAnalyzer() {
     setError(null); setResults(null);
     try {
       const wb = await loadXlsx(file);
-      const rows = parseParcoursupFile(wb);
-      if (!rows.length) throw new Error('Aucune ligne BUT trouvée.');
-      setParcoursupRows(rows);
+      const parsed = parseParcoursupFile(wb);
+      if (!parsed.rows.length) throw new Error('Aucune ligne BUT trouvée.');
+      setParcoursupData(parsed);
+      setDetectedFormat(parsed.format);
       setParcoursupFilename(file.name);
     }
     catch (err) {
@@ -543,11 +698,11 @@ export default function ParcoursupAnalyzer() {
 
   function handleCompare(evt) {
     evt.preventDefault();
-    if (!dataFile || !parcoursupRows || loading) return;
+    if (!dataFile || !parcoursupData || loading) return;
     setLoading(true); setError(null);
     setTimeout(() => {
       try {
-        setResults(compare(dataFile, parcoursupRows));
+        setResults(compare(dataFile, parcoursupData));
       }
       catch (err) {
         setError(`Erreur lors de la comparaison : ${err.message}`);
@@ -565,6 +720,11 @@ export default function ParcoursupAnalyzer() {
       <h1 className="text-xl font-semibold mb-1">Analyse Parcoursup ↔ ExplorIUT</h1>
       <p className="text-sm text-stone-500 mb-4">
         Compare un export Parcoursup avec la base de données ExplorIUT pour détecter les ouvertures et fermetures de BUT.
+        Compatible avec le nouveau format
+        {' '}
+        <span className="font-mono text-xs">fr-esr-cartographie_formations_parcoursup</span>
+        {' '}
+        et l'ancien format statistiques.
       </p>
 
       <form onSubmit={handleCompare}>
@@ -605,10 +765,17 @@ export default function ParcoursupAnalyzer() {
                 {parcoursupFilename}
                 <span className="font-normal text-stone-500 ml-2">
                   (
-                  {parcoursupRows?.length}
+                  {parcoursupData?.rows.length}
                   {' '}
                   lignes BUT)
                 </span>
+                {detectedFormat && (
+                  <span className={`ml-2 text-xs font-mono px-1 rounded ${detectedFormat === 'nouveau' ? 'bg-blue-200 text-blue-800' : 'bg-yellow-200 text-yellow-800'}`}>
+                    format
+                    {' '}
+                    {detectedFormat}
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -619,7 +786,7 @@ export default function ParcoursupAnalyzer() {
               <p className="text-sm font-medium mb-1">3. Lancer la comparaison</p>
               <button
                 type="submit"
-                disabled={!dataFile || !parcoursupRows || loading}
+                disabled={!dataFile || !parcoursupData || loading}
                 className="rounded border-2 border-blue-900 px-3 py-1 text-sm hover:bg-blue-50 transition-colors disabled:border-stone-300 disabled:text-stone-400"
               >
                 {loading ? 'Analyse en cours…' : 'Comparer les fichiers'}

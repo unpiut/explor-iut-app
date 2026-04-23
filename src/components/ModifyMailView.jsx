@@ -54,10 +54,10 @@ function ModifyMailView() {
       setIsSending(false); // Désactiver l'indicateur de chargement
       navigate('/mailSend');
     }).catch((error) => {
-      console.error("Erreur lors de l'envoi du mail:", error);
+      console.error('Erreur lors de l\'envoi du mail:', error);
       sendingMail.current = false;
       setIsSending(false); // Désactiver l'indicateur de chargement
-      setSendError(t('courrielModifErreurEnvoi') || "L'envoi du message a échoué. Veuillez réessayer."); // Afficher l'erreur
+      setSendError(t('courrielModifErreurEnvoi') || 'L\'envoi du message a échoué. Veuillez réessayer.'); // Afficher l'erreur
     });
   }
 
@@ -91,10 +91,10 @@ function ModifyMailView() {
           <div className="bg-white p-8 rounded-lg shadow-xl max-w-md mx-auto text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              {t('courrielModifEnvoiEnCours') || "Envoi du message en cours..."}
+              {t('courrielModifEnvoiEnCours') || 'Envoi du message en cours...'}
             </h3>
             <p className="text-gray-600">
-              {t('courrielModifPatientez') || "Veuillez patienter, cela peut prendre quelques instants."}
+              {t('courrielModifPatientez') || 'Veuillez patienter, cela peut prendre quelques instants.'}
             </p>
           </div>
         </div>
@@ -155,7 +155,11 @@ function ModifyMailView() {
                   {t('courrielModifPropDropZone')}
                 </p>
                 <p className="text-xs text-gray-500 mb-3">
-                  {allFiles.length}/{MAX_FILES} {t('courrielModifFichiers') || 'fichiers maximum'}
+                  {allFiles.length}
+                  /
+                  {MAX_FILES}
+                  {' '}
+                  {t('courrielModifFichiers') || 'fichiers maximum'}
                 </p>
 
                 <div className="relative">
@@ -216,7 +220,9 @@ function ModifyMailView() {
                       {file.name}
                     </span>
                     <span className="text-xs text-gray-500">
-                      {(file.size / 1024).toFixed(0)} Ko
+                      {(file.size / 1024).toFixed(0)}
+                      {' '}
+                      Ko
                     </span>
                   </div>
                   <button
@@ -244,7 +250,7 @@ function ModifyMailView() {
           gauche={{ texte: t('courrielModifRetour'), lien: '/mail' }}
           droite={{
             texte: isSending
-              ? (t('courrielModifEnvoiEnCours') || "Envoi...")
+              ? (t('courrielModifEnvoiEnCours') || 'Envoi...')
               : t('courrielModifAvance'),
             lien: '/mailSend',
           }}
