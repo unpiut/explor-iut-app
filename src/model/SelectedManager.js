@@ -18,15 +18,12 @@ class SelectedManager {
 
   _alreadySend;
 
-  _mapVisited;
-
   constructor() {
     makeAutoObservable(this);
     this._butSelectionnes = new Set();
     this._iutSelectionnes = new Set();
     this._iutSelectionnesId = new Set();
     this._dateEnvoi = null;
-    this._mapVisited = false;
     this._alreadySend = false;
     this._ready = new Promise((resolve) => {
       this._initializationResolver = resolve;
@@ -93,14 +90,6 @@ class SelectedManager {
 
   set ready(ready) {
     this._ready = ready;
-  }
-
-  get mapVisited() {
-    return this._mapVisited;
-  }
-
-  set mapVisited(visited) {
-    this._mapVisited = visited;
   }
 
   switchButSelectionnes(but) {

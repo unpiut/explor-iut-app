@@ -4,12 +4,11 @@ import Footer from './Footer';
 import IUTFranceMap from './IUTFranceMap';
 import RootStore from '../RootStore';
 import IUTRememberCard from './IUTRememberCard';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 function MapView() {
   const { t } = useTranslation();
   const { selectedManager } = useContext(RootStore);
-  const [modaleOpen] = useState(!selectedManager.mapVisited);
 
   return (
     <>
@@ -24,21 +23,21 @@ function MapView() {
           {' '}
           {selectedManager.nbIutSelectionnesId > 1
             ? (
-              <>
+                <>
 
-                {t('carteNbIUTPlur')}
-                {' '}
-                {selectedManager.nbIutSelectionnesId}
-              </>
-            )
+                  {t('carteNbIUTPlur')}
+                  {' '}
+                  {selectedManager.nbIutSelectionnesId}
+                </>
+              )
             : (
-              <>
+                <>
 
-                {t('carteNbIUT')}
-                {' '}
-                {selectedManager.nbIutSelectionnesId}
-              </>
-            )}
+                  {t('carteNbIUT')}
+                  {' '}
+                  {selectedManager.nbIutSelectionnesId}
+                </>
+              )}
         </h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
@@ -51,26 +50,22 @@ function MapView() {
                 <IUTRememberCard but={b} index={index} key={b.code} />
               ))}
             </div>
-            {!modaleOpen
-              ? (
-                <div className="flex justify-end">
-                  <div className="lg:w-5/6 border-2 p-2 mt-4 border-blue-800">
-                    <h2 className="text-2xl font-bold">{t('carteMETitre')}</h2>
-                    <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre2')}</h3>
-                    <p>
-                      {t('carteMETexte2')}
-                    </p>
-                    <p className="hidden lg:block">
-                      {t('carteMETexte3')}
-                    </p>
-                    <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre1')}</h3>
-                    <p>
-                      {t('carteMETexte1')}
-                    </p>
-                  </div>
-                </div>
-              )
-              : null}
+            <div className="flex justify-end">
+              <div className="lg:w-5/6 border-2 p-2 mt-4 border-blue-800">
+                <h2 className="text-2xl font-bold">{t('carteMETitre')}</h2>
+                <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre2')}</h3>
+                <p>
+                  {t('carteMETexte2')}
+                </p>
+                <p className="hidden lg:block">
+                  {t('carteMETexte3')}
+                </p>
+                <h3 className="underline-offset-1 font-bold">{t('carteMESousTitre1')}</h3>
+                <p>
+                  {t('carteMETexte1')}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
         <Footer gauche={{ texte: t('carteRetour'), lien: '/formation' }} droite={{ texte: t('carteAvance'), lien: '/result' }} />

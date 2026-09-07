@@ -8,8 +8,6 @@ class AppStateSaver {
 
   static IUT_STORAGE_KEY = 'listeIut';
 
-  static MAP_VISIT_STORAGE_KEY = 'mapVisited';
-
   _selectedManager;
 
   _iutManager;
@@ -56,10 +54,9 @@ class AppStateSaver {
       this._pendingRehydrationData = { buts: null, iuts: null };
     });
 
-    const [butCodes, iutIds, mapVisited] = await Promise.all([
+    const [butCodes, iutIds] = await Promise.all([
       localStorageMgr.getItem(AppStateSaver.BUT_STORAGE_KEY),
       localStorageMgr.getItem(AppStateSaver.IUT_STORAGE_KEY),
-      localStorageMgr.getItem(AppStateSaver.MAP_VISIT_STORAGE_KEY),
     ]);
     // Handle BUT and IUT
     if (butCodes?.length) {
@@ -100,10 +97,6 @@ class AppStateSaver {
         });
       }
     }
-    // HANDLE AlreadyVisit indicator
-    if (mapVisited === true || mapVisited === false) {
-      this._selectedManager.mapVisited = mapVisited;
-    }
 
     // Setup watchers for automatic cache update
     this._watchers = [
@@ -112,9 +105,6 @@ class AppStateSaver {
       }),
       reaction(() => this._selectedManager.iutSelectionnesTab, (iutSelect) => {
         AppStateSaver.updateSelectedIuts(iutSelect);
-      }),
-      reaction(() => this._selectedManager.mapVisited, (mv) => {
-        AppStateSaver.updateMapVisited(mv);
       }),
     ];
   }
@@ -182,10 +172,6 @@ class AppStateSaver {
   static async updateSelectedIuts(iuts) {
     const idIuts = [...iuts].map(iut => iut.idIut);
     await localStorageMgr.setItem(AppStateSaver.IUT_STORAGE_KEY, idIuts);
-  }
-
-  static async updateMapVisited(mapVisited) {
-    await localStorageMgr.setItem(AppStateSaver.MAP_VISIT_STORAGE_KEY, mapVisited);
   }
 }
 
